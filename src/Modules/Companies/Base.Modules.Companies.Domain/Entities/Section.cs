@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace Base.Modules.Companies.Domain.Enities
+namespace Base.Modules.Companies.Domain.Entities
 {
     public class Section
     {

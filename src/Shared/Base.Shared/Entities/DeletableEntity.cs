@@ -1,4 +1,4 @@
-﻿using Base.Shared.Services;
+﻿using Base.Shared.IServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Base.Shared.Entities
 {
-    public abstract class DeletableEntity : IDeletableEntity
+    public abstract class DeletableEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -19,9 +19,9 @@ namespace Base.Shared.Entities
         public Guid? LastUpdateUserId { get; set; } = null;
         public bool IsDeleted { get; set; }
         [Timestamp]
-        public byte[] Timestap { get; set; }
+        public byte[] Timestamp { get; set; }
 
-        public virtual void Delete(Guid userid)
+        public void Delete(Guid userid)
         {
             IsDeleted = true;
             LastUpdateDate = DateTime.Now;

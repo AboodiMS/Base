@@ -1,4 +1,4 @@
-﻿using Base.Modules.Companies.Domain.Enities;
+﻿using Base.Modules.Companies.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

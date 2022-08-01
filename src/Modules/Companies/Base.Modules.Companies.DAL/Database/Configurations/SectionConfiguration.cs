@@ -1,5 +1,5 @@
 ﻿
-using Base.Modules.Companies.Domain.Enities;
+using Base.Modules.Companies.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
