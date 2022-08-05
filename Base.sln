@@ -35,13 +35,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ActionsLogger", "ActionsLog
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ErrorsLogger", "ErrorsLogger", "{D8E25777-70F3-44CE-9A3C-1A4083AA6D06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Modules.ActionsLogger.Domain", "src\Modules\ActionsLogger\Base.Modules.ActionsLogger.Domain\Base.Modules.ActionsLogger.Domain.csproj", "{282D2D87-3C63-4B7B-BCC0-1EEBC3D921E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Modules.ActionsLogger.Domain", "src\Modules\ActionsLogger\Base.Modules.ActionsLogger.Domain\Base.Modules.ActionsLogger.Domain.csproj", "{282D2D87-3C63-4B7B-BCC0-1EEBC3D921E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Modules.ActionsLogger.DAL", "src\Modules\ActionsLogger\Base.Modules.ActionsLogger.DAL\Base.Modules.ActionsLogger.DAL.csproj", "{15F876E9-94ED-4D09-A48B-D0E73E4677F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Modules.ActionsLogger.DAL", "src\Modules\ActionsLogger\Base.Modules.ActionsLogger.DAL\Base.Modules.ActionsLogger.DAL.csproj", "{15F876E9-94ED-4D09-A48B-D0E73E4677F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Modules.ErrorsLogger.Domain", "src\Modules\ErrorsLogger\Base.Modules.ErrorsLogger.Domain\Base.Modules.ErrorsLogger.Domain.csproj", "{59428BF6-65ED-45C9-AE02-D5A470DA3F51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Modules.ErrorsLogger.Domain", "src\Modules\ErrorsLogger\Base.Modules.ErrorsLogger.Domain\Base.Modules.ErrorsLogger.Domain.csproj", "{59428BF6-65ED-45C9-AE02-D5A470DA3F51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Modules.ErrorsLogger.DAL", "src\Modules\ErrorsLogger\Base.Modules.ErrorsLogger.DAL\Base.Modules.ErrorsLogger.DAL.csproj", "{35D3A231-CB93-4E18-89C6-AE1E73851834}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Modules.ErrorsLogger.DAL", "src\Modules\ErrorsLogger\Base.Modules.ErrorsLogger.DAL\Base.Modules.ErrorsLogger.DAL.csproj", "{35D3A231-CB93-4E18-89C6-AE1E73851834}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

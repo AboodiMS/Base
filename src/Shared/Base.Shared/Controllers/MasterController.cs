@@ -12,13 +12,11 @@ namespace Base.Shared.Controllers
     {
         // first Upload
         public Guid _UserId = Guid.Empty;
-
         public MasterController()
         {
             if (Request != null && _UserId == Guid.Empty)
                 GetUserId();
         }
-
         protected void GetUserId()
         {
             string id = HttpContext.User.Claims.Where(x => x.Type == "ID").FirstOrDefault().Value;

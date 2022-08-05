@@ -15,12 +15,14 @@ namespace Base.Modules.Companies.Api.Controllers
             _companiesService = companiesService;
         }
 
-        [HttpGet("{companyId:guid}")]
-        public async Task<ActionResult<GetCompanyResponseDto>> Get(Guid companyId)
+        [Route("GetById")]
+        [HttpGet]
+        public async Task<ActionResult<GetCompanyResponseDto>> GetById(Guid companyId)
             => await _companiesService.GetCompany(companyId);
 
         [HttpPatch]
-        public async Task Patch(UpdateCompanyRequestDto dto)
+        [Route("Update")]
+        public async Task Update(UpdateCompanyRequestDto dto)
             => await _companiesService.Update(dto);
 
         [HttpPatch]

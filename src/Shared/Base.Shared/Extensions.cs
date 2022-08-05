@@ -11,6 +11,8 @@ using Base.Shared.Exceptions;
 using Base.Shared.Messaging;
 using Base.Shared.Queries;
 using Base.Shared.Time;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Base.Shared
 {
@@ -21,6 +23,18 @@ namespace Base.Shared
         
         public static IServiceCollection AddSharedFramework(this IServiceCollection services, IConfiguration configuration)
         {
+
+            _ = services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
+
+            //JsonSerializerOptions options = new()
+            //{
+            //    ReferenceHandler = ReferenceHandler.IgnoreCycles,
+            //    WriteIndented = true
+            //};
+
             services.AddErrorHandling();
             services.AddCommands();
             services.AddEvents();
@@ -46,7 +60,6 @@ namespace Base.Shared
             app.UseSwaggerUI();
 
             app.UseHttpsRedirection();
-
             return app;
         }
     }

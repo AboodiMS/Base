@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Companies\Base.Modules.Companies.Api\Base.Modules.Companies.Api.csproj" />
+    <ProjectReference Include="..\..\Modules\Users\Base.Modules.Users.Api\Base.Modules.Users.Api.csproj" />
   </ItemGroup>
 
 </Project>

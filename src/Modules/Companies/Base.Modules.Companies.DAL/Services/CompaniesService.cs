@@ -1,6 +1,6 @@
 ﻿using Base.Modules.Companies.DAL.Exceptions.Company;
 using Base.Modules.Companies.Domain.DTO.Company;
-using Base.Modules.Companies.Domain.Events.Company;
+//using Base.Modules.Companies.Domain.Events.Company;
 using Base.Modules.Companies.Domain.IServices;
 using Base.Modules.Companies.Domain.Mappings;
 using Base.Shared.Messaging;
@@ -14,15 +14,17 @@ namespace Base.Modules.Companies.DAL.Services
     public class CompaniesService : ICompaniesService
     {
         private readonly CompaniesDbContext _dbContext;
-        private readonly IMessageBroker _messageBroker;
+        //private readonly IMessageBroker _messageBroker;
         private readonly IClock _clock;
         private readonly ILogger<CompaniesService> _logger;
 
-       public CompaniesService(CompaniesDbContext dbContext, IMessageBroker messageBroker, IClock clock,
+       public CompaniesService(CompaniesDbContext dbContext, 
+           //IMessageBroker messageBroker,
+           IClock clock,
                          ILogger<CompaniesService> logger)
         {
             _dbContext = dbContext;
-            _messageBroker = messageBroker;
+            //_messageBroker = messageBroker;
             _clock = clock;
             _logger = logger;
         }
@@ -45,7 +47,7 @@ namespace Base.Modules.Companies.DAL.Services
             {
                 _dbContext.Companies.Update(dto.AsEntity(entity));
                 await _dbContext.SaveChangesAsync();
-                await _messageBroker.PublishAsync(new CompanyUpdated(dto.Id, dto.Name, dto.CompanyWork));
+                //await _messageBroker.PublishAsync(new CompanyUpdated(dto.Id, dto.Name, dto.CompanyWork));
                 _logger.LogInformation($"Updated the company with ID: '{dto.Id}'.");
             }
 
@@ -62,7 +64,7 @@ namespace Base.Modules.Companies.DAL.Services
                     throw new InvalidCompanyActiveSectionsException();
                 _dbContext.Companies.Update(dto.AsEntity(entity));
                 await _dbContext.SaveChangesAsync();
-                await _messageBroker.PublishAsync(new CompanyUpdateActiveSections(dto.Id,dto.ActiveSections));
+                //await _messageBroker.PublishAsync(new CompanyUpdateActiveSections(dto.Id,dto.ActiveSections));
                 _logger.LogInformation($"Updated the company active sections with ID: '{dto.Id}'.");
             }
         }

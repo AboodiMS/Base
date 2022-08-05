@@ -8,10 +8,14 @@ namespace Base.Modules.Users.Domain.Entities
 {
     public class TreePower
     {
-        public string CodeName { get; set; } = string.Empty;
+        public string CodeName { get; set; } 
         public int Num { get; set; }
-        public string MainCodeName { get; set; } = string.Empty;
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } 
         public bool IsEndPoint { get; set; }
+        public string[]? DependsOn { get; set; } = null;
+        public TreePower Parent { get; set; } 
+        public string? ParentCodeName { get; set; } 
+        public ICollection<TreePower> SubTreePowers { get; } = new List<TreePower>();
+
     }
 }

@@ -13,7 +13,5 @@ namespace Base.Modules.Users.Domain.IServices
         Task ChangePassword();
         Task ChangeEmail();
         Task VerifyEmail();
-        Task ChangePhoneNum();
-        Task VerifyPhoneNum();
     }
 }
