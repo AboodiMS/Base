@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.DTO.User
 {
     public class AddUserRequestDto
     {
+        [JsonIgnore]
+        public Guid Id { get; set; }
+        [JsonIgnore]
+        public Guid UserId { get; set; }
+        [JsonIgnore]
+        public Guid BusinessId { get; set; }
         [Required]
         [MaxLength(50)]     
         public string UserName { get; set; } = string.Empty;
@@ -20,12 +27,14 @@ namespace Base.Modules.Users.Domain.DTO.User
         [Required]
         [MaxLength(50)]
         public string Password { get; set; } = string.Empty;
-        [MaxLength(120)]
-        public string? Email { get; set; } = string.Empty;
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
         [MaxLength(20)]
-        public string? PhonNum { get; set; } = string.Empty;
+        public string PhonNum { get; set; } = string.Empty;
         [MaxLength(500)]
-        public string? Note { get; set; } = string.Empty;
+        public string Note { get; set; } = string.Empty;
         public string[] Powers { get; set; } = new string[0];
+        [Required]
+        public bool IsActive { get; set; }
     }
 }

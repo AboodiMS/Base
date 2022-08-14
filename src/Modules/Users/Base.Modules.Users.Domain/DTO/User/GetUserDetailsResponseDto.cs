@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.DTO.User
 {
-    public class GetUserResponseDetailsDto: GetUserResponseDto
+    public class GetUserDetailsResponseDto: GetUserResponseDto
     {
-        public string Password { get; set; } = string.Empty;
         public string? Note { get; set; } = string.Empty;
-        public GetTreePowerResponseDto[] Powers { get; set; } = new GetTreePowerResponseDto[0];
+        public GetTreePowerResponseDto Powers { get; set; } = new GetTreePowerResponseDto();
     }
 }

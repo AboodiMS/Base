@@ -17,6 +17,7 @@ namespace Base.Modules.Users.DAL
         public static IServiceCollection AddCoreLayer(this IServiceCollection services)
         {
             services.AddPostgres<UsersDbContext>();
+            services.AddTransient<ITreePowesService, TreePowesService>();
             services.AddTransient<ICustomPowersService, CustomPowerService>();
             return services;
         }

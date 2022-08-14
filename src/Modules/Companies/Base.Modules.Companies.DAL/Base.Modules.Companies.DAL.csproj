@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\Base.Shared\Base.Shared.csproj" />
     <ProjectReference Include="..\Base.Modules.Companies.Domain\Base.Modules.Companies.Domain.csproj" />
   </ItemGroup>
 

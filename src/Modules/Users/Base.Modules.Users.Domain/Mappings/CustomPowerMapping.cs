@@ -11,18 +11,21 @@ namespace Base.Modules.Users.Domain.Mappings
 {
     public static class CustomPowerMapping
     {
-        public static GetCustomPowerDetailsResponseDto AsDto(this CustomPower entity,List<TreePower> TreePowers)
+        public static GetCustomPowerDetailsResponseDto AsDto(this CustomPower entity,TreePower TreePowers)
         {
             GetCustomPowerDetailsResponseDto dto = new GetCustomPowerDetailsResponseDto();
-            List<GetTreePowerResponseDto> Powers = new List<GetTreePowerResponseDto>();
-
-            
-
 
             dto.Id = entity.Id;
             dto.Name = entity.Name;
             dto.Note = entity.Note;
-            dto.Powers = Powers.ToArray();
+            dto.Powers = TreePowers.AsDto(entity.Powers.ToList());
+            return dto;
+        }
+        public static GetCustomPowerResponseDto AsDto(this CustomPower entity)
+        {
+            GetCustomPowerResponseDto dto = new GetCustomPowerResponseDto();
+            dto.Id = entity.Id;
+            dto.Name = entity.Name;
             return dto;
         }
     }

@@ -13,6 +13,7 @@ using Base.Shared.Queries;
 using Base.Shared.Time;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Base.Shared.Security;
 
 namespace Base.Shared
 {
@@ -23,18 +24,6 @@ namespace Base.Shared
         
         public static IServiceCollection AddSharedFramework(this IServiceCollection services, IConfiguration configuration)
         {
-
-            _ = services.AddControllersWithViews()
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
-
-            //JsonSerializerOptions options = new()
-            //{
-            //    ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            //    WriteIndented = true
-            //};
-
             services.AddErrorHandling();
             services.AddCommands();
             services.AddEvents();
@@ -47,7 +36,34 @@ namespace Base.Shared
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddJwt(configuration);
+            services.AddSwaggerGen(c =>
+            {
+                c.EnableAnnotations();
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Base.Bootstrapper", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    new string[] { }
+                }
+                });
+            });
+
 
             return services;
         }
@@ -55,7 +71,7 @@ namespace Base.Shared
         public static IApplicationBuilder UseSharedFramework(this IApplicationBuilder app)
         {
             app.UseErrorHandling();
-
+            app.UseJwt();
             app.UseSwagger();
             app.UseSwaggerUI();
 

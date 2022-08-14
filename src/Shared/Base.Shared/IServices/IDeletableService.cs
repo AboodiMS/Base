@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Base.Shared.IServices
 {
-    public interface IDeletableService<GetResponse, AddRequest, UpdateRequest>
+    public interface IDeletableService<GetResponse, GetDetailsResponse, AddRequest, UpdateRequest>
     {
-        Task<GetResponse> GetById(Guid id);
-        Task<List<GetResponse>> GetAll();
-        Task Add(Guid id, AddRequest dto);
-        Task Update(Guid id, UpdateRequest dto);
-        Task Delete(Guid id, Guid userid);
+        Task<GetDetailsResponse> GetById(Guid id, Guid businessId);
+        Task<List<GetResponse>> GetAll(Guid businessId);
+        Task Add(AddRequest dto);
+        Task Update(UpdateRequest dto);
+        Task Delete(Guid id, Guid businessId, Guid userid);
     }
 }

@@ -3,12 +3,10 @@ using Base.Shared.IServices;
 
 namespace Base.Modules.Users.Domain.IServices
 {
-    public interface IUsersService<GetResponse, AddRequest, UpdateRequest> : IDeletableService<GetResponse, AddRequest, UpdateRequest>
-        where GetResponse : GetUserResponseDto
-        where AddRequest : AddUserRequestDto
-        where UpdateRequest : UpdateUserRequestDto
+    public interface IUsersService<GetResponse, GeDetailsResponse, AddRequest, UpdateRequest> :
+        IDeletableService<GetResponse, GeDetailsResponse, AddRequest, UpdateRequest>
 
     {
-        Task ChangePowers();
+        Task ChangePowers(ChangePowersRequestDto dto);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Base.Modules.Users.DAL.Database;
+using Base.Modules.Users.DAL.Exceptions.CustomPower;
 using Base.Modules.Users.Domain.DTO.CustomPower;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
+using Base.Modules.Users.Domain.Mappings;
 using Base.Shared.Helper101;
 using Base.Shared.Time;
 using Microsoft.EntityFrameworkCore;
@@ -18,44 +20,27 @@ namespace Base.Modules.Users.DAL.Services
     {
 
         private readonly UsersDbContext _dbContext;
-        private readonly IClock _clock;
-        private readonly ILogger<CustomPowerService> _logger;
+        private readonly ITreePowesService _treePowesService;
 
-        public CustomPowerService(UsersDbContext dbContext,
-            IClock clock,
-            ILogger<CustomPowerService> logger)
+        public CustomPowerService(UsersDbContext dbContext, ITreePowesService treePowesService)
         {
             _dbContext = dbContext;
-            _clock = clock;
-            _logger = logger;
+            _treePowesService = treePowesService;
         }
 
-        public Task<GetCustomPowerResponseDto> GetAll()
+        public async Task<IEnumerable<GetCustomPowerResponseDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var entities = await _dbContext.CustomPowers.ToListAsync();
+            return entities.Select(e => e.AsDto());
         }
 
-        public Task<GetCustomPowerDetailsResponseDto> GetById(Guid Id)
+        public async Task<GetCustomPowerDetailsResponseDto> GetById(Guid Id)
         {
-            throw new NotImplementedException();
-        }
+            var entity = await _dbContext.CustomPowers.FindAsync(Id);
+            if(entity is null)
+                throw new CustomPowerNotFoundException(Id);
 
-        public List<TreePower> GetTreePowers()
-        {
-            List<TreePower> all = _dbContext.TreePowers.Include(x => x.Parent).ToList();
-            TreeExtensions.ITree<TreePower> virtualRootNode = all.ToTree((parent, child) => child.ParentCodeName == parent.CodeName);
-            List<TreeExtensions.ITree<TreePower>> rootLevelFoldersWithSubTree = virtualRootNode.Children.ToList();
-            List<TreeExtensions.ITree<TreePower>> flattenedListOfFolderNodes = virtualRootNode.Children.Flatten(node => node.Children).ToList();
-            // Each Folder entity can be retrieved via node.Data property:
-            TreeExtensions.ITree<TreePower> folderNode = flattenedListOfFolderNodes.First(node => node.Data.CodeName == "companies-module");
-            TreePower folder = folderNode.Data;
-            int level = folderNode.Level;
-            bool isLeaf = folderNode.IsLeaf;
-            bool isRoot = folderNode.IsRoot;
-            ICollection<TreeExtensions.ITree<TreePower>> children = folderNode.Children;
-            TreeExtensions.ITree<TreePower> parent = folderNode.Parent;
-            var parents = TreeExtensions.GetParents(folderNode);
-            return parents;
+            return entity.AsDto(await _treePowesService.GetAsTreeAsync());
         }
 
     }

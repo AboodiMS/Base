@@ -15,7 +15,7 @@ namespace Base.Modules.Users.Domain.Entities
         public string[]? DependsOn { get; set; } = null;
         public TreePower Parent { get; set; } 
         public string? ParentCodeName { get; set; } 
-        public ICollection<TreePower> SubTreePowers { get; } = new List<TreePower>();
+        public List<TreePower> SubTreePowers { get; } = new List<TreePower>();
 
     }
 }

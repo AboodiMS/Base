@@ -18,9 +18,9 @@ namespace Base.Modules.Users.Api.Controllers
         private readonly ICustomPowersService _context;
 
        public ApiController(ICustomPowersService context)
-        {
-            _context = context;
-        }
+       {
+           _context = context;
+       }
 
 
 
@@ -28,12 +28,12 @@ namespace Base.Modules.Users.Api.Controllers
         public ActionResult<string> Get() => Extensions.BasePath;
 
 
-        [HttpGet]
-        [Route("GetPowers")]
-        public object GetPowers()
-        {
-            var treepowers = _context.GetTreePowers();
-            return treepowers;
-        }
+        //[HttpGet]
+        //[Route("GetPowers")]
+        //public object GetPowers()
+        //{
+        //    //var treepowers = _context.GetTreePowers();
+        //    //return treepowers;
+        //}
     }
 }

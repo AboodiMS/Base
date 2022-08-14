@@ -1,4 +1,5 @@
-﻿using Base.Modules.Companies.Domain.DTO.Company;
+﻿
+using Base.Modules.Companies.Domain.DTO.Company;
 using Base.Modules.Companies.Domain.Entities;
 
 namespace Base.Modules.Companies.Domain.Mappings

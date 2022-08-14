@@ -9,6 +9,6 @@ namespace Base.Modules.Users.Domain.IServices
 {
     public interface ITreePowesService
     {
-        TreePower GetAsTree(); 
+        Task<TreePower> GetAsTreeAsync(); 
     }
 }

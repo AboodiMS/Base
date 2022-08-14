@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.DTO.UserSettings
 {
-    public class LoginRequestDto
+    public class LoginUsingEmailRequestDto
     {
         [Required]
-        [MaxLength(50)]
-        public string UserName { get; set; } = string.Empty;
+        public Guid BusinessId { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
         [Required]
         [MaxLength(50)]
         public string Password { get; set; } = string.Empty;
