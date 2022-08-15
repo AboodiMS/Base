@@ -17,7 +17,6 @@ namespace Base.Modules.Users.Domain.IServices
         Task ChangeEmail(Guid id, Guid businessId, string email);
         Task VerifyEmail(Guid id, Guid businessId, string code);
         Task SendVerifyCodeToEmail(Guid id, Guid businessId);
-        Task SendURLToChangePasswordUsingEmail(Guid id, Guid businessId, string email);
-        Task ChangePasswordUsingEmailURL(Guid id, Guid businessId, string email);
+        Task ChangePasswordAndSendUsingEmail(Guid businessId, string email);
     }
 }

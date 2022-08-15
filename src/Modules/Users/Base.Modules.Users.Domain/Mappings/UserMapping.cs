@@ -13,16 +13,16 @@ namespace Base.Modules.Users.Domain.Mappings
 
 
 
-            entity.UserName = dto.UserName;
-            entity.Name = dto.Name;
+            entity.UserName = dto.UserName.Trim();
+            entity.Name = dto.Name.Trim();
             entity.IsAdmin = dto.IsAdmin;
             entity.HashCode =Guid.NewGuid().ToString();
             entity.HashPassword = dto.Password.Encryption(entity.HashCode);
-            entity.Email = dto.Email;
+            entity.Email = string.IsNullOrWhiteSpace(dto.Email) ? null: dto.Email.Trim();
             entity.VerifyEmailCode=string.Empty;
             entity.VerifyEmailDate = null;
-            entity.PhonNum = dto.PhonNum;
-            entity.Note = dto.Note;
+            entity.PhonNum = dto.PhonNum.Trim();
+            entity.Note = dto.Note.Trim();
             entity.Powers = dto.Powers;
             entity.IsActive = dto.IsActive;
             entity.SignOutExpirationDate = null;
@@ -40,12 +40,12 @@ namespace Base.Modules.Users.Domain.Mappings
         }
         public static User AsEntity(this UpdateUserRequestDto dto,User entity)
         {
-            entity.UserName = dto.UserName;
-            entity.Name = dto.Name;
+            entity.UserName = dto.UserName.Trim();
+            entity.Name = dto.Name.Trim();
            
             if (entity.Email != dto.Email.Trim() || string.IsNullOrWhiteSpace(dto.Email))
             {
-                entity.Email = dto.Email;
+                entity.Email = string.IsNullOrWhiteSpace(dto.Email) ? null : dto.Email.Trim();
                 entity.VerifyEmailCode = string.Empty;
                 entity.VerifyEmailDate = null;
             }          
@@ -73,12 +73,12 @@ namespace Base.Modules.Users.Domain.Mappings
         {
             GetUserDetailsResponseDto dto=new GetUserDetailsResponseDto();
             dto.Id = entity.Id;
-            dto.UserName=entity.UserName;
+            dto.UserName = entity.UserName;
             dto.Name = entity.Name;
             dto.Note = entity.Note;
             dto.Email = entity.Email;
             dto.IsAdmin =entity.IsAdmin;
-            dto.PhonNum=entity.PhonNum;
+            dto.PhonNum = entity.PhonNum;
             dto.IsEmailVerified = entity.VerifyEmailDate.HasValue;
             dto.IsActive= entity.IsActive;
 

@@ -10,8 +10,8 @@ namespace Base.Modules.Companies.Domain.Mappings
             => new()
             {
                 Id = entity.Id,
-                Name = entity.Name,
-                CompanyWork = entity.CompanyWork,
+                Name = entity.Name.Trim(),
+                CompanyWork = entity.CompanyWork.Trim(),
                 ActiveSections = entity.ActiveSections,
             };
 
@@ -25,8 +25,8 @@ namespace Base.Modules.Companies.Domain.Mappings
         public static Company AsEntity(this UpdateCompanyRequestDto dto, Company entity)
         {
             entity.Id = dto.Id;
-            entity.Name = dto.Name;
-            entity.CompanyWork = dto.CompanyWork;
+            entity.Name = dto.Name.Trim();
+            entity.CompanyWork = dto.CompanyWork.Trim();
             return entity;
         }
     }

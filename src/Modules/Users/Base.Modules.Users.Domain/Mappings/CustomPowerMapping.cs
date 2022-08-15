@@ -16,8 +16,8 @@ namespace Base.Modules.Users.Domain.Mappings
             GetCustomPowerDetailsResponseDto dto = new GetCustomPowerDetailsResponseDto();
 
             dto.Id = entity.Id;
-            dto.Name = entity.Name;
-            dto.Note = entity.Note;
+            dto.Name = entity.Name.Trim();
+            dto.Note = entity.Note.Trim();
             dto.Powers = TreePowers.AsDto(entity.Powers.ToList());
             return dto;
         }
@@ -25,7 +25,7 @@ namespace Base.Modules.Users.Domain.Mappings
         {
             GetCustomPowerResponseDto dto = new GetCustomPowerResponseDto();
             dto.Id = entity.Id;
-            dto.Name = entity.Name;
+            dto.Name = entity.Name.Trim();
             return dto;
         }
     }

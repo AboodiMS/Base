@@ -14,7 +14,7 @@ namespace Base.Modules.Users.Domain.Entities
         public bool IsAdmin { get; set; } 
         public string HashPassword { get; set; } = string.Empty;
         public string HashCode { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
         public string VerifyEmailCode { get; set; } = string.Empty;
         public DateTime? VerifyEmailDate { get; set; } = null;
         public string PhonNum { get; set; } = string.Empty;
