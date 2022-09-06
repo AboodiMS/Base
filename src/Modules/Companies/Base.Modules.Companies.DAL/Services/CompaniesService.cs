@@ -4,51 +4,74 @@ using Base.Modules.Companies.Domain.IServices;
 using Base.Modules.Companies.Domain.Mappings;
 using Microsoft.EntityFrameworkCore;
 using Base.Modules.Companies.DAL.Database;
+using Base.Modules.Companies.Domain.Entities;
+using System.Linq;
+
 namespace Base.Modules.Companies.DAL.Services
 {
     public class CompaniesService : ICompaniesService
     {
         private readonly CompaniesDbContext _dbContext;
 
-       public CompaniesService(CompaniesDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public CompaniesService(CompaniesDbContext dbContext)
+       {
+           _dbContext = dbContext;
+       }
 
-        public async Task<GetCompanyResponseDto> GetCompany(Guid id)
+        private async Task IsNameExist(Guid id,string name)
         {
-            var entity = await _dbContext.Companies.SingleOrDefaultAsync(x => x.Id == id);
-            if (entity is null)
+            var resulte= await _dbContext.Companies.AnyAsync(c => c.Name == name && c.Id != id);
+            if(resulte)
+                throw new CompanyNameAlreadyExistsException(name);
+        }
+        private async Task<Company> getById(Guid id)
+        {
+            var entity=await _dbContext.Companies.SingleAsync(a=>a.Id == id && a.IsDeleted ==false);
+            if(entity==null)
                 throw new CompanyNotFoundException(id);
-            else
-                return entity.AsDto();
+            return entity;
         }
 
+
+
+
+        public async Task Add(AddCompanyRequestDto dto)
+        {
+            await IsNameExist(dto.Id, dto.Name);
+            _dbContext.Companies.Add(dto.AsEntity());
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task Delete(Guid id, Guid userid)
+        {
+            var entity = await getById(id);
+            entity.IsDeleted = true;
+            entity.LastUpdateDate=DateTime.Now;
+            entity.LastUpdateUserId=userid;
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task<List<GetCompanyResponseDto>> GetAll()
+        {
+            return await _dbContext.Companies.Select(a=>a.AsDto()).ToListAsync();
+        }
+        public async Task<GetCompanyDetailsResponseDto> GetById(Guid id)
+        {
+            var entity = await getById(id);
+            return entity.AsDto(await _dbContext.Sections.ToListAsync());
+        }
         public async Task Update(UpdateCompanyRequestDto dto)
         {
-            var entity = await _dbContext.Companies.SingleOrDefaultAsync(x => x.Id == dto.Id);
-            if (entity is null)
-                throw new CompanyNotFoundException(dto.Id);
-            else
-            {
-                _dbContext.Companies.Update(dto.AsEntity(entity));
-                await _dbContext.SaveChangesAsync();
-            }
-
+            await IsNameExist(dto.Id, dto.Name);
+            var entity = await getById(dto.Id);
+            _dbContext.Companies.Update(dto.AsEntity(entity));
+            await _dbContext.SaveChangesAsync();
         }
-
         public async Task UpdateActiveSections(UpdateActiveSectionsCompanyRequestDto dto)
         {
-            var entity = await _dbContext.Companies.SingleOrDefaultAsync(x => x.Id == dto.Id);
-            if (entity is null)
-                throw new CompanyNotFoundException(dto.Id);
-            else
-            {
-                if (dto.ActiveSections is null)
-                    throw new InvalidCompanyActiveSectionsException();
-                _dbContext.Companies.Update(dto.AsEntity(entity));
-                await _dbContext.SaveChangesAsync();
-            }
+            var entity = await getById(dto.Id);
+            if (dto.ActiveSections is null)
+                throw new InvalidCompanyActiveSectionsException();
+            _dbContext.Companies.Update(dto.AsEntity(entity));
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

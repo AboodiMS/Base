@@ -1,10 +1,11 @@
 ﻿using Base.Modules.Companies.DAL.Database.ModuleSeedData;
 using Base.Modules.Companies.Domain.Entities;
+using Base.Shared.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Base.Modules.Companies.DAL.Database
 {
-    public class CompaniesDbContext : DbContext
+    public class CompaniesDbContext : BaseDbContext
     {
         public DbSet<Company> Companies { get; set; }
         public DbSet<Section> Sections { get; set; }
@@ -18,6 +19,8 @@ namespace Base.Modules.Companies.DAL.Database
             modelBuilder.HasDefaultSchema("companies");
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             modelBuilder.CompanySeed();
+            modelBuilder.ModuleSettingDataSeed();
+            modelBuilder.TreeDataSeed();
         }
     }
 }

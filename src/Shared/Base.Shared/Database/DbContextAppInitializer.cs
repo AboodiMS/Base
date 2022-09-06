@@ -36,7 +36,16 @@ namespace Base.Shared.Database
                 }
                 
                 _logger.LogInformation($"Running DB context: {dbContext.GetType().Name}...");
+
+
+              
                 await dbContext.Database.MigrateAsync(cancellationToken);
+
+                try
+                {
+                     BaseModulesData.SetBaseModulesData(dbContext);
+                }
+                catch { }
             }
         }
 

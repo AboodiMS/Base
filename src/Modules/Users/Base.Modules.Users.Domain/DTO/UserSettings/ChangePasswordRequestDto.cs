@@ -15,10 +15,13 @@ namespace Base.Modules.Users.Domain.DTO.UserSettings
         [JsonIgnore]
         public Guid BusinessId { get; set; }
         [Required]
+        [MaxLength(50)]
         public string OldPassword { get; set; }=string.Empty;
         [Required]
+        [MaxLength(50)]
         public string NewPassword { get; set; }=string.Empty;
         [Required]
+        [MaxLength(50)]
         public string ConfirmNewPassword { get; set; } = string.Empty;
     }
 }

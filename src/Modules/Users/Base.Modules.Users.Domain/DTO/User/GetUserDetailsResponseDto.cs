@@ -10,6 +10,6 @@ namespace Base.Modules.Users.Domain.DTO.User
     public class GetUserDetailsResponseDto: GetUserResponseDto
     {
         public string? Note { get; set; } = string.Empty;
-        public GetTreePowerResponseDto Powers { get; set; } = new GetTreePowerResponseDto();
+        public List<GetTreePowerResponseDto> Powers { get; set; } = new List<GetTreePowerResponseDto>();
     }
 }

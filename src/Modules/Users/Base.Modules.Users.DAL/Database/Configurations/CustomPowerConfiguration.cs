@@ -13,10 +13,8 @@ namespace Base.Modules.Users.DAL.Database.Configurations
     {
         public void Configure(EntityTypeBuilder<CustomPower> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.HasIndex(e => new { e.Name }, "IX_CustomPower_Name").IsUnique();
+            builder.HasIndex(e => new { e.Name,e.BusinessId }, "IX_CustomPower_Name").IsUnique(true).HasFilter("\"IsDeleted\" = false");
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
-            builder.Property(x => x.CodeName).HasMaxLength(100);
             builder.Property(x => x.Note).HasMaxLength(1000);
             builder.Property(x => x.Powers);
         }

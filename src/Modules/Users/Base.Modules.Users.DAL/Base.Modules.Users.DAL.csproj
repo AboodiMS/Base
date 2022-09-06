@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Database\Migrations\" />
+    <ProjectReference Include="..\Base.Modules.Users.Domain\Base.Modules.Users.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Base.Modules.Users.Domain\Base.Modules.Users.Domain.csproj" />
+    <Folder Include="Database\Migrations\" />
   </ItemGroup>
 
 </Project>

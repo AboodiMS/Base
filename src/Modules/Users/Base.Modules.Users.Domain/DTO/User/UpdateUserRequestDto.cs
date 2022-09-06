@@ -23,6 +23,7 @@ namespace Base.Modules.Users.Domain.DTO.User
         [MaxLength(50)]
         public string Name { get; set; } = string.Empty;
         [EmailAddress]
+        [MaxLength(150)]
         public string Email { get; set; } = string.Empty;
         [MaxLength(20)]
         public string PhonNum { get; set; } = string.Empty;

@@ -1,4 +1,5 @@
-﻿using Base.Modules.Users.Domain.Entities;
+﻿
+using Base.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

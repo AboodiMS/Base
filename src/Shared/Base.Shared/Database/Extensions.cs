@@ -24,7 +24,10 @@ namespace Base.Shared.Database
         {
             var configuration = services.BuildServiceProvider().GetRequiredService<IConfiguration>();
             var connectionString = configuration[$"{SectionName}:{nameof(PostgresOptions.ConnectionString)}"];
-            services.AddDbContext<T>(x => x.UseNpgsql(connectionString));
+            services.AddDbContext<T>(x =>
+            {
+                x.UseNpgsql(connectionString);
+            });
 
             return services;
         }

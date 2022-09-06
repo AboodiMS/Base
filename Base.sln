@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Modules.ErrorsLogger.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Base.Modules.ErrorsLogger.DAL", "src\Modules\ErrorsLogger\Base.Modules.ErrorsLogger.DAL\Base.Modules.ErrorsLogger.DAL.csproj", "{35D3A231-CB93-4E18-89C6-AE1E73851834}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Translation", "Translation", "{B61FC3D5-E014-49D1-B657-BD09D7497DD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,7 @@ Global
 		{15F876E9-94ED-4D09-A48B-D0E73E4677F4} = {1CF4771C-C675-4ED4-9FA3-9FFCA3683700}
 		{59428BF6-65ED-45C9-AE02-D5A470DA3F51} = {D8E25777-70F3-44CE-9A3C-1A4083AA6D06}
 		{35D3A231-CB93-4E18-89C6-AE1E73851834} = {D8E25777-70F3-44CE-9A3C-1A4083AA6D06}
+		{B61FC3D5-E014-49D1-B657-BD09D7497DD8} = {F70A8E05-45F1-4923-B3B6-ECCDA89C1DD8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B8D02C5E-8EAD-453E-B4D7-B5EAF5C7AEE1}

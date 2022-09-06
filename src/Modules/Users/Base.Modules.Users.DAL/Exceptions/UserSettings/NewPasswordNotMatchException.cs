@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.DAL.Exceptions.UserSettings
 {
-    internal class NewPasswordDoesNotMatchException : BaseException
+    internal class NewPasswordNotMatchException : BaseException
     {
 
-        public NewPasswordDoesNotMatchException() : base($"The new password does not match.")
+        public NewPasswordNotMatchException() : base($"The new password does not match.")
         {
         }
     }

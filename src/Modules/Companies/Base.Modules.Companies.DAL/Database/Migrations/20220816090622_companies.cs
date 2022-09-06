@@ -44,7 +44,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                 schema: "companies",
                 table: "Companies",
                 columns: new[] { "Id", "ActiveSections", "CompanyWork", "Name" },
-                values: new object[] { new Guid("15a1bb12-a2b1-4af3-97c1-001e57d14744"), new[] { "Accounting" }, "", "اسم الشركة" });
+                values: new object[] { new Guid("11111111-1111-1111-1111-111111111111"), new[] { "Accounting" }, "", "اسم الشركة" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Company_Name",

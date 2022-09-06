@@ -16,8 +16,14 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
             modelBuilder.Entity<Company>().HasData
                 (
                         new Company()
-                        {
-                            Id = Guid.NewGuid(),
+                        {                            
+                            Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                            CreatedDate = DateTime.Now,
+                            CreatedUserId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                            LastUpdateDate = null,
+                            LastUpdateUserId = null,
+                            IsDeleted = false,
+
                             Name = "اسم الشركة",
                             CompanyWork = string.Empty,
                             ActiveSections = new string[] { "Accounting" },

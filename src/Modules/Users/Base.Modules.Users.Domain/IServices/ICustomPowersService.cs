@@ -1,10 +1,10 @@
 ﻿using Base.Modules.Users.Domain.DTO.CustomPower;
+using Base.Shared.IServices;
 
 namespace Base.Modules.Users.Domain.IServices
 {
-    public interface ICustomPowersService
+    public interface ICustomPowersService<GetResponse, GeDetailsResponse, AddRequest, UpdateRequest> :
+        ICRUDService<GetResponse, GeDetailsResponse, AddRequest, UpdateRequest>
     {
-        Task<IEnumerable<GetCustomPowerResponseDto>> GetAll();
-        Task<GetCustomPowerDetailsResponseDto> GetById(Guid Id);
     }
 }

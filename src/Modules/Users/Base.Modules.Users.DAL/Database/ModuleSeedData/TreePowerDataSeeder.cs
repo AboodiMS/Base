@@ -1,4 +1,5 @@
 ﻿using Base.Modules.Users.Domain.Entities;
+using Base.Shared.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,65 +16,13 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
 
             modelBuilder.Entity<TreePower>().HasData
                 (
-                        //--mainroot
-                        new TreePower()
-                        {
-                            CodeName = "mainroot",
-                            ParentCodeName = null,
-                            Name = "mainroot",
-                            Num = 0,
-                            IsEndPoint = false,
-                        },
-                        //--companies-module
-                        new TreePower()
-                        {
-                            CodeName = "companies-module",
-                            ParentCodeName = "mainroot",
-                            Name = "قسم الشركة",
-                            Num = 01,
-                            IsEndPoint = false,
-                        },
-                        new TreePower()
-                        {
-                            CodeName = "companies-module/Companies",
-                            ParentCodeName = "companies-module",
-                            Name = "معلومات الشركة",
-                            Num = 0101,
-                            IsEndPoint = false,
-                        },
-                        new TreePower()
-                        {
-                            CodeName = "companies-module/Companies/GetById",
-                            ParentCodeName = "companies-module/Companies",
-                            Name = "عرض",
-                            Num = 010101,
-                            IsEndPoint = true,
-                        },
-                        new TreePower()
-                        {
-                            CodeName = "companies-module/Companies/Update",
-                            ParentCodeName = "companies-module/Companies",
-                            Name = "تعديل",
-                            Num = 010102,
-                            IsEndPoint = true,
-                            DependsOn = new string[1] { "companies-module/Companies/GetById" },
-                        },
-                        new TreePower()
-                        {
-                            CodeName = "companies-module/Companies/UpdateActiveSections",
-                            ParentCodeName = "companies-module/Companies",
-                            Name = "تعديل",
-                            Num = 010103,
-                            IsEndPoint = true,
-                            DependsOn = new string[1] { "companies-module/Companies/GetById" },
-                        },
                         //--users-module
                         new TreePower()
                         {
                             CodeName = "users-module",
-                            ParentCodeName = "mainroot",
+                            ParentCodeName = null,
                             Name = "قسم المستخدمين",
-                            Num = 02,
+                            Num = 1,
                             IsEndPoint = false,
                         },
                         new TreePower()
@@ -81,7 +30,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users",
                             ParentCodeName = "users-module",
                             Name = "معلومات المستخدمين",
-                            Num = 0201,
+                            Num = 101,
                             IsEndPoint = false,
                         },
                         new TreePower()
@@ -89,7 +38,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users/GetAll",
                             ParentCodeName = "users-module/Users",
                             Name = "عرض الكل",
-                            Num = 020101,
+                            Num = 10101,
                             IsEndPoint = true,
                         },
                         new TreePower()
@@ -97,7 +46,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users/GetById",
                             ParentCodeName = "users-module/Users",
                             Name = "عرض",
-                            Num = 020102,
+                            Num = 10102,
                             IsEndPoint = true,
                         },
                         new TreePower()
@@ -105,7 +54,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users/Add",
                             ParentCodeName = "users-module/Users",
                             Name = "اضافة",
-                            Num = 020103,
+                            Num = 10103,
                             IsEndPoint = true,
                         },
                         new TreePower()
@@ -113,7 +62,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users/Update",
                             ParentCodeName = "users-module/Users",
                             Name = "تعديل",
-                            Num = 020104,
+                            Num = 10104,
                             IsEndPoint = true,
                             DependsOn = new string[1] { "users-module/Users/GetById" },
                         },
@@ -122,7 +71,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users/Delete",
                             ParentCodeName = "users-module/Users",
                             Name = "حذف",
-                            Num = 020105,
+                            Num = 10105,
                             IsEndPoint = true,
                             DependsOn = new string[1] { "users-module/Users/GetById" },
                         },
@@ -131,10 +80,11 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             CodeName = "users-module/Users/ChangePowers",
                             ParentCodeName = "users-module/Users",
                             Name = "تعديل الصلاحيات",
-                            Num = 020106,
+                            Num = 10106,
                             IsEndPoint = true,
                             DependsOn = new string[1] { "users-module/Users/GetById" },
                         }
+
                 ) ;
         }
     }

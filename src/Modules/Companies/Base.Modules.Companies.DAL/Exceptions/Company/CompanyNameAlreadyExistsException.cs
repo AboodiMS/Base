@@ -10,7 +10,7 @@ namespace Base.Modules.Companies.DAL.Exceptions.Company
     internal class CompanyNameAlreadyExistsException : BaseException
     {
         public string CompanyName { get; }
-        public CompanyNameAlreadyExistsException(string companyName) : base($"User with company name: '{companyName}' already exists.")
+        public CompanyNameAlreadyExistsException(string companyName) : base($"User with CompanyName: '{companyName}' already exists.")
         {
             CompanyName = companyName;
         }

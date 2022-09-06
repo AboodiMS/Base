@@ -16,10 +16,72 @@ namespace Base.Shared.Security
     public static class Extensions
     {
         private const string SectionName = "jwt";
+        private const int NumOfDaysShelfLife = 1;
+        private const string Bearer = "Bearer ";
         private static string SymmetricKey;
         private static string Issuer;
         private static string Audience;
 
+
+        public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
+        {
+            SymmetricKey = configuration[$"{SectionName}:{nameof(JwtOptions.SymmetricKey)}"];
+            Issuer = configuration[$"{SectionName}:{nameof(JwtOptions.Issuer)}"];
+            Audience = configuration[$"{SectionName}:{nameof(JwtOptions.Audience)}"];
+
+            services.Configure<JwtOptions>(configuration.GetSection(SectionName));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(cfg => cfg.setJwtBearerOptions());
+
+            services.AddAuthorization();
+            return services;
+        }
+        public static IApplicationBuilder UseJwt(this IApplicationBuilder app)
+        {
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            return app;
+        }
+        public static string GenerateToken(Guid id,Guid businessid, string username,List<string> roles)
+        {
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Convert.FromBase64String(SymmetricKey));
+            string algorithms = SecurityAlgorithms.HmacSha256Signature;
+            List<Claim> claims = setClimes(id, businessid, username, roles);
+            SecurityTokenDescriptor tokenDescriptor = setTokenDescriptor(claims,securityKey,algorithms);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken stoken = tokenHandler.CreateToken(tokenDescriptor);
+            return Bearer + tokenHandler.WriteToken(stoken);
+        }
+
+
+
+        private static JwtBearerOptions setJwtBearerOptions(this JwtBearerOptions jwtBearerOptions)
+        {
+            jwtBearerOptions.SaveToken = true;
+            byte[] symmetricKey = Convert.FromBase64String(SymmetricKey);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(symmetricKey);
+            jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+            {
+                IssuerSigningKey = securityKey,
+                ValidIssuer = Issuer,
+                ValidAudience = Audience,
+                ValidateLifetime = true,
+                RequireExpirationTime = true,
+                ClockSkew = TimeSpan.FromDays(10),
+            };
+            return jwtBearerOptions;
+        }
+        private static SecurityTokenDescriptor setTokenDescriptor(List<Claim> claims, SymmetricSecurityKey securityKey, string algorithms)
+            => new()
+            {
+                Issuer = Issuer,
+                Audience = Audience,
+                NotBefore = DateTime.UtcNow,
+                Expires = DateTime.UtcNow.AddDays(NumOfDaysShelfLife),
+                Subject = new ClaimsIdentity(claims),
+                SigningCredentials = new SigningCredentials(securityKey, algorithms)
+            };
         private static List<Claim> setClimes(Guid id, Guid businessid, string username, List<string> roles)
         {
             List<Claim> claims = new List<Claim>();
@@ -31,61 +93,8 @@ namespace Base.Shared.Security
                 claims.Add(new Claim(ClaimTypes.Role, role));
             return claims;
         }
-        public static string GenerateToken(Guid id,Guid businessid, string username,List<string> roles)
-        {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Convert.FromBase64String(SymmetricKey));
-            string algorithms = SecurityAlgorithms.HmacSha256Signature;
-            List<Claim> claims = setClimes(id, businessid, username, roles);
 
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Issuer = Issuer,
-                Audience = Audience,
-                NotBefore = DateTime.UtcNow,
-                Expires = DateTime.UtcNow.AddDays(1),
-                Subject = new ClaimsIdentity(claims),
-                SigningCredentials = new SigningCredentials(securityKey, algorithms)
-            };
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken stoken = tokenHandler.CreateToken(tokenDescriptor);
-            return "Bearer " + tokenHandler.WriteToken(stoken);
-        }
 
-        public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
-        {
-            SymmetricKey = configuration[$"{SectionName}:{nameof(JwtOptions.SymmetricKey)}"];
-            Issuer = configuration[$"{SectionName}:{nameof(JwtOptions.Issuer)}"];
-            Audience = configuration[$"{SectionName}:{nameof(JwtOptions.Audience)}"];
-
-            services.Configure<JwtOptions>(configuration.GetSection(SectionName));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(cfg =>
-                    {
-                        cfg.SaveToken = true;
-                        byte[] symmetricKey = Convert.FromBase64String(SymmetricKey);
-                        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(symmetricKey);
-                        cfg.TokenValidationParameters = new TokenValidationParameters()
-                        {
-                            IssuerSigningKey = securityKey,
-                            ValidIssuer = Issuer,
-                            ValidAudience = Audience,
-                            ValidateLifetime = true,
-                            RequireExpirationTime = true,
-                            ClockSkew = TimeSpan.FromDays(10),
-                        };
-                    });
-
-            services.AddAuthorization();
-            return services;
-        }
-
-        public static IApplicationBuilder UseJwt(this IApplicationBuilder app)
-        {
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            return app;
-        }
     }
 }
 

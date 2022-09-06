@@ -1,12 +1,12 @@
 ﻿using Base.Modules.Users.DAL.Database.ModuleSeedData;
 using Base.Modules.Users.Domain.Entities;
+using Base.Shared.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Base.Modules.Users.DAL.Database
 {
-    public class UsersDbContext : DbContext
+    public class UsersDbContext : BaseDbContext
     {
-        public DbSet<TreePower> TreePowers { get; set; }
         public DbSet<CustomPower> CustomPowers { get; set; }
         public DbSet<User> Users { get; set; }
 
@@ -19,6 +19,8 @@ namespace Base.Modules.Users.DAL.Database
             modelBuilder.HasDefaultSchema("users");
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
             modelBuilder.TreeDataSeed();
+            modelBuilder.UserDataSeed();
+            modelBuilder.ModuleSettingDataSeed();
         }
     }
 }

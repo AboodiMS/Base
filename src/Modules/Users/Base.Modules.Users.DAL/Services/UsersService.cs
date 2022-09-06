@@ -33,35 +33,37 @@ namespace Base.Modules.Users.DAL.Services
                 throw new UserNotFoundException(id);
             return entity;
         }
-        private async Task<bool> IsNameExist(Guid id, string name, Guid businessId)
+        private async Task IsNameExist(Guid id, string name, Guid businessId)
         {
-            return await _dbContext.Users
+            var resulte= await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.Name == name && a.BusinessId == businessId && a.IsDeleted == false);
+
+            throw new NameExistException(name);
         }
-        private async Task<bool> IsUserNameExist(Guid id, string username, Guid businessId)
+        private async Task IsUserNameExist(Guid id, string username, Guid businessId)
         {
-            return await _dbContext.Users
-                .AnyAsync(a => a.Id != id && a.UserName == username && a.BusinessId == businessId && a.IsDeleted == false);
+            var resulte = await _dbContext.Users
+                .AnyAsync(a => a.Id != id && a.LoginName == username && a.BusinessId == businessId && a.IsDeleted == false);
+            throw new UserNameExistException(username);
         }
-        private async Task<bool> IsEmailExist(Guid id, string email, Guid businessId)
+        private async Task IsEmailExist(Guid id, string email, Guid businessId)
         {
-            return await _dbContext.Users
+            var resulte = await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.Email == email && a.BusinessId == businessId && a.IsDeleted == false);
+            throw new EmailExistException(email);
         }
 
 
-        public async Task Add(AddUserRequestDto dto)
+        public async Task Create(AddUserRequestDto dto)
         {
-            if (await IsNameExist(dto.Id, dto.Name, dto.BusinessId))
-                throw new NameExistException(dto.Name);
-            if (await IsUserNameExist(dto.Id, dto.UserName, dto.BusinessId))
-                throw new UserNameExistException(dto.UserName);
-            if (await IsEmailExist(dto.Id, dto.Email, dto.BusinessId))
-                throw new EmailExistException(dto.Email);
+            await IsNameExist(dto.Id, dto.Name, dto.BusinessId);
+            await IsUserNameExist(dto.Id, dto.UserName, dto.BusinessId);
+            await IsEmailExist(dto.Id, dto.Email, dto.BusinessId);
 
-           var entity = dto.AsEntity();
-           await _dbContext.Users.AddAsync(entity);
-           await _dbContext.SaveChangesAsync();
+            var entity = dto.AsEntity();
+
+            await _dbContext.Users.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
         }
         public async Task ChangePowers(ChangePowersRequestDto dto)
         {
@@ -89,14 +91,11 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task Update(UpdateUserRequestDto dto)
         {
-            var entity = await getById(dto.Id, dto.BusinessId);
+            await IsNameExist(dto.Id, dto.Name, dto.BusinessId);
+            await IsUserNameExist(dto.Id, dto.UserName, dto.BusinessId);
+            await IsEmailExist(dto.Id, dto.Email, dto.BusinessId);
 
-            if (await IsNameExist(dto.Id, dto.Name, dto.BusinessId))
-                throw new NameExistException(dto.Name);
-            if (await IsUserNameExist(dto.Id, dto.UserName, dto.BusinessId))
-                throw new UserNameExistException(dto.UserName);
-            if (await IsEmailExist(dto.Id, dto.Email, dto.BusinessId))
-                throw new EmailExistException(dto.Email);
+            var entity = await getById(dto.Id, dto.BusinessId);
 
             dto.AsEntity(entity);
             await _dbContext.SaveChangesAsync();

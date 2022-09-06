@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Base.Modules.Companies.DAL.Database.Migrations
+namespace Base.Modules.Companies.DAL.DataBase.Migrations
 {
     [DbContext(typeof(CompaniesDbContext))]
-    [Migration("20220730120703_companies")]
-    partial class companies
+    [Migration("20220817102456_companies1")]
+    partial class companies1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,7 +25,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Base.Modules.Companies.DAL.Enities.Company", b =>
+            modelBuilder.Entity("Base.Modules.Companies.Domain.Entities.Company", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,6 +39,28 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<byte[]>("IsRowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastUpdateUserId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -47,21 +69,25 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "Name" }, "IX_Company_Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false ");
 
                     b.ToTable("Companies", "companies");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("15a1bb12-a2b1-4af3-97c1-001e57d14744"),
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
+                            CreatedDate = new DateTime(2022, 8, 17, 13, 24, 56, 710, DateTimeKind.Local).AddTicks(8060),
+                            CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
                             Name = "اسم الشركة"
                         });
                 });
 
-            modelBuilder.Entity("Base.Modules.Companies.DAL.Enities.Section", b =>
+            modelBuilder.Entity("Base.Modules.Companies.Domain.Entities.Section", b =>
                 {
                     b.Property<string>("CodeName")
                         .HasColumnType("text");

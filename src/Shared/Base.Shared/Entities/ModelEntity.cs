@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Base.Shared.Entities
 {
-    public abstract class DeletableEntity
+    public abstract class ModelEntity
     {
+        [Key]
         public Guid Id { get; set; }
         public Guid BusinessId { get; set; }
         public DateTime CreatedDate { get; set; }
@@ -17,6 +18,7 @@ namespace Base.Shared.Entities
         public DateTime? LastUpdateDate { get; set; } = null;
         public Guid? LastUpdateUserId { get; set; } = null;
         public bool IsDeleted { get; set; }
+        [Timestamp]
         public byte[] IsRowVersion { get; set; }
 
         public void Delete(Guid userid)

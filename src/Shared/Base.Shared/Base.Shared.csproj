@@ -5,6 +5,36 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include=".Commands\CommandDispatcher.cs" />
+    <Compile Include=".Commands\Extensions.cs" />
+    <Compile Include=".Commands\ICommand.cs" />
+    <Compile Include=".Commands\ICommandDispatcher.cs" />
+    <Compile Include=".Commands\ICommandHandler.cs" />
+    <Compile Include=".Dispatchers\IDispatcher.cs" />
+    <Compile Include=".Dispatchers\InMemoryDispatcher.cs" />
+    <Compile Include=".Events\EventDispatcher.cs" />
+    <Compile Include=".Events\Extensions.cs" />
+    <Compile Include=".Events\IEvent.cs" />
+    <Compile Include=".Events\IEventDispatcher.cs" />
+    <Compile Include=".Events\IEventHandler.cs" />
+    <Compile Include=".Messaging\AsyncEventDispatcher.cs" />
+    <Compile Include=".Messaging\EventChannel.cs" />
+    <Compile Include=".Messaging\EventDispatcherJob.cs" />
+    <Compile Include=".Messaging\Extensions.cs" />
+    <Compile Include=".Messaging\IAsyncEventDispatcher.cs" />
+    <Compile Include=".Messaging\IEventChannel.cs" />
+    <Compile Include=".Messaging\IMessageBroker.cs" />
+    <Compile Include=".Messaging\InMemoryMessageBroker.cs" />
+    <Compile Include=".Queries\Extensions.cs" />
+    <Compile Include=".Queries\IQuery.cs" />
+    <Compile Include=".Queries\IQueryDispatcher.cs" />
+    <Compile Include=".Queries\IQueryHandler.cs" />
+    <Compile Include=".Queries\QueryDispatcher.cs" />
+    <Compile Include=".Time\IClock.cs" />
+    <Compile Include=".Time\UtcClock.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

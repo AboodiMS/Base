@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Base.Shared.Entities
 {
-    public class Entity
+    public class SubDetailEntity
     {
         [Key]
         public long Id { get; set; }

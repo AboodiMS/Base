@@ -39,6 +39,7 @@ namespace Base.Modules.Users.DAL.Services
         }
         private async Task<User> getByEmail(string email, Guid businessId)
         {
+            email= email.Trim();
             var entity = await _dbContext.Users.SingleAsync(a => a.Email == email
                                                               && a.BusinessId == businessId
                                                               && a.IsDeleted == false );
@@ -48,10 +49,12 @@ namespace Base.Modules.Users.DAL.Services
                 throw new EmailNotFoundOrNotVerifiedException(email);
             return entity;
         }
-        private async Task<bool> IsEmailExist(Guid id, string email, Guid businessId)
+        private async Task IsEmailExist(Guid id, string email, Guid businessId)
         {
-            return await _dbContext.Users
+            var resulte= await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.Email == email && a.BusinessId == businessId && a.IsDeleted == false);
+            if (resulte)
+                throw new EmailExistException(email);
         }
         private async Task<List<string>> getAllRoles(List<string> powers, bool isadmin)
         {
@@ -84,10 +87,10 @@ namespace Base.Modules.Users.DAL.Services
         public async Task ChangeEmail(Guid id, Guid businessId, string email)
         {
             var entity = await getById(id, businessId);
-            if(entity.Email==email)
+            email = email.Trim();
+            if (entity.Email==email)
                 return;
-            if(await IsEmailExist(id,email, businessId))
-                throw new EmailExistException(email);
+            await IsEmailExist(id, email, businessId);
             entity.Email = email;
             entity.VerifyEmailCode = "";
             entity.VerifyEmailDate = null;
@@ -98,7 +101,12 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task ChangePassword(ChangePasswordRequestDto dto)
         {
+
+            if (dto.NewPassword.Trim() != dto.ConfirmNewPassword.Trim())
+                throw new NewPasswordNotMatchException();
             var entity = await getById(dto.Id, dto.BusinessId);
+            if (entity.HashPassword.Decryption(entity.HashCode) != dto.OldPassword)
+                throw new OldPasswordNotMatchException();
             dto.AsEntity(entity);
             await _dbContext.SaveChangesAsync();            
         }
@@ -109,14 +117,14 @@ namespace Base.Modules.Users.DAL.Services
         public async Task<string> LoginUsingUserName(LoginUsingUserNameRequestDto dto)
         {
             var entity = await _dbContext.Users.SingleAsync(a => a.BusinessId == dto.BusinessId 
-                                                        && a.UserName == dto.UserName 
-                                                        && a.IsDeleted == false );
+                                                                && a.LoginName == dto.UserName 
+                                                                && a.IsDeleted == false );
             if (entity == null)
-                throw new Exception();
+                throw new ErrorUserNameOrPasswordException();
            if(entity.HashPassword != dto.Password.Encryption(entity.HashCode))
-                throw new Exception();
+                throw new ErrorUserNameOrPasswordException();
             var tocken = Shared.Security.Extensions.GenerateToken
-                (entity.Id, entity.BusinessId,entity.UserName, await getAllRoles(entity.Powers.ToList(),entity.IsAdmin));
+                (entity.Id, entity.BusinessId,entity.LoginName, await getAllRoles(entity.Powers.ToList(),entity.IsAdmin));
 
             return tocken.ToString();
         }
@@ -126,12 +134,12 @@ namespace Base.Modules.Users.DAL.Services
                                                                 && a.Email == dto.Email
                                                                 && a.IsDeleted == false);
             if (entity == null)
-                throw new ErrorUserNameOrPasswordException();
+                throw new ErrorEmailOrPasswordExpcetion();
             if (entity.HashPassword != dto.Password.Encryption(entity.HashCode))
-                throw new ErrorUserNameOrPasswordException();
+                throw new ErrorEmailOrPasswordExpcetion();
 
             var tocken = Shared.Security.Extensions.GenerateToken
-                (entity.Id, entity.BusinessId, entity.UserName, await getAllRoles(entity.Powers.ToList(), entity.IsAdmin));
+                (entity.Id, entity.BusinessId, entity.LoginName, await getAllRoles(entity.Powers.ToList(), entity.IsAdmin));
 
             return tocken.ToString();
         }
@@ -141,7 +149,7 @@ namespace Base.Modules.Users.DAL.Services
             if(entity.VerifyEmailDate.HasValue)
                 throw new EmailAlreadyVerifiedException();
 
-            if (entity.VerifyEmailCode == code)
+            if (entity.VerifyEmailCode == code.Trim())
             {
                 entity.VerifyEmailCode = string.Empty;
                 entity.VerifyEmailDate = DateTime.Now;
@@ -164,7 +172,7 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task ChangePasswordAndSendUsingEmail(Guid businessId,string email)
         {
-            var entity = await getByEmail(email, businessId);
+            var entity = await getByEmail(email.Trim(), businessId);
             var transaction = _dbContext.Database.BeginTransaction();
 
             Random rd = new Random();

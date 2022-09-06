@@ -23,7 +23,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Base.Modules.Companies.DAL.Enities.Company", b =>
+            modelBuilder.Entity("Base.Modules.Companies.Domain.Entities.Company", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,6 +37,28 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<byte[]>("IsRowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastUpdateUserId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -45,21 +67,25 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "Name" }, "IX_Company_Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false ");
 
                     b.ToTable("Companies", "companies");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("15a1bb12-a2b1-4af3-97c1-001e57d14744"),
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
+                            CreatedDate = new DateTime(2022, 8, 20, 14, 36, 22, 683, DateTimeKind.Local).AddTicks(6620),
+                            CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            IsDeleted = false,
                             Name = "اسم الشركة"
                         });
                 });
 
-            modelBuilder.Entity("Base.Modules.Companies.DAL.Enities.Section", b =>
+            modelBuilder.Entity("Base.Modules.Companies.Domain.Entities.Section", b =>
                 {
                     b.Property<string>("CodeName")
                         .HasColumnType("text");
@@ -75,6 +101,116 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .IsUnique();
 
                     b.ToTable("Sections", "companies");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>
+                {
+                    b.Property<string>("CodeName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<object>("Setting")
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("CodeName");
+
+                    b.ToTable("ModuleSettings", "companies");
+
+                    b.HasData(
+                        new
+                        {
+                            CodeName = "companies-modules",
+                            Name = "Companies Managament"
+                        });
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
+                {
+                    b.Property<string>("CodeName")
+                        .HasColumnType("text");
+
+                    b.Property<string[]>("DependsOn")
+                        .HasColumnType("jsonb");
+
+                    b.Property<bool>("IsEndPoint")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Num")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ParentCodeName")
+                        .HasColumnType("text");
+
+                    b.HasKey("CodeName");
+
+                    b.HasIndex("ParentCodeName");
+
+                    b.ToTable("TreePowers", "companies");
+
+                    b.HasData(
+                        new
+                        {
+                            CodeName = "companies-module",
+                            IsEndPoint = false,
+                            Name = "قسم الشركة",
+                            Num = 1
+                        },
+                        new
+                        {
+                            CodeName = "companies-module/Companies",
+                            IsEndPoint = false,
+                            Name = "معلومات الشركة",
+                            Num = 101,
+                            ParentCodeName = "companies-module"
+                        },
+                        new
+                        {
+                            CodeName = "companies-module/Companies/GetById",
+                            IsEndPoint = true,
+                            Name = "عرض",
+                            Num = 10101,
+                            ParentCodeName = "companies-module/Companies"
+                        },
+                        new
+                        {
+                            CodeName = "companies-module/Companies/Update",
+                            DependsOn = new[] { "companies-module/Companies/GetById" },
+                            IsEndPoint = true,
+                            Name = "تعديل",
+                            Num = 10102,
+                            ParentCodeName = "companies-module/Companies"
+                        },
+                        new
+                        {
+                            CodeName = "companies-module/Companies/UpdateActiveSections",
+                            DependsOn = new[] { "companies-module/Companies/GetById" },
+                            IsEndPoint = true,
+                            Name = "تعديل",
+                            Num = 10103,
+                            ParentCodeName = "companies-module/Companies"
+                        });
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
+                {
+                    b.HasOne("Base.Shared.Entities.TreePower", "Parent")
+                        .WithMany("SubTreePowers")
+                        .HasForeignKey("ParentCodeName")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
+                {
+                    b.Navigation("SubTreePowers");
                 });
 #pragma warning restore 612, 618
         }

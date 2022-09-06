@@ -1,4 +1,5 @@
 ﻿using Base.Modules.Users.Domain.Entities;
+using Base.Shared.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Base.Modules.Users.Domain.IServices
 {
     public interface ITreePowesService
     {
-        Task<TreePower> GetAsTreeAsync(); 
+        Task<List<TreePower>> GetAsTreeAsync(); 
     }
 }

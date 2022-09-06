@@ -28,8 +28,10 @@ namespace Base.Modules.Users.Domain.DTO.User
         [MaxLength(50)]
         public string Password { get; set; } = string.Empty;
         [EmailAddress]
+        [MaxLength(150)]
         public string Email { get; set; } = string.Empty;
         [MaxLength(20)]
+        [Phone]
         public string PhonNum { get; set; } = string.Empty;
         [MaxLength(500)]
         public string Note { get; set; } = string.Empty;

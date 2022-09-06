@@ -1,5 +1,6 @@
 ﻿using Base.Modules.Users.DAL.Database;
 using Base.Modules.Users.DAL.Services;
+using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.IServices;
 using Base.Shared.Database;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace Base.Modules.Users.DAL
             services.AddPostgres<UsersDbContext>();
             services.AddTransient<ITreePowesService, TreePowesService>();
             services.AddTransient<ICustomPowersService, CustomPowerService>();
-            services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IUsersService<GetUserResponseDto, GetUserDetailsResponseDto, AddUserRequestDto, UpdateUserRequestDto>, UsersService>();
             services.AddTransient<IUserSettingsService, UserSettingsService>();
             return services;
         }

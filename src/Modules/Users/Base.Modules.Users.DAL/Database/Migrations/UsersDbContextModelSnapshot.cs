@@ -29,185 +29,6 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CodeName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<string[]>("Powers")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "Name" }, "IX_CustomPower_Name")
-                        .IsUnique();
-
-                    b.ToTable("CustomPowers", "users");
-                });
-
-            modelBuilder.Entity("Base.Modules.Users.Domain.Entities.TreePower", b =>
-                {
-                    b.Property<string>("CodeName")
-                        .HasColumnType("text");
-
-                    b.Property<string[]>("DependsOn")
-                        .HasColumnType("text[]");
-
-                    b.Property<bool>("IsEndPoint")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Num")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ParentCodeName")
-                        .HasColumnType("text");
-
-                    b.HasKey("CodeName");
-
-                    b.HasIndex("ParentCodeName");
-
-                    b.ToTable("TreePowers", "users");
-
-                    b.HasData(
-                        new
-                        {
-                            CodeName = "mainroot",
-                            IsEndPoint = false,
-                            Name = "mainroot",
-                            Num = 0
-                        },
-                        new
-                        {
-                            CodeName = "companies-module",
-                            IsEndPoint = false,
-                            Name = "قسم الشركة",
-                            Num = 1,
-                            ParentCodeName = "mainroot"
-                        },
-                        new
-                        {
-                            CodeName = "companies-module/Companies",
-                            IsEndPoint = false,
-                            Name = "معلومات الشركة",
-                            Num = 101,
-                            ParentCodeName = "companies-module"
-                        },
-                        new
-                        {
-                            CodeName = "companies-module/Companies/GetById",
-                            IsEndPoint = true,
-                            Name = "عرض",
-                            Num = 10101,
-                            ParentCodeName = "companies-module/Companies"
-                        },
-                        new
-                        {
-                            CodeName = "companies-module/Companies/Update",
-                            DependsOn = new[] { "companies-module/Companies/GetById" },
-                            IsEndPoint = true,
-                            Name = "تعديل",
-                            Num = 10102,
-                            ParentCodeName = "companies-module/Companies"
-                        },
-                        new
-                        {
-                            CodeName = "companies-module/Companies/UpdateActiveSections",
-                            DependsOn = new[] { "companies-module/Companies/GetById" },
-                            IsEndPoint = true,
-                            Name = "تعديل",
-                            Num = 10103,
-                            ParentCodeName = "companies-module/Companies"
-                        },
-                        new
-                        {
-                            CodeName = "users-module",
-                            IsEndPoint = false,
-                            Name = "قسم المستخدمين",
-                            Num = 2,
-                            ParentCodeName = "mainroot"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users",
-                            IsEndPoint = false,
-                            Name = "معلومات المستخدمين",
-                            Num = 201,
-                            ParentCodeName = "users-module"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users/GetAll",
-                            IsEndPoint = true,
-                            Name = "عرض الكل",
-                            Num = 20101,
-                            ParentCodeName = "users-module/Users"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users/GetById",
-                            IsEndPoint = true,
-                            Name = "عرض",
-                            Num = 20102,
-                            ParentCodeName = "users-module/Users"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users/Add",
-                            IsEndPoint = true,
-                            Name = "اضافة",
-                            Num = 20103,
-                            ParentCodeName = "users-module/Users"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users/Update",
-                            DependsOn = new[] { "users-module/Users/GetById" },
-                            IsEndPoint = true,
-                            Name = "تعديل",
-                            Num = 20104,
-                            ParentCodeName = "users-module/Users"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users/Delete",
-                            DependsOn = new[] { "users-module/Users/GetById" },
-                            IsEndPoint = true,
-                            Name = "حذف",
-                            Num = 20105,
-                            ParentCodeName = "users-module/Users"
-                        },
-                        new
-                        {
-                            CodeName = "users-module/Users/ChangePowers",
-                            DependsOn = new[] { "users-module/Users/GetById" },
-                            IsEndPoint = true,
-                            Name = "تعديل الصلاحيات",
-                            Num = 20106,
-                            ParentCodeName = "users-module/Users"
-                        });
-                });
-
-            modelBuilder.Entity("Base.Modules.Users.Domain.Entities.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
@@ -216,21 +37,6 @@ namespace Base.Modules.Users.DAL.Database.Migrations
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("HashCode")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("HashPassword")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -253,6 +59,79 @@ namespace Base.Modules.Users.DAL.Database.Migrations
 
                     b.Property<string>("Note")
                         .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string[]>("Powers")
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex(new[] { "Name", "BusinessId" }, "IX_CustomPower_Name")
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false");
+
+                    b.ToTable("CustomPowers", "users");
+                });
+
+            modelBuilder.Entity("Base.Modules.Users.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid>("CreatedUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("HashCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("HashPassword")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<byte[]>("IsRowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bytea");
+
+                    b.Property<DateTime?>("LastUpdateDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<Guid?>("LastUpdateUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LoginName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PhonNum")
@@ -260,42 +139,184 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         .HasColumnType("text");
 
                     b.Property<string[]>("Powers")
-                        .HasColumnType("text[]");
+                        .HasColumnType("jsonb");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                    b.Property<DateTime?>("SignOutExpirationDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("VerifyEmailCode")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("VerifyEmailDate")
+                    b.Property<DateTime?>("VerifyEmailDate")
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Name" }, "IX_User_Name")
-                        .IsUnique();
+                    b.HasIndex(new[] { "Email", "BusinessId" }, "IX_User_Email")
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false");
 
-                    b.HasIndex(new[] { "UserName" }, "IX_User_UserName")
-                        .IsUnique();
+                    b.HasIndex(new[] { "Name", "BusinessId" }, "IX_User_Name")
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false");
+
+                    b.HasIndex(new[] { "LoginName", "BusinessId" }, "IX_User_UserName")
+                        .IsUnique()
+                        .HasFilter("\"IsDeleted\" = false");
 
                     b.ToTable("Users", "users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            BusinessId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedDate = new DateTime(2022, 8, 23, 13, 51, 48, 227, DateTimeKind.Local).AddTicks(2029),
+                            CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            HashCode = "28cfd411-cce7-439a-98a8-60226254f9db",
+                            HashPassword = "eA451gAPvpnc3VuHEvPgbA==",
+                            IsActive = true,
+                            IsAdmin = true,
+                            IsDeleted = false,
+                            LoginName = "1",
+                            Name = "admin",
+                            Note = "",
+                            PhonNum = "",
+                            VerifyEmailCode = ""
+                        });
                 });
 
-            modelBuilder.Entity("Base.Modules.Users.Domain.Entities.TreePower", b =>
+            modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>
                 {
-                    b.HasOne("Base.Modules.Users.Domain.Entities.TreePower", "Parent")
+                    b.Property<string>("CodeName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<object>("Setting")
+                        .HasColumnType("jsonb");
+
+                    b.HasKey("CodeName");
+
+                    b.ToTable("ModuleSettings", "users");
+
+                    b.HasData(
+                        new
+                        {
+                            CodeName = "users-modules",
+                            Name = "Users Managament"
+                        });
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
+                {
+                    b.Property<string>("CodeName")
+                        .HasColumnType("text");
+
+                    b.Property<string[]>("DependsOn")
+                        .HasColumnType("jsonb");
+
+                    b.Property<bool>("IsEndPoint")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Num")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ParentCodeName")
+                        .HasColumnType("text");
+
+                    b.HasKey("CodeName");
+
+                    b.HasIndex("ParentCodeName");
+
+                    b.ToTable("TreePowers", "users");
+
+                    b.HasData(
+                        new
+                        {
+                            CodeName = "users-module",
+                            IsEndPoint = false,
+                            Name = "قسم المستخدمين",
+                            Num = 1
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users",
+                            IsEndPoint = false,
+                            Name = "معلومات المستخدمين",
+                            Num = 101,
+                            ParentCodeName = "users-module"
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users/GetAll",
+                            IsEndPoint = true,
+                            Name = "عرض الكل",
+                            Num = 10101,
+                            ParentCodeName = "users-module/Users"
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users/GetById",
+                            IsEndPoint = true,
+                            Name = "عرض",
+                            Num = 10102,
+                            ParentCodeName = "users-module/Users"
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users/Add",
+                            IsEndPoint = true,
+                            Name = "اضافة",
+                            Num = 10103,
+                            ParentCodeName = "users-module/Users"
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users/Update",
+                            DependsOn = new[] { "users-module/Users/GetById" },
+                            IsEndPoint = true,
+                            Name = "تعديل",
+                            Num = 10104,
+                            ParentCodeName = "users-module/Users"
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users/Delete",
+                            DependsOn = new[] { "users-module/Users/GetById" },
+                            IsEndPoint = true,
+                            Name = "حذف",
+                            Num = 10105,
+                            ParentCodeName = "users-module/Users"
+                        },
+                        new
+                        {
+                            CodeName = "users-module/Users/ChangePowers",
+                            DependsOn = new[] { "users-module/Users/GetById" },
+                            IsEndPoint = true,
+                            Name = "تعديل الصلاحيات",
+                            Num = 10106,
+                            ParentCodeName = "users-module/Users"
+                        });
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
+                {
+                    b.HasOne("Base.Shared.Entities.TreePower", "Parent")
                         .WithMany("SubTreePowers")
-                        .HasForeignKey("ParentCodeName")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ParentCodeName");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("Base.Modules.Users.Domain.Entities.TreePower", b =>
+            modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
                 {
                     b.Navigation("SubTreePowers");
                 });
