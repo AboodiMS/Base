@@ -61,7 +61,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpPatch]
         [Route("VerifyEmail")]
         [Authorize]
-        public async Task<ActionResult> VerifyEmail([FromForm][Required] string code)
+        public async Task<ActionResult> VerifyEmail([Required] string code)
         {
             await _userSettingsService.VerifyEmail(_userId, _businessId,code);
             return Ok();
@@ -70,7 +70,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpPatch]
         [Route("ChangeEmail")]
         [Authorize]
-        public async Task<ActionResult> ChangeEmail([FromForm][Required] string email)
+        public async Task<ActionResult> ChangeEmail([Required][EmailAddress] string email)
         {
             await _userSettingsService.ChangeEmail(_userId, _businessId, email);
             return Ok();
@@ -90,7 +90,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpPatch]
         [Route("ChangePasswordAndSendUsingEmail****")]
         [AllowAnonymous]
-        public async Task<ActionResult> ChangePasswordAndSendUsingEmail([FromForm] [Required] string email)
+        public async Task<ActionResult> ChangePasswordAndSendUsingEmail([Required][EmailAddress] string email)
         {
             await _userSettingsService.ChangePasswordAndSendUsingEmail(_businessId,email);
             return Ok();

@@ -48,11 +48,6 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
                     b.Property<DateTime?>("LastUpdateDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -63,6 +58,11 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid");
 
                     b.HasKey("Id");
 
@@ -75,19 +75,20 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
-                            CreatedDate = new DateTime(2022, 9, 17, 17, 28, 11, 758, DateTimeKind.Local).AddTicks(8747),
+                            CreatedDate = new DateTime(2022, 9, 19, 14, 13, 13, 112, DateTimeKind.Local).AddTicks(9642),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
-                            Name = "اسم الشركة"
+                            Name = "اسم الشركة",
+                            xmin = 0u
                         });
                 });
 
             modelBuilder.Entity("Base.Modules.Companies.Domain.Entities.Section", b =>
                 {
-                    b.Property<string>("CodeName")
+                    b.Property<string>("Code")
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -95,12 +96,76 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.HasKey("CodeName");
+                    b.HasKey("Code");
 
                     b.HasIndex(new[] { "Name" }, "IX_Section_Name")
                         .IsUnique();
 
                     b.ToTable("Sections", "companies");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ActionLogger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<object>("Data")
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid>("ObjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Table")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActionLogger", "companies");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ErrorLogger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<object>("Data")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Table")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ErrorLogger", "companies");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>
@@ -113,45 +178,18 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<object>("Setting")
+                    b.Property<object>("Settings")
                         .HasColumnType("jsonb");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<long>("xmin")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Code");
 
                     b.ToTable("ModuleSettings", "companies");
-
-                    b.HasData(
-                        new
-                        {
-                            Code = "companies-modules",
-                            Name = "Companies Managament"
-                        });
-                });
-
-            modelBuilder.Entity("Base.Shared.Entities.Properties", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("jsonb");
-
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("TableName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("Properties", "companies");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
@@ -198,28 +236,10 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "companies-module/Companies/GetById",
-                            IsEndPoint = true,
-                            Name = "عرض",
-                            Num = 10101,
-                            ParentCode = "companies-module/Companies"
-                        },
-                        new
-                        {
                             Code = "companies-module/Companies/Update",
-                            DependsOn = new[] { "companies-module/Companies/GetById" },
                             IsEndPoint = true,
                             Name = "تعديل",
                             Num = 10102,
-                            ParentCode = "companies-module/Companies"
-                        },
-                        new
-                        {
-                            Code = "companies-module/Companies/UpdateActiveSections",
-                            DependsOn = new[] { "companies-module/Companies/GetById" },
-                            IsEndPoint = true,
-                            Name = "تعديل",
-                            Num = 10103,
                             ParentCode = "companies-module/Companies"
                         });
                 });

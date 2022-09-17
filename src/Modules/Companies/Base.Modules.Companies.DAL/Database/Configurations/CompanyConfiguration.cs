@@ -19,7 +19,7 @@ namespace Base.Modules.Companies.DAL.Database.Configurations
             builder.Property(x => x.LastUpdateDate);
             builder.Property(x => x.LastUpdateUserId);
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
-            builder.Property(x => x.IsRowVersion).IsRowVersion();
+            builder.UseXminAsConcurrencyToken();
         }
     }
 }

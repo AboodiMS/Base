@@ -29,7 +29,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpGet]
         [Route("GetById")]
         [AuthorizationAction]
-        public async Task<ActionResult<GetCustomPowerDetailsResponseDto>> GetById([FromForm][Required] Guid id)
+        public async Task<ActionResult<GetCustomPowerDetailsResponseDto>> GetById([Required] Guid id)
         {
             return await _customPowersService.GetById(id,_businessId);
         }
@@ -68,7 +68,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpDelete]
         [Route("Delete")]
         [AuthorizationAction]
-        public async Task<ActionResult> Delete([FromForm][Required] Guid id)
+        public async Task<ActionResult> Delete([Required] Guid id)
         {
             await _customPowersService.Delete(id,_businessId,_userId);
             return Ok();

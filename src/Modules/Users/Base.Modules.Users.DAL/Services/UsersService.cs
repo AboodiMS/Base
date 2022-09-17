@@ -4,6 +4,7 @@ using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
 using Base.Modules.Users.Domain.Mappings;
+using Base.Shared.Database;
 using Base.Shared.Exceptions.ModulesExceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -26,7 +27,7 @@ namespace Base.Modules.Users.DAL.Services
 
         private async Task<User> getById(Guid id, Guid businessId)
         {
-            var entity = await _dbContext.Users.SingleAsync(a => a.Id == id && a.BusinessId == businessId && a.IsDeleted == false);
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(a => a.Id == id && a.BusinessId == businessId && a.IsDeleted == false);
             if (entity == null)
             {
                 throw new NotFoundException(new ExceptionData
@@ -105,6 +106,7 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task<List<GetUserResponseDto>> GetAll(Guid businessId)
         {
+            Test();
             var entities = await _dbContext.Users.Where(x => x.BusinessId == businessId && x.IsDeleted == false).ToListAsync();
             return entities.AsDto();
         }
@@ -124,5 +126,48 @@ namespace Base.Modules.Users.DAL.Services
             dto.AsEntity(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        private void Test()
+        {
+            try
+            {
+                var context1 = new UsersDbContext(new DbContextOptionsBuilder<UsersDbContext>()
+                          .UseNpgsql("Host=localhost;Database=Base;Username=postgres;Password=123@a")
+                          .Options);
+                var contactFromContext1 = context1.Users
+                                                  .FirstOrDefault(c => c.Name == "Test");
+                if (contactFromContext1 == null)
+                {
+                    contactFromContext1 = new User
+                    {
+                        Name = "Test"
+                    };
+                    context1.Add(contactFromContext1);
+                    context1.SaveChanges();
+                }
+                var context2 =
+                    new UsersDbContext(new DbContextOptionsBuilder<UsersDbContext>()
+                                          .UseNpgsql("Host=localhost;Database=Base;Username=postgres;Password=123@a")
+                                          .Options);
+                var contactFromContext2 = context2.Users
+                                                  .FirstOrDefault(c => c.Name == "Test");
+                contactFromContext1.Note = DateTime.Now.ToString();
+                contactFromContext2.Note = DateTime.UtcNow.ToString();
+
+                context1.SaveChanges();
+                context2.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw;
+            }
+            //catch (Exception ex)
+            //{
+
+            //}
+
+
+        }
+
     }
 }

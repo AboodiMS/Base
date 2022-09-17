@@ -41,11 +41,6 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
                     b.Property<DateTime?>("LastUpdateDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -64,6 +59,9 @@ namespace Base.Modules.Users.DAL.Database.Migrations
 
                     b.Property<string[]>("Powers")
                         .HasColumnType("jsonb");
+
+                    b.Property<long>("xmin")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -109,11 +107,6 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
                     b.Property<DateTime?>("LastUpdateDate")
                         .HasColumnType("timestamp without time zone");
 
@@ -151,6 +144,11 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<DateTime?>("VerifyEmailDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid");
+
                     b.HasKey("Id");
 
                     b.HasIndex(new[] { "Email", "BusinessId" }, "IX_User_Email")
@@ -171,11 +169,11 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            BusinessId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedDate = new DateTime(2022, 9, 17, 17, 27, 49, 757, DateTimeKind.Local).AddTicks(4615),
+                            BusinessId = new Guid("22222222-2222-2222-2222-222222222222"),
+                            CreatedDate = new DateTime(2022, 9, 19, 14, 29, 46, 787, DateTimeKind.Local).AddTicks(4577),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "7ffeb14d-a8c9-42f6-8ef9-ac8c31304848",
-                            HashPassword = "kQNPrDKgMDJ42+hvlggRrQ==",
+                            HashCode = "bed51277-7c99-47e7-84bc-5d7405b0782f",
+                            HashPassword = "n9LR71f0DSb3uMgzwSV6Ew==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,
@@ -183,8 +181,73 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                             Name = "admin",
                             Note = "",
                             PhonNum = "",
-                            VerifyEmailCode = ""
+                            VerifyEmailCode = "",
+                            xmin = 0u
                         });
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ActionLogger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<object>("Data")
+                        .HasColumnType("jsonb");
+
+                    b.Property<Guid>("ObjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Table")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ActionLogger", "users");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ErrorLogger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<object>("Data")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Table")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ErrorLogger", "users");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>
@@ -197,8 +260,14 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<object>("Setting")
+                    b.Property<object>("Settings")
                         .HasColumnType("jsonb");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text");
+
+                    b.Property<long>("xmin")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Code");
 
@@ -208,34 +277,9 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         new
                         {
                             Code = "users-modules",
-                            Name = "Users Managament"
+                            Name = "Users Managament",
+                            xmin = 0L
                         });
-                });
-
-            modelBuilder.Entity("Base.Shared.Entities.Properties", b =>
-                {
-                    b.Property<string>("Code")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("jsonb");
-
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("TableName")
-                        .HasColumnType("text");
-
-                    b.HasKey("Code");
-
-                    b.ToTable("Properties", "users");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
@@ -298,7 +342,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/Add",
+                            Code = "users-module/Users/Create",
                             IsEndPoint = true,
                             Name = "اضافة",
                             Num = 10103,
@@ -307,7 +351,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         new
                         {
                             Code = "users-module/Users/Update",
-                            DependsOn = new[] { "users-module/Users/GetById" },
+                            DependsOn = new[] { "users-module/Users/GetById", "users-module/Users/GetAll" },
                             IsEndPoint = true,
                             Name = "تعديل",
                             Num = 10104,
@@ -316,7 +360,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         new
                         {
                             Code = "users-module/Users/Delete",
-                            DependsOn = new[] { "users-module/Users/GetById" },
+                            DependsOn = new[] { "users-module/Users/GetById", "users-module/Users/GetAll" },
                             IsEndPoint = true,
                             Name = "حذف",
                             Num = 10105,
@@ -325,7 +369,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         new
                         {
                             Code = "users-module/Users/ChangePowers",
-                            DependsOn = new[] { "users-module/Users/GetById" },
+                            DependsOn = new[] { "users-module/Users/GetById", "users-module/Users/GetAll" },
                             IsEndPoint = true,
                             Name = "تعديل الصلاحيات",
                             Num = 10106,

@@ -18,7 +18,6 @@ namespace Base.Shared.Entities
         public string Type { get; set; }
         [Column(TypeName = "jsonb")]    
         public object Settings { get; set; }
-        [Timestamp]
-        public byte[] IsRowVersion { get; set; }
+        public uint xmin { get; set; }
     }
 }

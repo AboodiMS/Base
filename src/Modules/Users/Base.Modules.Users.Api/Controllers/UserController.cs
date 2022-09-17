@@ -1,6 +1,7 @@
 ﻿using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.IServices;
 using Base.Shared.Controllers;
+using Base.Shared.Database;
 using Base.Shared.Security;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,7 +27,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpGet]
         [Route("GetById")]
         [AuthorizationAction]
-        public async Task<ActionResult<GetUserDetailsResponseDto>> GetById([FromForm][Required] Guid id)
+        public async Task<ActionResult<GetUserDetailsResponseDto>> GetById([Required] Guid id)
         {
             return await _usersService.GetById(id, _businessId);
         }
@@ -76,7 +77,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpDelete]
         [Route("Delete")]
         [AuthorizationAction]
-        public async Task<ActionResult> Delete([FromForm][Required] Guid id)
+        public async Task<ActionResult> Delete([Required] Guid id)
         {
             await _usersService.Delete(id, _businessId, _userId);
             return Ok();

@@ -13,15 +13,14 @@ namespace Base.Shared.Database
     {
         public DbSet<ModuleSetting> ModuleSettings { get; set; }
         public DbSet<TreePower> TreePowers { get; set; }
-
+        public DbSet<ActionLogger> ActionLogger { get; set; }
+        public DbSet<ErrorLogger> ErrorLogger { get; set; }
+        
         public BaseDbContext(DbContextOptions options) : base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-
-
             modelBuilder.Entity<TreePower>().HasKey(x => x.Code);
             modelBuilder.Entity<TreePower>().Property(x => x.Name);
             modelBuilder.Entity<TreePower>().Property(x => x.Num);
@@ -31,6 +30,11 @@ namespace Base.Shared.Database
                                             .HasForeignKey(x => x.ParentCode)
                                             .IsRequired(false)
                                             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ModuleSetting>().UseXminAsConcurrencyToken();
+
+
+
         }
     }
 }

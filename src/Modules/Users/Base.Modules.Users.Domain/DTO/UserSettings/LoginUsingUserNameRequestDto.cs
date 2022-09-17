@@ -10,7 +10,7 @@ namespace Base.Modules.Users.Domain.DTO.UserSettings
 {
     public class LoginUsingUserNameRequestDto
     {
-        [DefaultValue("11111111-1111-1111-1111-111111111111")]
+        [DefaultValue("22222222-2222-2222-2222-222222222222")]
         [Required]
         public Guid BusinessId { get; set; }
         [DefaultValue("1")]

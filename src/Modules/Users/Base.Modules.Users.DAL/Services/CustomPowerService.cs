@@ -3,16 +3,13 @@ using Base.Modules.Users.Domain.DTO.CustomPower;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
 using Base.Modules.Users.Domain.Mappings;
+using Base.Shared.DTO.Logger;
+using Base.Shared.Entities;
+using Base.Shared.Exceptions;
 using Base.Shared.Exceptions.ModulesExceptions;
 using Base.Shared.Helper101;
 using Base.Shared.Time;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Base.Modules.Users.DAL.Services
 {
@@ -20,17 +17,17 @@ namespace Base.Modules.Users.DAL.Services
     {
 
         private readonly UsersDbContext _dbContext;
+        private readonly LoggerService _loggerService;
 
         public CustomPowerService(UsersDbContext dbContext)
         {
             _dbContext = dbContext;
+            _loggerService = new LoggerService(dbContext);
         }
-
 
         private async Task<CustomPower> getById(Guid id, Guid businessId)
         {
-            var entity = await _dbContext.CustomPowers.SingleAsync(a => a.Id == id && a.BusinessId == businessId && a.IsDeleted == false);
-
+            var entity = await _dbContext.CustomPowers.FirstOrDefaultAsync(a => a.Id == id && a.BusinessId == businessId && a.IsDeleted == false);
             if (entity is null)
                 throw new NotFoundException(new ExceptionData
                 {
@@ -38,10 +35,8 @@ namespace Base.Modules.Users.DAL.Services
                     PropertieName = "Id",
                     PropertieValue = id.ToString()
                 });
-
             return entity;
         }
-
         private async Task IsNameExist(Guid id, string name, Guid businessId)
         {
             var hasResulte = await _dbContext.Users
@@ -57,43 +52,135 @@ namespace Base.Modules.Users.DAL.Services
         }
 
 
+
         public async Task Create(CreateCustomPowerRequestDto dto)
         {
-            await IsNameExist(dto.Id, dto.Name, dto.BusinessId);
-
-            var entity = dto.AsEntity();
-
-            await _dbContext.CustomPowers.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                var entity = dto.AsEntity();
+                await IsNameExist(dto.Id, dto.Name, dto.BusinessId);             
+                await _dbContext.CustomPowers.AddAsync(entity);
+                await _dbContext.SaveChangesAsync();
+                await _loggerService.AddActionLogger(new AddActionLoggerDto
+                {
+                    ObjectData = entity,
+                    Action = nameof(Create),
+                    BusinessId = dto.BusinessId,
+                    ObjectId = entity.Id,
+                    Table = nameof(CustomPower),
+                    UserId = dto.UserId
+                });
+            }
+            catch(Exception ex)
+            {
+                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
+                {
+                    Action = nameof(Create),
+                    BusinessId = dto.BusinessId,
+                    InputData = dto,
+                    Class= nameof(CustomPowerService),
+                    Exception=ex
+                });
+                throw;
+            }
         }
 
         public async Task Delete(Guid id, Guid businessId, Guid userid)
         {
-            var entity = await getById(id, businessId);
-            entity.Delete(userid);
-            await _dbContext.SaveChangesAsync();
+            
+            try
+            {
+                var entity = await getById(id, businessId);
+                entity.Delete(userid);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
+                {
+                    Action = nameof(Delete),
+                    BusinessId = businessId,
+                    InputData = new { Id = id, BusinessId = businessId },
+                    Class = nameof(CustomPowerService),
+                    Exception = ex
+                });
+                throw;
+            }
         }
 
         public async Task<GetCustomPowerDetailsResponseDto> GetById(Guid id, Guid businessId)
         {
-            var entity = await getById(id, businessId);
-            return entity.AsDto();
+            try
+            {
+                var entity = await getById(id, businessId);
+                return entity.AsDto();
+            }
+            catch(Exception ex)
+            {
+                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
+                {
+                    Action = nameof(GetById),
+                    BusinessId = businessId,
+                    InputData = new {Id = id, BusinessId=businessId},
+                    Class = nameof(CustomPowerService),
+                    Exception = ex
+                });
+                throw;
+            }
         }
 
         public async Task Update(UpdateCustomPowerRequestDto dto)
         {
-            await IsNameExist(dto.Id, dto.Name, dto.BusinessId);
-
-            var entity = await getById(dto.Id, dto.BusinessId);
-
-            dto.AsEntity(entity);
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                await IsNameExist(dto.Id, dto.Name, dto.BusinessId);
+                var entity = await getById(dto.Id, dto.BusinessId);
+                dto.AsEntity(entity);
+                await _dbContext.SaveChangesAsync();
+                await _loggerService.AddActionLogger(new AddActionLoggerDto
+                {
+                    ObjectData = entity,
+                    Action = nameof(Update),
+                    BusinessId = dto.BusinessId,
+                    ObjectId = entity.Id,
+                    Table = nameof(CustomPower),
+                    UserId = dto.UserId
+                });
+            }
+            catch(Exception ex)
+            {
+                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
+                {
+                    Action = nameof(Update),
+                    BusinessId = dto.BusinessId,
+                    InputData = dto,
+                    Class = nameof(CustomPowerService),
+                    Exception = ex
+                });
+                throw;
+            }
         }
 
         public async Task<List<GetCustomPowerResponseDto>> GetAll(Guid businessId)
         {
-            var entities = await _dbContext.CustomPowers.Where(x => x.BusinessId == businessId && x.IsDeleted == false).ToListAsync();
-            return entities.AsDto();
+            try
+            {
+                var entities = await _dbContext.CustomPowers.Where(x => x.BusinessId == businessId && x.IsDeleted == false).ToListAsync();
+                return entities.AsDto();
+            }
+            catch(Exception ex)
+            {
+                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
+                {
+                    Action = nameof(GetAll),
+                    BusinessId = businessId,
+                    InputData = new {BusinessId = businessId},
+                    Class = nameof(CustomPowerService),
+                    Exception = ex
+                });
+                throw;
+            }
         }
+        
     }
 }

@@ -12,7 +12,7 @@ namespace Base.Modules.Companies.Domain.Mappings
             if (activesections == null)
                 return new List<Section>();
             var AS = activesections.ToList();
-            return sections.Join(AS, a => a.CodeName, b => b, (a, b) => a).ToList();
+            return sections.Join(AS, a => a.Code, b => b, (a, b) => a).ToList();
                
         }
         public static GetCompanyDetailsResponseDto AsDto(this Company entity, List<Section> sections)

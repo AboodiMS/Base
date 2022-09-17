@@ -28,7 +28,7 @@ namespace Base.Modules.Companies.Api.Controllers
 
         [HttpGet]
         [Route("GetById")]
-        [AuthorizationAction]
+        [AllowAnonymous]
         public async Task<ActionResult<GetCompanyDetailsResponseDto>> GetById([FromForm][Required] Guid id)
             => await _companiesService.GetById(id);
 

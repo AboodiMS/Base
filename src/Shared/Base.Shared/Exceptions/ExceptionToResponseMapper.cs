@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Net;
 using Humanizer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Base.Shared.Exceptions
 {
@@ -12,10 +13,9 @@ namespace Base.Shared.Exceptions
         public ExceptionResponse Map(Exception exception)
             => exception switch
             {
-                BaseException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), ex.Message))
-                    , HttpStatusCode.BadRequest),
-                _ => new ExceptionResponse(new ErrorsResponse(new Error("error", "There was an error.")),
-                    HttpStatusCode.InternalServerError)
+                DbUpdateConcurrencyException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), "data may have been modified or deleted since entities were loaded.")), HttpStatusCode.BadRequest),
+                               BaseException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), ex.Message)), HttpStatusCode.BadRequest),
+                                              _ => new ExceptionResponse(new ErrorsResponse(new Error("error", "There was an error.")), HttpStatusCode.InternalServerError),
             };
 
         private record Error(string Code, string Message);

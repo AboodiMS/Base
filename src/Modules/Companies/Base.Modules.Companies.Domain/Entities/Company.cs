@@ -14,6 +14,6 @@ namespace Base.Modules.Companies.Domain.Entities
         public DateTime? LastUpdateDate { get; set; } = null;
         public Guid? LastUpdateUserId { get; set; } = null;
         public bool IsDeleted { get; set; }
-        public byte[]? IsRowVersion { get; set; }
+        public uint xmin { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            Code = "users-module/Users/Add",
+                            Code = "users-module/Users/Create",
                             ParentCode = "users-module/Users",
                             Name = "اضافة",
                             Num = 10103,
@@ -64,7 +64,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             Name = "تعديل",
                             Num = 10104,
                             IsEndPoint = true,
-                            DependsOn = new string[1] { "users-module/Users/GetById" },
+                            DependsOn = new string[2] { "users-module/Users/GetById", "users-module/Users/GetAll" },
                         },
                         new TreePower()
                         {
@@ -73,7 +73,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             Name = "حذف",
                             Num = 10105,
                             IsEndPoint = true,
-                            DependsOn = new string[1] { "users-module/Users/GetById" },
+                            DependsOn = new string[2] { "users-module/Users/GetById", "users-module/Users/GetAll" },
                         },
                         new TreePower()
                         {
@@ -82,9 +82,8 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                             Name = "تعديل الصلاحيات",
                             Num = 10106,
                             IsEndPoint = true,
-                            DependsOn = new string[1] { "users-module/Users/GetById" },
+                            DependsOn = new string[2] { "users-module/Users/GetById", "users-module/Users/GetAll" },
                         }
-
                 ) ;
         }
     }
