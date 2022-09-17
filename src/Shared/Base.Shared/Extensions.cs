@@ -29,11 +29,11 @@ namespace Base.Shared
             services.AddMemoryCache();
             services.AddCors();
 
-            services.AddControllers()
-                .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            });
+            //services.AddControllers()
+            //    .AddJsonOptions(options =>
+            //{
+            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            //});
             services.AddErrorHandling();
             services.AddCommands();
             services.AddEvents();

@@ -1,4 +1,5 @@
 ﻿using Base.Modules.Users.Domain.Entities;
+using Base.Shared.Database;
 using Base.Shared.Helper101;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,6 +12,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
 {
     public static class UserDataSeeder
     {
+        
         public static void UserDataSeed(this ModelBuilder modelBuilder)
         {
             string hashCode = Guid.NewGuid().ToString();
@@ -18,10 +20,10 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                 .HasData(
                    new User()
                    {
-                       Id = Guid.Parse("11111111-1111-1111-1111-111111111111"),
-                       BusinessId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                       Id = BaseModulesData.SupperAdminId,
+                       BusinessId = BaseModulesData.SupperBusinessId,
                        CreatedDate = DateTime.Now,
-                       CreatedUserId = Guid.Parse("11111111-1111-1111-1111-111111111111"),
+                       CreatedUserId = BaseModulesData.SupperAdminId,
                        LastUpdateDate = null,
                        LastUpdateUserId = null,
                        IsDeleted = false,

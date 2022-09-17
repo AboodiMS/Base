@@ -13,6 +13,6 @@ namespace Base.Modules.Users.Domain.DTO.TreePower
         public string Name { get; set; } = string.Empty;
         public bool IsEndPoint { get; set; }
         public bool HasAccess { get; set; }
-        public List<GetTreePowerResponseDto> TreePowerNodes { get; set; } = null;
+        public List<GetTreePowerResponseDto> TreePowerNodes { get; set; } = new List<GetTreePowerResponseDto>();
     }
 }

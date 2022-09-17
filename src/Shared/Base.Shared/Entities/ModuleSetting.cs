@@ -15,7 +15,10 @@ namespace Base.Shared.Entities
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+        public string Type { get; set; }
         [Column(TypeName = "jsonb")]    
-        public object Setting { get; set; }
+        public object Settings { get; set; }
+        [Timestamp]
+        public byte[] IsRowVersion { get; set; }
     }
 }

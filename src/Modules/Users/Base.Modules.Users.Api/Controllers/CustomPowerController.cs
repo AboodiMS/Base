@@ -7,6 +7,7 @@ using Base.Shared.Security;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 namespace Base.Modules.Users.Api.Controllers
 {
     [ApiController]
-    [Route(Extensions.BasePath+ "/CustomPower")]
+    [Route(Extensions.BasePath+ "/[controller]")]
     [ApiExplorerSettings(GroupName = Extensions.BasePath)]
     public class CustomPowerController: MasterController
     {
@@ -28,7 +29,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpGet]
         [Route("GetById")]
         [AuthorizationAction]
-        public async Task<ActionResult<GetCustomPowerDetailsResponseDto>> GetById(Guid id)
+        public async Task<ActionResult<GetCustomPowerDetailsResponseDto>> GetById([FromForm][Required] Guid id)
         {
             return await _customPowersService.GetById(id,_businessId);
         }
@@ -67,7 +68,7 @@ namespace Base.Modules.Users.Api.Controllers
         [HttpDelete]
         [Route("Delete")]
         [AuthorizationAction]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete([FromForm][Required] Guid id)
         {
             await _customPowersService.Delete(id,_businessId,_userId);
             return Ok();

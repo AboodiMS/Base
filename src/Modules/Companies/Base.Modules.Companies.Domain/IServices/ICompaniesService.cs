@@ -1,7 +1,6 @@
 ﻿
 using Base.Modules.Companies.Domain.DTO.Company;
-
-
+using Base.Shared.IServices;
 
 namespace Base.Modules.Companies.Domain.IServices
 {
@@ -9,7 +8,7 @@ namespace Base.Modules.Companies.Domain.IServices
     {
         Task<GetCompanyDetailsResponseDto> GetById(Guid id);
         Task<List<GetCompanyResponseDto>> GetAll();
-        Task Add(AddCompanyRequestDto dto);
+        Task Create(CreateCompanyRequestDto dto);
         Task Update(UpdateCompanyRequestDto dto);
         Task UpdateActiveSections(UpdateActiveSectionsCompanyRequestDto dto);
         Task Delete(Guid id, Guid userid);

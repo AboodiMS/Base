@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Companies.Domain.DTO.Company
 {
-    public class AddCompanyRequestDto
+    public class CreateCompanyRequestDto
     {
         [JsonIgnore]
         public Guid Id { get; set; }

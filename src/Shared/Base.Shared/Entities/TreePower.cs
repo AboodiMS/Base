@@ -18,8 +18,8 @@ namespace Base.Shared.Entities
         [Column(TypeName = "jsonb")]
         public string[] DependsOn { get; set; } = null;     
         public TreePower Parent { get; set; }
-        [ForeignKey("CodeName")]
-        public string ParentCodeName { get; set; } 
+        [ForeignKey("Code")]
+        public string ParentCode { get; set; } 
         public List<TreePower> SubTreePowers { get; } = new List<TreePower>();
 
     }

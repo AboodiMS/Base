@@ -1,7 +1,7 @@
 ﻿
-using Base.Shared.Security;
+
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace Base.Modules.Companies.Api.Controllers
 {
@@ -13,7 +13,7 @@ namespace Base.Modules.Companies.Api.Controllers
     {
         
         [HttpGet]
-        [AuthorizationAction]
-        public ActionResult<string> Get101() => Extensions.BasePath;
+        [AllowAnonymous]
+        public ActionResult<string> Get() => Extensions.BasePath;
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Base.Modules.Users.Api.Controllers
 {
     [ApiController]
-    [Route(Extensions.BasePath + "/TreePower")]
+    [Route(Extensions.BasePath + "/[controller]")]
     [ApiExplorerSettings(GroupName = Extensions.BasePath)]
     public class TreePowerController:MasterController
     {

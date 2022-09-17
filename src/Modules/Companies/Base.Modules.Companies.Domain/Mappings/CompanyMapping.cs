@@ -52,7 +52,7 @@ namespace Base.Modules.Companies.Domain.Mappings
             return entity;
         }
 
-        public static Company AsEntity(this AddCompanyRequestDto dto)
+        public static Company AsEntity(this CreateCompanyRequestDto dto)
             => new Company
             {
                 Id = dto.Id,

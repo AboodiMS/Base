@@ -13,7 +13,6 @@ namespace Base.Shared.Database
     {
         public DbSet<ModuleSetting> ModuleSettings { get; set; }
         public DbSet<TreePower> TreePowers { get; set; }
-        public DbSet<Properties> Properties { get; set; }
 
         public BaseDbContext(DbContextOptions options) : base(options)
         {
@@ -29,7 +28,7 @@ namespace Base.Shared.Database
             modelBuilder.Entity<TreePower>().Property(x => x.IsEndPoint);
             modelBuilder.Entity<TreePower>().HasOne(x => x.Parent)
                                             .WithMany(x => x.SubTreePowers)
-                                            .HasForeignKey(x => x.ParentCodeName)
+                                            .HasForeignKey(x => x.ParentCode)
                                             .IsRequired(false)
                                             .OnDelete(DeleteBehavior.Restrict);
         }

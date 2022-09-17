@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Companies.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Companies.DAL.Database.Migrations
 {
     [DbContext(typeof(CompaniesDbContext))]
-    partial class CompaniesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220917140744_companiess4")]
+    partial class companiess4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
-                            CreatedDate = new DateTime(2022, 9, 17, 17, 28, 11, 758, DateTimeKind.Local).AddTicks(8747),
+                            CreatedDate = new DateTime(2022, 9, 17, 17, 7, 44, 110, DateTimeKind.Local).AddTicks(3446),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
                             Name = "اسم الشركة"
@@ -174,6 +176,9 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<string>("ParentCode")
                         .HasColumnType("text");
 
+                    b.Property<string>("ParentCodeName")
+                        .HasColumnType("text");
+
                     b.HasKey("Code");
 
                     b.HasIndex("ParentCode");
@@ -194,7 +199,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             IsEndPoint = false,
                             Name = "معلومات الشركة",
                             Num = 101,
-                            ParentCode = "companies-module"
+                            ParentCodeName = "companies-module"
                         },
                         new
                         {
@@ -202,7 +207,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             IsEndPoint = true,
                             Name = "عرض",
                             Num = 10101,
-                            ParentCode = "companies-module/Companies"
+                            ParentCodeName = "companies-module/Companies"
                         },
                         new
                         {
@@ -211,7 +216,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             IsEndPoint = true,
                             Name = "تعديل",
                             Num = 10102,
-                            ParentCode = "companies-module/Companies"
+                            ParentCodeName = "companies-module/Companies"
                         },
                         new
                         {
@@ -220,7 +225,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             IsEndPoint = true,
                             Name = "تعديل",
                             Num = 10103,
-                            ParentCode = "companies-module/Companies"
+                            ParentCodeName = "companies-module/Companies"
                         });
                 });
 

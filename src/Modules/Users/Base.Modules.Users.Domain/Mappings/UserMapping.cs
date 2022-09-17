@@ -85,8 +85,10 @@ namespace Base.Modules.Users.Domain.Mappings
             dto.IsActive= entity.IsActive;
 
             dto.Powers = new List<GetTreePowerResponseDto>();
-            if (entity.Powers != null)
+            if(entity.Powers != null)
                 dto.Powers = BaseModulesData.TreePowers.Select(a=>a.AsDto(entity.Powers.ToList())).ToList();
+            else
+                dto.Powers= dto.Powers = BaseModulesData.TreePowers.Select(a => a.AsDto()).ToList();
 
             return dto;
         }

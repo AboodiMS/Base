@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace Base.Modules.Users.Api.Controllers
 {
     [ApiController]
-    [Route(Extensions.BasePath + "/UserSetting")]
+    [Route(Extensions.BasePath + "/[controller]")]
     [ApiExplorerSettings(GroupName = Extensions.BasePath)]
     public class UserSettingController:MasterController
     {
@@ -35,6 +35,7 @@ namespace Base.Modules.Users.Api.Controllers
 
         [HttpPatch]
         [Route("LoginUsingEmail")]
+        [AllowAnonymous]
         public async Task<ActionResult<string>> LoginUsingEmail([FromForm] LoginUsingEmailRequestDto dto)
         {
             return await _userSettingsService.LoginUsingEmail(dto);
@@ -42,6 +43,7 @@ namespace Base.Modules.Users.Api.Controllers
 
         [HttpPatch]
         [Route("LoginUsingUserName")]
+        [AllowAnonymous]
         public async Task<ActionResult<string>> LoginUsingUserName([FromForm] LoginUsingUserNameRequestDto dto)
         {
             return await _userSettingsService.LoginUsingUserName(dto);
@@ -87,6 +89,7 @@ namespace Base.Modules.Users.Api.Controllers
 
         [HttpPatch]
         [Route("ChangePasswordAndSendUsingEmail****")]
+        [AllowAnonymous]
         public async Task<ActionResult> ChangePasswordAndSendUsingEmail([FromForm] [Required] string email)
         {
             await _userSettingsService.ChangePasswordAndSendUsingEmail(_businessId,email);

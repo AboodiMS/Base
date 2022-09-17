@@ -24,7 +24,7 @@ namespace Base.Modules.Users.Domain.Mappings
             return setData(entity);
         }
 
-        private static GetTreePowerResponseDto setData(TreePower entity)
+        private static GetTreePowerResponseDto setData(TreePower? entity)
         {      
             GetTreePowerResponseDto dto = new GetTreePowerResponseDto();
             dto.CodeName=entity.Code;
@@ -32,9 +32,10 @@ namespace Base.Modules.Users.Domain.Mappings
             dto.Num =entity.Num;
             dto.IsEndPoint=entity.IsEndPoint;
             dto.HasAccess = _powers.Where(a => a == dto.CodeName).Count() == 1;
-            for(int i=0;i< entity.SubTreePowers.Count;i++)
+
+            foreach (TreePower SubTreePower in entity.SubTreePowers.ToList())
             {
-                dto.TreePowerNodes.Add(setData(entity.SubTreePowers[i]));
+                dto.TreePowerNodes.Add(setData(SubTreePower));
             }
             return dto;
         }
