@@ -11,20 +11,39 @@ namespace Base.Shared.Controllers
     public class MasterController : ControllerBase
     {
         // first Upload
-        public Guid _UserId = Guid.Empty;
-        public MasterController()
+        public Guid _userId
         {
-            if (Request != null && _UserId == Guid.Empty)
-                GetUserId();
+            get { return GetUserId(); }
         }
-        protected void GetUserId()
+        public Guid _businessId 
         {
-            string id = HttpContext.User.Claims.Where(x => x.Type == "ID").FirstOrDefault().Value;
+            get { return GetBusinessId(); }
+        }
 
-            if (string.IsNullOrEmpty(id))
-                _UserId = Guid.Empty;
-            else
-                _UserId = Guid.Parse(id);
+        protected Guid GetUserId()
+        {
+            try
+            {
+                string id = HttpContext.User.Claims.Where(x => x.Type == "UserId").FirstOrDefault().Value;        
+                return Guid.Parse(id);
+            }
+            catch
+            {
+               return Guid.Empty;
+            }
+
+        }
+        protected Guid GetBusinessId()
+        {
+            try
+            {
+                string id = HttpContext.User.Claims.Where(x => x.Type == "BusinessId").FirstOrDefault().Value;
+                return Guid.Parse(id);
+            }
+            catch
+            {
+                return Guid.Empty;
+            }
         }
     }
 }

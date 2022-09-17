@@ -13,7 +13,8 @@ namespace Base.Shared.Database
     {
         public DbSet<ModuleSetting> ModuleSettings { get; set; }
         public DbSet<TreePower> TreePowers { get; set; }
-        
+        public DbSet<Properties> Properties { get; set; }
+
         public BaseDbContext(DbContextOptions options) : base(options)
         {
         }
@@ -22,7 +23,7 @@ namespace Base.Shared.Database
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
 
 
-            modelBuilder.Entity<TreePower>().HasKey(x => x.CodeName);
+            modelBuilder.Entity<TreePower>().HasKey(x => x.Code);
             modelBuilder.Entity<TreePower>().Property(x => x.Name);
             modelBuilder.Entity<TreePower>().Property(x => x.Num);
             modelBuilder.Entity<TreePower>().Property(x => x.IsEndPoint);

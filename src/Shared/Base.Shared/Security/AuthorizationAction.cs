@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,35 +17,24 @@ namespace Base.Shared.Security
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var xd = context.ActionDescriptor;
+            
             var module = context.ActionDescriptor.AttributeRouteInfo.Template;
-            var controller = xd.RouteValues.ToList()[1].Value;
-            var action = xd.RouteValues.ToList()[0].Value;
+            //var controller = context.ActionDescriptor.RouteValues.ToList()[1].Value;
+            //var action = context.ActionDescriptor.RouteValues.ToList()[0].Value;
+            //var role = module + "/" + controller + "/" + action;
+            //string _roleType = context.HttpContext.Request?.Headers["role"].ToString();
 
-            string _roleType = context.HttpContext.Request?.Headers["role"].ToString();
 
-            var a = 0;
-            if (!context.HttpContext.Items.ContainsKey("User"))
-            {
-                context.Result = new JsonResult("Permission denined!");
-            }
+            bool IsAuthorized = context.HttpContext.User.Claims.Any( a => a.Type == ClaimTypes.Role && ( a.Value == module|| a.Value == "admin" ));
+
+            if (!IsAuthorized)
+                context.Result = new ObjectResult(new
+                {
+                    title = "Unauthorized"
+                })
+                {
+                        StatusCode=401
+                };
         }
-        //private readonly string _actionName;
-        //private readonly string _roleType;
-        //public AuthorizationAction(string actionName, string roleType)
-        //{
-        //    _actionName = actionName;
-        //    _roleType = roleType;
-        //}
-        //public void OnAuthorization(AuthorizationFilterContext context)
-        //{
-         
-        //    switch (_actionName)
-        //    {
-        //        case "Index":
-        //            if (!_roleType.Contains("admin")) context.Result = new JsonResult("Permission denined!");
-        //            break;
-        //    }
-        //}
     }
 }

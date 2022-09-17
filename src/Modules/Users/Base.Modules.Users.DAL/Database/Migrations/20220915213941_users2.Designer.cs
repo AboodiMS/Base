@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Users.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Users.DAL.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220915213941_users2")]
+    partial class users2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,10 +174,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             BusinessId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedDate = new DateTime(2022, 9, 16, 20, 49, 51, 537, DateTimeKind.Local).AddTicks(6479),
+                            CreatedDate = new DateTime(2022, 9, 16, 0, 39, 41, 523, DateTimeKind.Local).AddTicks(8491),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "89da29f0-49cc-4da0-8ac9-c53f7bd7026c",
-                            HashPassword = "DJJpnGvvGkZTFX3jPsJf8Q==",
+                            HashCode = "daefa1c4-3a76-4840-a865-c00e213017fc",
+                            HashPassword = "9TaWnWyfbOpW8mvMt8phgA==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,

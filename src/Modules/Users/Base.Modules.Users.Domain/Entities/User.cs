@@ -21,7 +21,7 @@ namespace Base.Modules.Users.Domain.Entities
         public string PhonNum { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;
         [Column(TypeName = "jsonb")]
-        public string[]? Powers { get; set; }=null;
+        public string[]? Powers { get; set; } = null;
         public bool IsActive { get; set; }=true;
         public DateTime? SignOutExpirationDate { get; set; } = null;
     }

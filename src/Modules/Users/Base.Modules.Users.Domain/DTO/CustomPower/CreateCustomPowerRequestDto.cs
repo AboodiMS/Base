@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.DTO.CustomPower
 {
-    public class AddCustomPowerRequestDto
+    public class CreateCustomPowerRequestDto
     {
         [JsonIgnore]
         public Guid Id { get; set; }
@@ -21,6 +21,6 @@ namespace Base.Modules.Users.Domain.DTO.CustomPower
         public string Name { get; set; } = string.Empty;
         [MaxLength(1000)]
         public string Note { get; set; } = string.Empty;
-        public string[]? Powers { get; set; } = null;
+        public string[] Powers { get; set; } = new string[0];
     }
 }

@@ -13,15 +13,21 @@ namespace Base.Modules.Users.Domain.Mappings
     {
         private static List<string> _powers = new List<string>();
 
-        public static GetTreePowerResponseDto AsDto(this TreePower entity, List<string> powers)
+        public static GetTreePowerResponseDto AsDto(this TreePower entity, List<string> powers )
         {
             _powers = powers;
             return setData(entity);
         }
+
+        public static GetTreePowerResponseDto AsDto(this TreePower entity)
+        {
+            return setData(entity);
+        }
+
         private static GetTreePowerResponseDto setData(TreePower entity)
         {      
             GetTreePowerResponseDto dto = new GetTreePowerResponseDto();
-            dto.CodeName=entity.CodeName;
+            dto.CodeName=entity.Code;
             dto.Name=entity.Name;
             dto.Num =entity.Num;
             dto.IsEndPoint=entity.IsEndPoint;
@@ -32,6 +38,7 @@ namespace Base.Modules.Users.Domain.Mappings
             }
             return dto;
         }
+
 
     }
 }

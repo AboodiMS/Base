@@ -18,6 +18,6 @@ namespace Base.Modules.Users.Domain.DTO.User
         public Guid BusinessId { get; set; }
         [Required]
         public bool IsAdmin { get; set; }
-        public string[] Powers { get; set; } = new string[0];
+        public string[]? Powers { get; set; } = new string[0];
     }
 }

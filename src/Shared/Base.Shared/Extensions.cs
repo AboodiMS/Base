@@ -26,7 +26,11 @@ namespace Base.Shared
         public static IServiceCollection AddSharedFramework(this IServiceCollection services, IConfiguration configuration)
         {
 
-            services.AddControllers().AddJsonOptions(options =>
+            services.AddMemoryCache();
+            services.AddCors();
+
+            services.AddControllers()
+                .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
@@ -40,7 +44,7 @@ namespace Base.Shared
             services.AddSingleton<IClock, UtcClock>();
             services.AddSingleton<IDispatcher, InMemoryDispatcher>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            services.AddMvc(options => options.EnableEndpointRouting =true);
             services.AddEndpointsApiExplorer();
             services.AddJwt(configuration);
             services.AddSwaggerOptions();
@@ -51,11 +55,16 @@ namespace Base.Shared
         
         public static IApplicationBuilder UseSharedFramework(this IApplicationBuilder app)
         {
+            app.UseHttpsRedirection();
             app.UseErrorHandling();
+
+            app.UseStaticFiles();
+            app.UseRouting();
+            app.UseCors();
             app.UseJwt();
             app.UseSwaggerOptions();
 
-            app.UseHttpsRedirection();
+           
             return app;
         }
     }

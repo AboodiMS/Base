@@ -6,6 +6,7 @@ using Base.Modules.Users.Domain.DTO.UserSettings;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
 using Base.Modules.Users.Domain.Mappings;
+using Base.Shared.Exceptions.ModulesExceptions;
 using Base.Shared.Helper101;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,22 +20,28 @@ namespace Base.Modules.Users.DAL.Services
     public class UserSettingsService : IUserSettingsService
     {
         private readonly UsersDbContext _dbContext;
-        private readonly ITreePowesService _treePowesService;
 
-        public UserSettingsService(UsersDbContext dbContext,ITreePowesService treePowesService)
+        public UserSettingsService(UsersDbContext dbContext)
         {
             _dbContext = dbContext;
-            _treePowesService = treePowesService;
         }
 
 
         private async Task<User> getById(Guid id, Guid businessId)
         {
-            var entity = await _dbContext.Users.SingleAsync(a => a.Id == id 
-                                                              && a.BusinessId == businessId 
-                                                              && a.IsDeleted == false);
+            var entity = await _dbContext.Users.SingleOrDefaultAsync(a => a.Id == id 
+                                                                       && a.BusinessId == businessId 
+                                                                       && a.IsDeleted == false
+                                                                       && a.IsActive);
             if (entity == null)
-                throw new UserNotFoundException(id);
+            {
+                throw new NotFoundException(new ExceptionData
+                {
+                    TableName = "Users",
+                    PropertieName = "Id",
+                    PropertieValue = id.ToString(),
+                });
+            }
             return entity;
         }
         private async Task<User> getByEmail(string email, Guid businessId)
@@ -42,40 +49,48 @@ namespace Base.Modules.Users.DAL.Services
             email= email.Trim();
             var entity = await _dbContext.Users.SingleAsync(a => a.Email == email
                                                               && a.BusinessId == businessId
-                                                              && a.IsDeleted == false );
+                                                              && a.IsDeleted == false
+                                                              && a.VerifyEmailDate.HasValue
+                                                              && a.IsActive);
             if (entity == null)
-                throw new EmailNotFoundOrNotVerifiedException(email);
-            if(entity.VerifyEmailDate.HasValue == false)
-                throw new EmailNotFoundOrNotVerifiedException(email);
+                if (entity == null)
+                {
+                    throw new NotFoundException(new ExceptionData
+                    {
+                        TableName = "Users",
+                        PropertieName = "Email",
+                        PropertieValue = email,
+                    });
+                }
             return entity;
         }
         private async Task IsEmailExist(Guid id, string email, Guid businessId)
         {
             var resulte= await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.Email == email && a.BusinessId == businessId && a.IsDeleted == false);
+
             if (resulte)
-                throw new EmailExistException(email);
+                throw new ExistException(new ExceptionData
+                {
+                    TableName = "Users",
+                    PropertieName = "Email",
+                    PropertieValue = email,
+                });
         }
-        private async Task<List<string>> getAllRoles(List<string> powers, bool isadmin)
+        private async Task<List<string>> getAllRoles(string[] powers, bool isadmin)
         {
             var roles = new List<string>();
             var _powers = await _dbContext.TreePowers.ToListAsync();
             if (isadmin)
             {
-                foreach (var power in _powers)
-                {
-                    roles.Add(power.CodeName);
-                    var dependsOn = _powers.Where(a => a.CodeName == power.CodeName).First().DependsOn?.ToList();
-                    if (dependsOn != null)
-                        foreach (string subrole in dependsOn)
-                            roles.Add(subrole);
-                }
+                roles.Add("admin");
                 return roles;
             }
+            
             foreach (string power in powers)
             {
                 roles.Add(power);
-                var dependsOn = _powers.Where(a => a.CodeName == power).First().DependsOn?.ToList();
+                var dependsOn = _powers.Where(a => a.Code == power).First().DependsOn?.ToList();
                 if (dependsOn != null)
                     foreach (string subrole in dependsOn)
                         roles.Add(subrole);
@@ -112,34 +127,45 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task<GetUserDetailsResponseDto> GetUserInfo(Guid id, Guid businessId)
         {
-            return (await getById(id, businessId)).AsDto(await _treePowesService.GetAsTreeAsync());
+            return (await getById(id, businessId)).AsDto();
         }
         public async Task<string> LoginUsingUserName(LoginUsingUserNameRequestDto dto)
         {
-            var entity = await _dbContext.Users.SingleAsync(a => a.BusinessId == dto.BusinessId 
-                                                                && a.LoginName == dto.UserName 
-                                                                && a.IsDeleted == false );
-            if (entity == null)
-                throw new ErrorUserNameOrPasswordException();
-           if(entity.HashPassword != dto.Password.Encryption(entity.HashCode))
-                throw new ErrorUserNameOrPasswordException();
-            var tocken = Shared.Security.Extensions.GenerateToken
-                (entity.Id, entity.BusinessId,entity.LoginName, await getAllRoles(entity.Powers.ToList(),entity.IsAdmin));
+            try
+            {
+                var entity = await _dbContext.Users.SingleOrDefaultAsync(a => a.BusinessId == dto.BusinessId
+                                                    && a.LoginName == dto.UserName
+                                                    && a.IsDeleted == false
+                                                    && a.IsActive);
+                if (entity == null)
+                    throw new ErrorUserNameOrPasswordException();
+                if (entity.HashPassword != dto.Password.Encryption(entity.HashCode))
+                    throw new ErrorUserNameOrPasswordException();
+                var tocken = Shared.Security.Extensions.GenerateToken
+                    (entity.Id, entity.BusinessId, entity.LoginName, await getAllRoles(entity.Powers, entity.IsAdmin));
 
-            return tocken.ToString();
+                return tocken.ToString();
+            }
+            
+            catch(Exception ex)
+            {
+                throw;
+            }
+
         }
         public async Task<string> LoginUsingEmail(LoginUsingEmailRequestDto dto)
         {
             var entity = await _dbContext.Users.SingleAsync(a => a.BusinessId == dto.BusinessId
                                                                 && a.Email == dto.Email
-                                                                && a.IsDeleted == false);
+                                                                && a.IsDeleted == false
+                                                                && a.IsActive);
             if (entity == null)
                 throw new ErrorEmailOrPasswordExpcetion();
             if (entity.HashPassword != dto.Password.Encryption(entity.HashCode))
                 throw new ErrorEmailOrPasswordExpcetion();
 
             var tocken = Shared.Security.Extensions.GenerateToken
-                (entity.Id, entity.BusinessId, entity.LoginName, await getAllRoles(entity.Powers.ToList(), entity.IsAdmin));
+                (entity.Id, entity.BusinessId, entity.LoginName, await getAllRoles(entity.Powers, entity.IsAdmin));
 
             return tocken.ToString();
         }
@@ -157,7 +183,7 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task SendVerifyCodeToEmail(Guid id, Guid businessId)
         {
-            var entity = await getById(id,businessId);
+            var entity = await getById(id,businessId); 
             if (string.IsNullOrWhiteSpace(entity.Email))
                 throw new NoEmailException();
             if(entity.VerifyEmailDate.HasValue)
@@ -185,9 +211,5 @@ namespace Base.Modules.Users.DAL.Services
             await MailService.SendMail(entity.Email, "New Password", password);
             await transaction.CommitAsync();
         }
-
-
-        //07724480392
-
     }
 }

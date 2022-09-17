@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Users.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Users.DAL.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220915213421_users1")]
+    partial class users1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,10 +174,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             BusinessId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedDate = new DateTime(2022, 9, 16, 20, 49, 51, 537, DateTimeKind.Local).AddTicks(6479),
+                            CreatedDate = new DateTime(2022, 9, 16, 0, 34, 21, 295, DateTimeKind.Local).AddTicks(6406),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "89da29f0-49cc-4da0-8ac9-c53f7bd7026c",
-                            HashPassword = "DJJpnGvvGkZTFX3jPsJf8Q==",
+                            HashCode = "671a82e9-93be-4ad1-898f-bdfe579c10b3",
+                            HashPassword = "zie8v2dG3rMSSeYsx36JMg==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,
@@ -240,7 +242,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
 
             modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>
                 {
-                    b.Property<string>("Code")
+                    b.Property<string>("CodeName")
                         .HasColumnType("text");
 
                     b.Property<string[]>("DependsOn")
@@ -255,29 +257,26 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<int>("Num")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ParentCode")
-                        .HasColumnType("text");
-
                     b.Property<string>("ParentCodeName")
                         .HasColumnType("text");
 
-                    b.HasKey("Code");
+                    b.HasKey("CodeName");
 
-                    b.HasIndex("ParentCode");
+                    b.HasIndex("ParentCodeName");
 
                     b.ToTable("TreePowers", "users");
 
                     b.HasData(
                         new
                         {
-                            Code = "users-module",
+                            CodeName = "users-module",
                             IsEndPoint = false,
                             Name = "قسم المستخدمين",
                             Num = 1
                         },
                         new
                         {
-                            Code = "users-module/Users",
+                            CodeName = "users-module/Users",
                             IsEndPoint = false,
                             Name = "معلومات المستخدمين",
                             Num = 101,
@@ -285,7 +284,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/GetAll",
+                            CodeName = "users-module/Users/GetAll",
                             IsEndPoint = true,
                             Name = "عرض الكل",
                             Num = 10101,
@@ -293,7 +292,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/GetById",
+                            CodeName = "users-module/Users/GetById",
                             IsEndPoint = true,
                             Name = "عرض",
                             Num = 10102,
@@ -301,7 +300,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/Add",
+                            CodeName = "users-module/Users/Add",
                             IsEndPoint = true,
                             Name = "اضافة",
                             Num = 10103,
@@ -309,7 +308,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/Update",
+                            CodeName = "users-module/Users/Update",
                             DependsOn = new[] { "users-module/Users/GetById" },
                             IsEndPoint = true,
                             Name = "تعديل",
@@ -318,7 +317,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/Delete",
+                            CodeName = "users-module/Users/Delete",
                             DependsOn = new[] { "users-module/Users/GetById" },
                             IsEndPoint = true,
                             Name = "حذف",
@@ -327,7 +326,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         },
                         new
                         {
-                            Code = "users-module/Users/ChangePowers",
+                            CodeName = "users-module/Users/ChangePowers",
                             DependsOn = new[] { "users-module/Users/GetById" },
                             IsEndPoint = true,
                             Name = "تعديل الصلاحيات",
@@ -340,7 +339,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                 {
                     b.HasOne("Base.Shared.Entities.TreePower", "Parent")
                         .WithMany("SubTreePowers")
-                        .HasForeignKey("ParentCode");
+                        .HasForeignKey("ParentCodeName");
 
                     b.Navigation("Parent");
                 });

@@ -50,52 +50,22 @@ namespace Base.Shared.Swagger
 
             services.AddSwaggerGen(c =>
            {
-               //c.EnableAnnotations();
                c.setSwaggerDocs();
 
-               //c.SwaggerDoc("v1", new OpenApiInfo { Title = ProjectTitleSwaggerApi, Version = SwaggerVersion });
                c.AddSecurityDefinition(SecurityName, openApiSecurityScheme);
                c.AddSecurityRequirement(openApiSecurityRequirement);
            });
-
-
-
-            //services.AddSwaggerGen(gen =>
-            //{
-            //    gen.SwaggerDoc("v1", new OpenApiInfo
-            //    {
-            //        Title = "Server API",
-            //        Version = "1.0",
-            //        Description = "This API features all public available endpoints showing different API features."
-            //    });
-            //});
-            //services.AddSwaggerGen(gen =>
-            //{
-            //    gen.SwaggerDoc("v1-internal", new OpenApiInfo
-            //    {
-            //        Title = "Viewer Server API (internal)",
-            //        Version = "v1-internal",
-            //        Description = "This API features all public available endpoints showing different API features."
-            //    });
-            //});
 
             return services;
         }
         public static IApplicationBuilder UseSwaggerOptions(this IApplicationBuilder app)
         {
             app.UseSwagger();
-            //app.UseSwaggerUI();
            
             app.UseSwaggerUI(c =>
             {
-                c.setSwaggerEndPoints();
-               
+                c.setSwaggerEndPoints();              
             });
-
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1-internal/swagger.json", "Viewer Server API v1 (internal)");
-            //});
             return app;
         }
 

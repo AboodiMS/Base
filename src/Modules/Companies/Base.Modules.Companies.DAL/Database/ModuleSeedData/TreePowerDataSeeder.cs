@@ -19,7 +19,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         //--companies-module
                         new TreePower()
                         {
-                            CodeName = "companies-module",
+                            Code = "companies-module",
                             ParentCodeName = null,
                             Name = "قسم الشركة",
                             Num = 01,
@@ -27,7 +27,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "companies-module/Companies",
+                            Code = "companies-module/Companies",
                             ParentCodeName = "companies-module",
                             Name = "معلومات الشركة",
                             Num = 0101,
@@ -35,7 +35,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "companies-module/Companies/GetById",
+                            Code = "companies-module/Companies/GetById",
                             ParentCodeName = "companies-module/Companies",
                             Name = "عرض",
                             Num = 010101,
@@ -43,7 +43,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "companies-module/Companies/Update",
+                            Code = "companies-module/Companies/Update",
                             ParentCodeName = "companies-module/Companies",
                             Name = "تعديل",
                             Num = 010102,
@@ -52,7 +52,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "companies-module/Companies/UpdateActiveSections",
+                            Code = "companies-module/Companies/UpdateActiveSections",
                             ParentCodeName = "companies-module/Companies",
                             Name = "تعديل",
                             Num = 010103,

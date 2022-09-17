@@ -17,7 +17,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                .HasData(
                 new ModuleSetting
                 {
-                    CodeName="users-modules",
+                    Code="users-modules",
                     Name="Users Managament",
                     
                 }

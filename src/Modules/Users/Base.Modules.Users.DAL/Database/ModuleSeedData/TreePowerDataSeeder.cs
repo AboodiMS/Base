@@ -19,7 +19,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         //--users-module
                         new TreePower()
                         {
-                            CodeName = "users-module",
+                            Code = "users-module",
                             ParentCodeName = null,
                             Name = "قسم المستخدمين",
                             Num = 1,
@@ -27,7 +27,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users",
+                            Code = "users-module/Users",
                             ParentCodeName = "users-module",
                             Name = "معلومات المستخدمين",
                             Num = 101,
@@ -35,7 +35,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users/GetAll",
+                            Code = "users-module/Users/GetAll",
                             ParentCodeName = "users-module/Users",
                             Name = "عرض الكل",
                             Num = 10101,
@@ -43,7 +43,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users/GetById",
+                            Code = "users-module/Users/GetById",
                             ParentCodeName = "users-module/Users",
                             Name = "عرض",
                             Num = 10102,
@@ -51,7 +51,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users/Add",
+                            Code = "users-module/Users/Add",
                             ParentCodeName = "users-module/Users",
                             Name = "اضافة",
                             Num = 10103,
@@ -59,7 +59,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users/Update",
+                            Code = "users-module/Users/Update",
                             ParentCodeName = "users-module/Users",
                             Name = "تعديل",
                             Num = 10104,
@@ -68,7 +68,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users/Delete",
+                            Code = "users-module/Users/Delete",
                             ParentCodeName = "users-module/Users",
                             Name = "حذف",
                             Num = 10105,
@@ -77,7 +77,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                         },
                         new TreePower()
                         {
-                            CodeName = "users-module/Users/ChangePowers",
+                            Code = "users-module/Users/ChangePowers",
                             ParentCodeName = "users-module/Users",
                             Name = "تعديل الصلاحيات",
                             Num = 10106,

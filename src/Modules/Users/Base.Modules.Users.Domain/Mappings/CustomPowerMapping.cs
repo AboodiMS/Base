@@ -1,6 +1,7 @@
 ﻿using Base.Modules.Users.Domain.DTO.CustomPower;
 using Base.Modules.Users.Domain.DTO.TreePower;
 using Base.Modules.Users.Domain.Entities;
+using Base.Shared.Database;
 using Base.Shared.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,25 +13,31 @@ namespace Base.Modules.Users.Domain.Mappings
 {
     public static class CustomPowerMapping
     {
-        public static GetCustomPowerDetailsResponseDto AsDto(this CustomPower entity, List<TreePower> TreePowers)
+        public static GetCustomPowerDetailsResponseDto AsDto(this CustomPower entity)
         {
             GetCustomPowerDetailsResponseDto dto = new GetCustomPowerDetailsResponseDto();
-
             dto.Id = entity.Id;
             dto.Name = entity.Name;
             dto.Note = entity.Note;
-            dto.Powers = TreePowers.Select(a=> a.AsDto(entity.Powers.ToList())).ToList();
+            dto.Powers = BaseModulesData.TreePowers.Select(a => a.AsDto(entity.Powers.ToList())).ToList();
             return dto;
         }
-        public static GetCustomPowerResponseDto AsDto(this CustomPower entity)
+        public static List<GetCustomPowerResponseDto> AsDto(this List<CustomPower> entities)
         {
-            GetCustomPowerResponseDto dto = new GetCustomPowerResponseDto();
-            dto.Id = entity.Id;
-            dto.Name = entity.Name;
-            return dto;
+            List<GetCustomPowerResponseDto> dtos = new List<GetCustomPowerResponseDto>();
+            foreach(var entity in entities)
+            {
+                dtos.Add(new GetCustomPowerResponseDto
+                {
+                    Id = entity.Id,
+                    Name = entity.Name,
+                    Note=entity.Note,
+                });
+            }         
+            return dtos;
         }
 
-        public static CustomPower AsEntity(this AddCustomPowerRequestDto dto)
+        public static CustomPower AsEntity(this CreateCustomPowerRequestDto dto)
                 => new CustomPower
                 {
                         Id = dto.Id,

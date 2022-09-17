@@ -25,6 +25,7 @@ namespace Base.Shared.Security
 
         public static IServiceCollection AddJwt(this IServiceCollection services, IConfiguration configuration)
         {
+
             SymmetricKey = configuration[$"{SectionName}:{nameof(JwtOptions.SymmetricKey)}"];
             Issuer = configuration[$"{SectionName}:{nameof(JwtOptions.Issuer)}"];
             Audience = configuration[$"{SectionName}:{nameof(JwtOptions.Audience)}"];
@@ -88,7 +89,7 @@ namespace Base.Shared.Security
             claims.Add(new Claim("Guid", Guid.NewGuid().ToString()));
             claims.Add(new Claim("UserId", id.ToString()));
             claims.Add(new Claim("UserName", username));
-            claims.Add(new Claim("Businessid", businessid.ToString()));
+            claims.Add(new Claim("BusinessId", businessid.ToString()));
             foreach (var role in roles)
                 claims.Add(new Claim(ClaimTypes.Role, role));
             return claims;

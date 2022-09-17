@@ -21,13 +21,13 @@ namespace Base.Shared.Database
             try
             {
                 List<TreePower> treePowers = await db.Set<TreePower>().ToListAsync();
-                TreePower row = treePowers.Where(a => a.CodeName.Count(f => (f == '/')) == 1).FirstOrDefault();
+                TreePower row = treePowers.Where(a => a.Code.Count(f => (f == '/')) == 1).FirstOrDefault();
                 List<TreePower> all = db.Set<TreePower>().Include(x => x.Parent).ToList();
-                TreeExtensions.ITree<TreePower> virtualRootNode = all.ToTree((parent, child) => child.ParentCodeName == parent.CodeName);
+                TreeExtensions.ITree<TreePower> virtualRootNode = all.ToTree((parent, child) => child.ParentCodeName == parent.Code);
                 List<TreeExtensions.ITree<TreePower>> rootLevelFoldersWithSubTree = virtualRootNode.Children.ToList();
                 List<TreeExtensions.ITree<TreePower>> flattenedListOfFolderNodes = virtualRootNode.Children.Flatten(node => node.Children).ToList();
                 // Each Folder entity can be retrieved via node.Data property:
-                TreeExtensions.ITree<TreePower> folderNode = flattenedListOfFolderNodes.First(node => node.Data.CodeName == row?.CodeName);
+                TreeExtensions.ITree<TreePower> folderNode = flattenedListOfFolderNodes.First(node => node.Data.Code == row?.Code);
                 TreePower folder = folderNode.Data;
                 int level = folderNode.Level;
                 bool isLeaf = folderNode.IsLeaf;

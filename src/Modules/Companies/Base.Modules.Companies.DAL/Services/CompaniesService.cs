@@ -68,8 +68,6 @@ namespace Base.Modules.Companies.DAL.Services
         public async Task UpdateActiveSections(UpdateActiveSectionsCompanyRequestDto dto)
         {
             var entity = await getById(dto.Id);
-            if (dto.ActiveSections is null)
-                throw new InvalidCompanyActiveSectionsException();
             _dbContext.Companies.Update(dto.AsEntity(entity));
             await _dbContext.SaveChangesAsync();
         }

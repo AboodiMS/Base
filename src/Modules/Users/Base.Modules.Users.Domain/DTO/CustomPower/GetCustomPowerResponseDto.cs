@@ -10,5 +10,6 @@ namespace Base.Modules.Users.Domain.DTO.CustomPower
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string Note { get; set; } = string.Empty;
     }
 }

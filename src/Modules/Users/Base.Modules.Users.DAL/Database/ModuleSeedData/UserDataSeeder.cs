@@ -37,7 +37,7 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                        PhonNum = string.Empty,
                        Note = string.Empty,
                        Powers=null,
-                       IsActive=true,
+                       IsActive =true,
                        SignOutExpirationDate=null
                    }
                 );

@@ -20,7 +20,7 @@ namespace Base.Modules.Users.DAL
             services.AddPostgres<UsersDbContext>();
             services.AddTransient<ITreePowesService, TreePowesService>();
             services.AddTransient<ICustomPowersService, CustomPowerService>();
-            services.AddTransient<IUsersService<GetUserResponseDto, GetUserDetailsResponseDto, AddUserRequestDto, UpdateUserRequestDto>, UsersService>();
+            services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserSettingsService, UserSettingsService>();
             return services;
         }

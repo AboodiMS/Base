@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace Base.Shared.Entities
 {
-    public class ModuleSetting
+    public class Properties
     {
         [Key]
         public string Code { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        [Column(TypeName = "jsonb")]    
-        public object Setting { get; set; }
+        public string TableName { get; set; }
+        [Column(TypeName = "jsonb")]
+        public string Data { get; set; }
+        [Timestamp]
+        public byte[] IsRowVersion { get; set; }
     }
 }

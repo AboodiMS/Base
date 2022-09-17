@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.DTO.User
 {
-    public class AddUserRequestDto
+    public class CreateUserRequestDto
     {
         [JsonIgnore]
         public Guid Id { get; set; }
@@ -35,7 +35,7 @@ namespace Base.Modules.Users.Domain.DTO.User
         public string PhonNum { get; set; } = string.Empty;
         [MaxLength(500)]
         public string Note { get; set; } = string.Empty;
-        public string[] Powers { get; set; } = new string[0];
+        public string[]? Powers { get; set; } = new string[0];
         [Required]
         public bool IsActive { get; set; }
     }

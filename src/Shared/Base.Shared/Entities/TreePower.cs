@@ -11,7 +11,7 @@ namespace Base.Shared.Entities
     public class TreePower
     {
         [Key]
-        public string CodeName { get; set; } 
+        public string Code { get; set; } 
         public int Num { get; set; }
         public string Name { get; set; } 
         public bool IsEndPoint { get; set; }

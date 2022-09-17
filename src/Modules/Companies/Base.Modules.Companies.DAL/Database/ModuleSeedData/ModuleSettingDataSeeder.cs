@@ -17,7 +17,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                .HasData(
                 new ModuleSetting
                 {
-                    CodeName="companies-modules",
+                    Code="companies-modules",
                     Name="Companies Managament",                   
                 }
 

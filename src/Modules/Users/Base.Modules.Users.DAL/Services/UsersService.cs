@@ -4,6 +4,7 @@ using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
 using Base.Modules.Users.Domain.Mappings;
+using Base.Shared.Exceptions.ModulesExceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,16 +14,13 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.DAL.Services
 {
-    public class UsersService : 
-        IUsersService<GetUserResponseDto,GetUserDetailsResponseDto, AddUserRequestDto, UpdateUserRequestDto>
+    public class UsersService :  IUsersService
     {
         private readonly UsersDbContext _dbContext;
-        private readonly ITreePowesService _treePowesService;
 
-        public UsersService(UsersDbContext dbContext, ITreePowesService treePowesService)
+        public UsersService(UsersDbContext dbContext)
         {
             _dbContext = dbContext;
-            _treePowesService = treePowesService;
         }
 
 
@@ -30,31 +28,58 @@ namespace Base.Modules.Users.DAL.Services
         {
             var entity = await _dbContext.Users.SingleAsync(a => a.Id == id && a.BusinessId == businessId && a.IsDeleted == false);
             if (entity == null)
-                throw new UserNotFoundException(id);
+            {
+                throw new NotFoundException(new ExceptionData
+                {
+                    TableName = "Users",
+                    PropertieName = "Id",
+                    PropertieValue= id.ToString(),
+                }); 
+            }
             return entity;
         }
         private async Task IsNameExist(Guid id, string name, Guid businessId)
         {
-            var resulte= await _dbContext.Users
+            var hasResulte= await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.Name == name && a.BusinessId == businessId && a.IsDeleted == false);
 
-            throw new NameExistException(name);
+            if(hasResulte)
+                throw new ExistException(new ExceptionData
+                {
+                    TableName = "Users",
+                    PropertieName = "Name",
+                    PropertieValue = name,
+                });
         }
         private async Task IsUserNameExist(Guid id, string username, Guid businessId)
         {
-            var resulte = await _dbContext.Users
+            var hasResulte = await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.LoginName == username && a.BusinessId == businessId && a.IsDeleted == false);
-            throw new UserNameExistException(username);
+
+            if (hasResulte)
+                throw new ExistException(new ExceptionData
+                {
+                    TableName = "Users",
+                    PropertieName = "UserName",
+                    PropertieValue = username,
+                });
         }
         private async Task IsEmailExist(Guid id, string email, Guid businessId)
         {
-            var resulte = await _dbContext.Users
+            var hasResulte = await _dbContext.Users
                 .AnyAsync(a => a.Id != id && a.Email == email && a.BusinessId == businessId && a.IsDeleted == false);
-            throw new EmailExistException(email);
+
+            if (hasResulte)
+                throw new ExistException(new ExceptionData
+                {
+                    TableName = "Users",
+                    PropertieName = "Email",
+                    PropertieValue = email,
+                });
         }
 
 
-        public async Task Create(AddUserRequestDto dto)
+        public async Task Create(CreateUserRequestDto dto)
         {
             await IsNameExist(dto.Id, dto.Name, dto.BusinessId);
             await IsUserNameExist(dto.Id, dto.UserName, dto.BusinessId);
@@ -80,14 +105,13 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task<List<GetUserResponseDto>> GetAll(Guid businessId)
         {
-           return await _dbContext.Users.Where(x => x.BusinessId == businessId && x.IsDeleted == false)
-                                  .Select(a=>a.AsDto())
-                                  .ToListAsync();
+            var entities = await _dbContext.Users.Where(x => x.BusinessId == businessId && x.IsDeleted == false).ToListAsync();
+            return entities.AsDto();
         }
         public async Task<GetUserDetailsResponseDto> GetById(Guid id,Guid businessId)
         {
             var entity = await getById(id, businessId);
-            return entity.AsDto(await _treePowesService.GetAsTreeAsync());
+            return entity.AsDto();
         }
         public async Task Update(UpdateUserRequestDto dto)
         {

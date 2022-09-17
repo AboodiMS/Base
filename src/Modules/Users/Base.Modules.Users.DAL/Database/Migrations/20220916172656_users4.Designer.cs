@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Users.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Users.DAL.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220916172656_users4")]
+    partial class users4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,10 +174,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             BusinessId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedDate = new DateTime(2022, 9, 16, 20, 49, 51, 537, DateTimeKind.Local).AddTicks(6479),
+                            CreatedDate = new DateTime(2022, 9, 16, 20, 26, 55, 752, DateTimeKind.Local).AddTicks(489),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "89da29f0-49cc-4da0-8ac9-c53f7bd7026c",
-                            HashPassword = "DJJpnGvvGkZTFX3jPsJf8Q==",
+                            HashCode = "01edd596-3ebf-4303-aa08-c79512b9dce1",
+                            HashPassword = "WTCzTVysUd4iH0ed8thCNw==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,
@@ -183,6 +185,7 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                             Name = "admin",
                             Note = "",
                             PhonNum = "",
+                            Powers = new string[0],
                             VerifyEmailCode = ""
                         });
                 });

@@ -1,6 +1,7 @@
 ﻿using Base.Modules.Users.Domain.DTO.TreePower;
 using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.Entities;
+using Base.Shared.Database;
 using Base.Shared.Entities;
 using Base.Shared.Helper101;
 
@@ -8,7 +9,7 @@ namespace Base.Modules.Users.Domain.Mappings
 {
     public static class UserMapping
     {
-        public static User AsEntity(this AddUserRequestDto dto)
+        public static User AsEntity(this CreateUserRequestDto dto)
         {
             var entity=new User();        
 
@@ -70,7 +71,7 @@ namespace Base.Modules.Users.Domain.Mappings
 
             return entity;
         }
-        public static GetUserDetailsResponseDto AsDto(this User entity, List<TreePower> TreePowers)
+        public static GetUserDetailsResponseDto AsDto(this User entity)
         {
             GetUserDetailsResponseDto dto=new GetUserDetailsResponseDto();
             dto.Id = entity.Id;
@@ -85,23 +86,30 @@ namespace Base.Modules.Users.Domain.Mappings
 
             dto.Powers = new List<GetTreePowerResponseDto>();
             if (entity.Powers != null)
-                dto.Powers = TreePowers.Select(a=>a.AsDto(entity.Powers.ToList())).ToList();
+                dto.Powers = BaseModulesData.TreePowers.Select(a=>a.AsDto(entity.Powers.ToList())).ToList();
 
             return dto;
         }
-        public static GetUserResponseDto AsDto(this User entity)
+        public static List<GetUserResponseDto> AsDto(this List<User> entities)
         {
-            GetUserResponseDto dto = new GetUserResponseDto();
-            dto.Id = entity.Id;
-            dto.UserName = entity.LoginName;
-            dto.Name = entity.Name;
-            dto.Email = entity.Email;
-            dto.IsAdmin = entity.IsAdmin;
-            dto.PhonNum = entity.PhonNum;
-            dto.IsEmailVerified = entity.VerifyEmailDate.HasValue;
-            dto.IsActive = entity.IsActive;
+            List<GetUserResponseDto> dtos = new List<GetUserResponseDto>();
 
-            return dto;
+            foreach(var entity in entities)
+            {
+                dtos.Add(new GetUserResponseDto
+                {
+                    Id = entity.Id,
+                    UserName = entity.LoginName,
+                    Name = entity.Name,
+                    Email = entity.Email,
+                    IsAdmin = entity.IsAdmin,
+                    PhonNum = entity.PhonNum,
+                    IsEmailVerified = entity.VerifyEmailDate.HasValue,
+                    IsActive = entity.IsActive,
+                });
+            }
+
+            return dtos;
         }
     }
 }
