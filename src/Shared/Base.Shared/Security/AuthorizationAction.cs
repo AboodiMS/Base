@@ -23,8 +23,6 @@ namespace Base.Shared.Security
             //var action = context.ActionDescriptor.RouteValues.ToList()[0].Value;
             //var role = module + "/" + controller + "/" + action;
             //string _roleType = context.HttpContext.Request?.Headers["role"].ToString();
-
-
             bool IsAuthorized = context.HttpContext.User.Claims.Any( a => a.Type == ClaimTypes.Role && ( a.Value == module|| a.Value == "admin" ));
 
             if (!IsAuthorized)

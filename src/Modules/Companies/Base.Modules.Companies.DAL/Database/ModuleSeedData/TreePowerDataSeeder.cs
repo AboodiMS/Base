@@ -20,7 +20,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         new TreePower()
                         {
                             Code = "companies-module",
-                            ParentCodeName = null,
+                            ParentCode = null,
                             Name = "قسم الشركة",
                             Num = 01,
                             IsEndPoint = false,
@@ -28,7 +28,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         new TreePower()
                         {
                             Code = "companies-module/Companies",
-                            ParentCodeName = "companies-module",
+                            ParentCode = "companies-module",
                             Name = "معلومات الشركة",
                             Num = 0101,
                             IsEndPoint = false,
@@ -36,7 +36,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         new TreePower()
                         {
                             Code = "companies-module/Companies/GetById",
-                            ParentCodeName = "companies-module/Companies",
+                            ParentCode = "companies-module/Companies",
                             Name = "عرض",
                             Num = 010101,
                             IsEndPoint = true,
@@ -44,7 +44,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         new TreePower()
                         {
                             Code = "companies-module/Companies/Update",
-                            ParentCodeName = "companies-module/Companies",
+                            ParentCode = "companies-module/Companies",
                             Name = "تعديل",
                             Num = 010102,
                             IsEndPoint = true,
@@ -53,7 +53,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         new TreePower()
                         {
                             Code = "companies-module/Companies/UpdateActiveSections",
-                            ParentCodeName = "companies-module/Companies",
+                            ParentCode = "companies-module/Companies",
                             Name = "تعديل",
                             Num = 010103,
                             IsEndPoint = true,

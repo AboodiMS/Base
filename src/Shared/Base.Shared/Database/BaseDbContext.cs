@@ -29,7 +29,7 @@ namespace Base.Shared.Database
             modelBuilder.Entity<TreePower>().Property(x => x.IsEndPoint);
             modelBuilder.Entity<TreePower>().HasOne(x => x.Parent)
                                             .WithMany(x => x.SubTreePowers)
-                                            .HasForeignKey(x => x.ParentCodeName)
+                                            .HasForeignKey(x => x.ParentCode)
                                             .IsRequired(false)
                                             .OnDelete(DeleteBehavior.Restrict);
         }
