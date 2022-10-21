@@ -13,14 +13,7 @@ namespace Base.Modules.Users.DAL.Services
 {
     public class TreePowesService : ITreePowesService
     {
-        private readonly UsersDbContext _dbContext;
-        private readonly IServiceProvider _serviceProvider;
 
-        public TreePowesService(IServiceProvider serviceProvider,UsersDbContext dbContext)
-        {
-            _serviceProvider = serviceProvider;
-            _dbContext = dbContext;
-        }
 
 
         public List<GetTreePowerResponseDto> GetAll()

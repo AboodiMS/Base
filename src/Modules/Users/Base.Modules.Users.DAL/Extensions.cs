@@ -3,6 +3,7 @@ using Base.Modules.Users.DAL.Services;
 using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.IServices;
 using Base.Shared.Database;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -24,5 +25,6 @@ namespace Base.Modules.Users.DAL
             services.AddTransient<IUserSettingsService, UserSettingsService>();
             return services;
         }
+
     }
 }

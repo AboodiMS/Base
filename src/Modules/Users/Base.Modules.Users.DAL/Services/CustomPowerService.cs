@@ -1,4 +1,5 @@
-﻿using Base.Modules.Users.DAL.Database;
+﻿
+using Base.Modules.Users.DAL.Database;
 using Base.Modules.Users.Domain.DTO.CustomPower;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
@@ -18,11 +19,15 @@ namespace Base.Modules.Users.DAL.Services
 
         private readonly UsersDbContext _dbContext;
         private readonly LoggerService _loggerService;
+        //private readonly IErrorLoggerService _errorLoggerService;
 
-        public CustomPowerService(UsersDbContext dbContext)
+        public CustomPowerService(UsersDbContext dbContext
+            //, IErrorLoggerService errorLoggerService
+            )
         {
             _dbContext = dbContext;
             _loggerService = new LoggerService(dbContext);
+            //_errorLoggerService = errorLoggerService;
         }
 
         private async Task<CustomPower> getById(Guid id, Guid businessId)
@@ -73,14 +78,14 @@ namespace Base.Modules.Users.DAL.Services
             }
             catch(Exception ex)
             {
-                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
-                {
-                    Action = nameof(Create),
-                    BusinessId = dto.BusinessId,
-                    InputData = dto,
-                    Class= nameof(CustomPowerService),
-                    Exception=ex
-                });
+               //await _errorLoggerService.CatchUnhandledException(new CreateErrorLoggerDto
+               // {
+               //     Action = nameof(Create),
+               //     BusinessId = dto.BusinessId,
+               //     InputData = dto,
+               //     Class= nameof(CustomPowerService),
+               //     Exception=ex
+               // });
                 throw;
             }
         }
@@ -96,14 +101,14 @@ namespace Base.Modules.Users.DAL.Services
             }
             catch(Exception ex)
             {
-                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
-                {
-                    Action = nameof(Delete),
-                    BusinessId = businessId,
-                    InputData = new { Id = id, BusinessId = businessId },
-                    Class = nameof(CustomPowerService),
-                    Exception = ex
-                });
+                //await _errorLoggerService.CatchUnhandledException(new CreateErrorLoggerDto
+                //{
+                //    Action = nameof(Delete),
+                //    BusinessId = businessId,
+                //    InputData = new { Id = id, BusinessId = businessId },
+                //    Class = nameof(CustomPowerService),
+                //    Exception = ex
+                //});
                 throw;
             }
         }
@@ -117,14 +122,14 @@ namespace Base.Modules.Users.DAL.Services
             }
             catch(Exception ex)
             {
-                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
-                {
-                    Action = nameof(GetById),
-                    BusinessId = businessId,
-                    InputData = new {Id = id, BusinessId=businessId},
-                    Class = nameof(CustomPowerService),
-                    Exception = ex
-                });
+                //await _errorLoggerService.CatchUnhandledException(new CreateErrorLoggerDto
+                //{
+                //    Action = nameof(GetById),
+                //    BusinessId = businessId,
+                //    InputData = new {Id = id, BusinessId=businessId},
+                //    Class = nameof(CustomPowerService),
+                //    Exception = ex
+                //});
                 throw;
             }
         }
@@ -149,14 +154,14 @@ namespace Base.Modules.Users.DAL.Services
             }
             catch(Exception ex)
             {
-                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
-                {
-                    Action = nameof(Update),
-                    BusinessId = dto.BusinessId,
-                    InputData = dto,
-                    Class = nameof(CustomPowerService),
-                    Exception = ex
-                });
+                //await _errorLoggerService.CatchUnhandledException(new CreateErrorLoggerDto
+                //{
+                //    Action = nameof(Update),
+                //    BusinessId = dto.BusinessId,
+                //    InputData = dto,
+                //    Class = nameof(CustomPowerService),
+                //    Exception = ex
+                //});
                 throw;
             }
         }
@@ -170,14 +175,14 @@ namespace Base.Modules.Users.DAL.Services
             }
             catch(Exception ex)
             {
-                _loggerService.CatchUnhandledException(new AddErrorLoggerDto
-                {
-                    Action = nameof(GetAll),
-                    BusinessId = businessId,
-                    InputData = new {BusinessId = businessId},
-                    Class = nameof(CustomPowerService),
-                    Exception = ex
-                });
+                //await _errorLoggerService.CatchUnhandledException(new CreateErrorLoggerDto
+                //{
+                //    Action = nameof(GetAll),
+                //    BusinessId = businessId,
+                //    InputData = new {BusinessId = businessId},
+                //    Class = nameof(CustomPowerService),
+                //    Exception = ex
+                //});
                 throw;
             }
         }

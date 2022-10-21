@@ -20,28 +20,12 @@ namespace Base.Modules.Users.DAL.Services
         {
             _dbContext = dbContext;
         }
-        private async Task AddErrorLogger(AddErrorLoggerDto dto)
-        {
-            await _dbContext.ErrorLogger.AddAsync(dto.AsEntity());
-            await _dbContext.SaveChangesAsync();
-        }
+    
         public async Task AddActionLogger(AddActionLoggerDto dto)
         {
             await _dbContext.ActionLogger.AddAsync(dto.AsEntity());
             await _dbContext.SaveChangesAsync();
         }
-        public async void CatchUnhandledException(AddErrorLoggerDto dto)
-        {
-            switch (dto.Exception)
-            {
-                case DbUpdateConcurrencyException:
-                    break;
-                case BaseException:
-                    break;
-                case Exception:
-                    await AddErrorLogger(dto);
-                    break;
-            }
-        }
+
     }
 }

@@ -17,6 +17,7 @@ namespace Base.Modules.Users.DAL.Database.Configurations
             builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Note).HasMaxLength(1000);
             builder.Property(x => x.Powers);
+            builder.UseXminAsConcurrencyToken();
         }
     }
 }

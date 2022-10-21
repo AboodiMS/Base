@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Companies.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Companies.DAL.Database.Migrations
 {
     [DbContext(typeof(CompaniesDbContext))]
-    partial class CompaniesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220920194625_companies11")]
+    partial class companies11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
-                            CreatedDate = new DateTime(2022, 9, 23, 12, 9, 59, 535, DateTimeKind.Local).AddTicks(4382),
+                            CreatedDate = new DateTime(2022, 9, 20, 22, 46, 25, 621, DateTimeKind.Local).AddTicks(2882),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
                             Name = "اسم الشركة",
@@ -134,6 +136,35 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ActionLogger", "companies");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ErrorLogger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Class")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Exception")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("InputData")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ErrorLogger", "companies");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>

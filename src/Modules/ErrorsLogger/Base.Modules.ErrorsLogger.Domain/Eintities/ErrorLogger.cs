@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Shared.Entities
+namespace Base.Modules.ErrorsLogger.Domain.Entities
 {
     public class ErrorLogger
     {
@@ -14,10 +14,10 @@ namespace Base.Shared.Entities
         public Guid Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid BusinessId { get; set; }
-        public object InputData { get; set; }
+        public string InputData { get; set; }
         public string Class { get; set; }
         public string Action { get; set; }
         [Column(TypeName = "jsonb")]
-        public object Exception { get; set; }
+        public string Exception { get; set; }
     }
 }

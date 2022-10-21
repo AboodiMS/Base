@@ -1,5 +1,6 @@
 ﻿using Base.Shared.DTO.Logger;
 using Base.Shared.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,18 +22,6 @@ namespace Base.Shared.Mappings
             ObjectId=dto.ObjectId,
             Table=dto.Table,
             UserId=dto.UserId,
-        };
-
-        public static ErrorLogger AsEntity(this AddErrorLoggerDto dto)
-        => new ErrorLogger
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.Now,
-            Action = dto.Action,
-            BusinessId = dto.BusinessId,
-            Exception = dto.Exception,
-            InputData = dto.InputData,
-            Class = dto.Class,
         };
 
     }

@@ -2,8 +2,10 @@
 using Base.Modules.Users.Domain.IServices;
 using Base.Shared.Controllers;
 using Base.Shared.Database;
+using Base.Shared.Exceptions;
 using Base.Shared.Security;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -42,14 +44,30 @@ namespace Base.Modules.Users.Api.Controllers
 
         [HttpPost]
         [Route("Create")]
-        [AuthorizationAction]
+        //[AuthorizationAction]
         public async Task<ActionResult> Create([FromForm] CreateUserRequestDto dto)
         {
-            dto.Id = Guid.NewGuid();
-            dto.UserId = _userId;
-            dto.BusinessId = _businessId;
-            await _usersService.Create(dto);
-            return Ok(dto.Id);
+            try
+            {
+                dto.Id = Guid.NewGuid();
+                dto.UserId = _userId;
+                dto.BusinessId = _businessId;
+                await _usersService.Create(dto);
+                return Ok(dto.Id);
+            }
+            catch(Exception ex)
+            {
+                switch (ex)
+                {
+                    case DbUpdateConcurrencyException:
+                        return Ok(ex.Message);
+                    case BaseException:
+                        return Ok(ex.Message);
+                    default:
+                        return Ok(ex.Message);
+                }
+            }
+
         }
 
         [HttpPut]

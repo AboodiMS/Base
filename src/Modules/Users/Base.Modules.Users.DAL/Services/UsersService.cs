@@ -106,7 +106,7 @@ namespace Base.Modules.Users.DAL.Services
         }
         public async Task<List<GetUserResponseDto>> GetAll(Guid businessId)
         {
-            Test();
+            //Test();
             var entities = await _dbContext.Users.Where(x => x.BusinessId == businessId && x.IsDeleted == false).ToListAsync();
             return entities.AsDto();
         }
@@ -127,47 +127,47 @@ namespace Base.Modules.Users.DAL.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        private void Test()
-        {
-            try
-            {
-                var context1 = new UsersDbContext(new DbContextOptionsBuilder<UsersDbContext>()
-                          .UseNpgsql("Host=localhost;Database=Base;Username=postgres;Password=123@a")
-                          .Options);
-                var contactFromContext1 = context1.Users
-                                                  .FirstOrDefault(c => c.Name == "Test");
-                if (contactFromContext1 == null)
-                {
-                    contactFromContext1 = new User
-                    {
-                        Name = "Test"
-                    };
-                    context1.Add(contactFromContext1);
-                    context1.SaveChanges();
-                }
-                var context2 =
-                    new UsersDbContext(new DbContextOptionsBuilder<UsersDbContext>()
-                                          .UseNpgsql("Host=localhost;Database=Base;Username=postgres;Password=123@a")
-                                          .Options);
-                var contactFromContext2 = context2.Users
-                                                  .FirstOrDefault(c => c.Name == "Test");
-                contactFromContext1.Note = DateTime.Now.ToString();
-                contactFromContext2.Note = DateTime.UtcNow.ToString();
+        //private void Test()
+        //{
+        //    try
+        //    {
+        //        var context1 = new UsersDbContext(new DbContextOptionsBuilder<UsersDbContext>()
+        //                  .UseNpgsql("Host=localhost;Database=Base;Username=postgres;Password=123@a")
+        //                  .Options);
+        //        var contactFromContext1 = context1.Users
+        //                                          .FirstOrDefault(c => c.Name == "Test");
+        //        if (contactFromContext1 == null)
+        //        {
+        //            contactFromContext1 = new User
+        //            {
+        //                Name = "Test"
+        //            };
+        //            context1.Add(contactFromContext1);
+        //            context1.SaveChanges();
+        //        }
+        //        var context2 =
+        //            new UsersDbContext(new DbContextOptionsBuilder<UsersDbContext>()
+        //                                  .UseNpgsql("Host=localhost;Database=Base;Username=postgres;Password=123@a")
+        //                                  .Options);
+        //        var contactFromContext2 = context2.Users
+        //                                          .FirstOrDefault(c => c.Name == "Test");
+        //        contactFromContext1.Note = DateTime.Now.ToString();
+        //        contactFromContext2.Note = DateTime.UtcNow.ToString();
 
-                context1.SaveChanges();
-                context2.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                throw;
-            }
-            //catch (Exception ex)
-            //{
+        //        context1.SaveChanges();
+        //        context2.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException ex)
+        //    {
+        //        throw;
+        //    }
+        //    //catch (Exception ex)
+        //    //{
 
-            //}
+        //    //}
 
 
-        }
+        //}
 
     }
 }

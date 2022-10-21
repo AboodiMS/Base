@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Users.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Users.DAL.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220920195240_users29")]
+    partial class users29
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,10 +174,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             BusinessId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedDate = new DateTime(2022, 9, 23, 12, 6, 51, 272, DateTimeKind.Local).AddTicks(5126),
+                            CreatedDate = new DateTime(2022, 9, 20, 22, 52, 39, 996, DateTimeKind.Local).AddTicks(9614),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "892a0d90-dcd5-4346-a273-b45d21727e17",
-                            HashPassword = "+3yQiyQ6GawZDccEF9TdWw==",
+                            HashCode = "1afab93f-8313-402d-b89c-a67c1580083b",
+                            HashPassword = "TAlzPTnHqbbZHMYUzBQbsA==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,
@@ -218,6 +220,35 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ActionLogger", "users");
+                });
+
+            modelBuilder.Entity("Base.Shared.Entities.ErrorLogger", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Action")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("BusinessId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Class")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Exception")
+                        .HasColumnType("jsonb");
+
+                    b.Property<string>("InputData")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ErrorLogger", "users");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>

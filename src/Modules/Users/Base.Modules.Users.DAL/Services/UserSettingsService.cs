@@ -1,4 +1,5 @@
-﻿using Base.Modules.Users.DAL.Database;
+﻿
+using Base.Modules.Users.DAL.Database;
 using Base.Modules.Users.DAL.Exceptions.User;
 using Base.Modules.Users.DAL.Exceptions.UserSettings;
 using Base.Modules.Users.Domain.DTO.User;
@@ -6,6 +7,7 @@ using Base.Modules.Users.Domain.DTO.UserSettings;
 using Base.Modules.Users.Domain.Entities;
 using Base.Modules.Users.Domain.IServices;
 using Base.Modules.Users.Domain.Mappings;
+using Base.Shared.DTO.Logger;
 using Base.Shared.Exceptions.ModulesExceptions;
 using Base.Shared.Helper101;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +22,16 @@ namespace Base.Modules.Users.DAL.Services
     public class UserSettingsService : IUserSettingsService
     {
         private readonly UsersDbContext _dbContext;
+        private readonly LoggerService _loggerService;
+        //private readonly IErrorLoggerService _errorLoggerService;
 
-        public UserSettingsService(UsersDbContext dbContext)
+        public UserSettingsService(UsersDbContext dbContext
+            //, IErrorLoggerService errorLoggerService
+            )
         {
             _dbContext = dbContext;
+            _loggerService = new LoggerService(dbContext);
+            //_errorLoggerService = errorLoggerService;
         }
 
 
@@ -101,29 +109,53 @@ namespace Base.Modules.Users.DAL.Services
 
         public async Task ChangeEmail(Guid id, Guid businessId, string email)
         {
-            var entity = await getById(id, businessId);
-            email = email.Trim();
-            if (entity.Email==email)
-                return;
-            await IsEmailExist(id, email, businessId);
-            entity.Email = email;
-            entity.VerifyEmailCode = "";
-            entity.VerifyEmailDate = null;
 
-            entity.LastUpdateDate = DateTime.Now;
-            entity.LastUpdateUserId = id;
-            await _dbContext.SaveChangesAsync();
+            try
+            {
+                var entity = await getById(id, businessId);
+                email = email.Trim();
+                if (entity.Email == email)
+                    return;
+                await IsEmailExist(id, email, businessId);
+                entity.Email = email;
+                entity.VerifyEmailCode = "";
+                entity.VerifyEmailDate = null;
+
+                entity.LastUpdateDate = DateTime.Now;
+                entity.LastUpdateUserId = id;
+                await _dbContext.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                //await _errorLoggerService.CatchUnhandledException(new CreateErrorLoggerDto
+                //{
+                //    Action = nameof(ChangeEmail),
+                //    BusinessId = businessId,
+                //    InputData = new { Id = id, BusinessId = businessId },
+                //    Class = nameof(CustomPowerService),
+                //    Exception = ex
+                //});
+                throw;
+            }
+
         }
         public async Task ChangePassword(ChangePasswordRequestDto dto)
         {
 
-            if (dto.NewPassword.Trim() != dto.ConfirmNewPassword.Trim())
-                throw new NewPasswordNotMatchException();
-            var entity = await getById(dto.Id, dto.BusinessId);
-            if (entity.HashPassword.Decryption(entity.HashCode) != dto.OldPassword)
-                throw new OldPasswordNotMatchException();
-            dto.AsEntity(entity);
-            await _dbContext.SaveChangesAsync();            
+            try
+            {
+                if (dto.NewPassword.Trim() != dto.ConfirmNewPassword.Trim())
+                    throw new NewPasswordNotMatchException();
+                var entity = await getById(dto.Id, dto.BusinessId);
+                if (entity.HashPassword.Decryption(entity.HashCode) != dto.OldPassword)
+                    throw new OldPasswordNotMatchException();
+                dto.AsEntity(entity);
+                await _dbContext.SaveChangesAsync();
+            }       
+            catch(Exception ex)
+            {
+
+            }
         }
         public async Task<GetUserDetailsResponseDto> GetUserInfo(Guid id, Guid businessId)
         {

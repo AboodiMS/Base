@@ -14,7 +14,6 @@ namespace Base.Shared.Database
         public DbSet<ModuleSetting> ModuleSettings { get; set; }
         public DbSet<TreePower> TreePowers { get; set; }
         public DbSet<ActionLogger> ActionLogger { get; set; }
-        public DbSet<ErrorLogger> ErrorLogger { get; set; }
         
         public BaseDbContext(DbContextOptions options) : base(options)
         {

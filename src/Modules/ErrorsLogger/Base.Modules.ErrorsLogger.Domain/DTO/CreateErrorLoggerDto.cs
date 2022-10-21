@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Base.Shared.DTO.Logger
+namespace Base.Modules.ErrorsLogger.Domain.DTO
 {
-    public class AddErrorLoggerDto
+    public class CreateErrorLoggerDto
     {
         public Guid BusinessId { get; set; }
         public string Action { get; set; } = string.Empty;
