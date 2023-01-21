@@ -42,7 +42,6 @@ namespace Base.Modules.Companies.DAL.Services
                 });
             return entity;
         }
-
         public async Task Create(CreateCompanyRequestDto dto)
         {
             await IsNameExist(dto.Id, dto.Name);
@@ -53,7 +52,7 @@ namespace Base.Modules.Companies.DAL.Services
         {
             var entity = await getById(id);
             entity.IsDeleted = true;
-            entity.LastUpdateDate=DateTime.Now;
+            entity.LastUpdateDate=DateTimeOffset.Now;
             entity.LastUpdateUserId=userid;
             await _dbContext.SaveChangesAsync();
         }
@@ -78,6 +77,20 @@ namespace Base.Modules.Companies.DAL.Services
             var entity = await getById(dto.Id);
             dto.AsEntity(entity);
             await _dbContext.SaveChangesAsync();
+        }
+        public async Task Restore(Guid id, Guid userid)
+        {
+            var entity = await getById(id);
+            entity.IsDeleted = false;
+            entity.LastUpdateDate = DateTimeOffset.Now;
+            entity.LastUpdateUserId = userid;
+            await _dbContext.SaveChangesAsync();
+
+        }
+
+        public Task ActiveOneMonth(Guid id, Guid userid)
+        {
+            throw new NotImplementedException();
         }
     }
 }

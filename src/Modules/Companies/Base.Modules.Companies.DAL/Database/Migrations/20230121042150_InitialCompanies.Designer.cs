@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Companies.DAL.Database.Migrations
 {
     [DbContext(typeof(CompaniesDbContext))]
-    [Migration("20220920194625_companies11")]
-    partial class companies11
+    [Migration("20230121042150_InitialCompanies")]
+    partial class InitialCompanies
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,19 +39,28 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("FirstActiveDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<DateTime?>("LastUpdateDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastActiveDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset?>("LastUpdateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastUpdateUserId")
                         .HasColumnType("uuid");
@@ -80,7 +89,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
-                            CreatedDate = new DateTime(2022, 9, 20, 22, 46, 25, 621, DateTimeKind.Local).AddTicks(2882),
+                            CreatedDate = new DateTimeOffset(new DateTime(2023, 1, 21, 7, 21, 50, 501, DateTimeKind.Unspecified).AddTicks(4642), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
                             Name = "اسم الشركة",
@@ -118,8 +127,8 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<object>("ObjectData")
                         .HasColumnType("jsonb");
@@ -136,35 +145,6 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ActionLogger", "companies");
-                });
-
-            modelBuilder.Entity("Base.Shared.Entities.ErrorLogger", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Action")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Class")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Exception")
-                        .HasColumnType("jsonb");
-
-                    b.Property<string>("InputData")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ErrorLogger", "companies");
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>
@@ -189,6 +169,14 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.HasKey("Code");
 
                     b.ToTable("ModuleSettings", "companies");
+
+                    b.HasData(
+                        new
+                        {
+                            Code = "companies-modules",
+                            Name = "Companies Managament",
+                            xmin = 0L
+                        });
                 });
 
             modelBuilder.Entity("Base.Shared.Entities.TreePower", b =>

@@ -19,7 +19,7 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         new Company()
                         {                            
                             Id = BaseModulesData.SupperBusinessId,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTimeOffset.Now,
                             CreatedUserId = BaseModulesData.SupperAdminId,
                             LastUpdateDate = null,
                             LastUpdateUserId = null,

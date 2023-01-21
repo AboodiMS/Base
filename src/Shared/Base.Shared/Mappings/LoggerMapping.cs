@@ -15,7 +15,7 @@ namespace Base.Shared.Mappings
         => new ActionLogger
         {
             Id=Guid.NewGuid(),
-            CreatedDate=DateTime.Now,
+            CreatedDate=DateTimeOffset.Now,
             Action=dto.Action,
             BusinessId=dto.BusinessId,
             ObjectData = dto.ObjectData,

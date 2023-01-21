@@ -14,9 +14,9 @@ namespace Base.Shared.Entities
         [Key]
         public Guid Id { get; set; }
         public Guid BusinessId { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public Guid CreatedUserId { get; set; }
-        public DateTime? LastUpdateDate { get; set; } = null;
+        public DateTimeOffset? LastUpdateDate { get; set; } = null;
         public Guid? LastUpdateUserId { get; set; } = null;
         public bool IsDeleted { get; set; }
         public uint xmin { get; set; }
@@ -24,7 +24,7 @@ namespace Base.Shared.Entities
         public void Delete(Guid userid)
         {
             IsDeleted = true;
-            LastUpdateDate = DateTime.Now;
+            LastUpdateDate = DateTimeOffset.Now;
             LastUpdateUserId = userid;
         }
     }

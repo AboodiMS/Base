@@ -15,7 +15,7 @@ namespace Base.Modules.Users.Domain.Mappings
        {
             entity.HashCode = Guid.NewGuid().ToString();
             entity.HashPassword = dto.NewPassword.Trim().Encryption(entity.HashCode);
-            entity.LastUpdateDate = DateTime.Now;
+            entity.LastUpdateDate = DateTimeOffset.Now;
             entity.LastUpdateUserId = dto.Id;
 
             return entity;

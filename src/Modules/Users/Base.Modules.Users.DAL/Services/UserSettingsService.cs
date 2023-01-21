@@ -121,7 +121,7 @@ namespace Base.Modules.Users.DAL.Services
                 entity.VerifyEmailCode = "";
                 entity.VerifyEmailDate = null;
 
-                entity.LastUpdateDate = DateTime.Now;
+                entity.LastUpdateDate = DateTimeOffset.Now;
                 entity.LastUpdateUserId = id;
                 await _dbContext.SaveChangesAsync();
             }
@@ -210,7 +210,7 @@ namespace Base.Modules.Users.DAL.Services
             if (entity.VerifyEmailCode == code.Trim())
             {
                 entity.VerifyEmailCode = string.Empty;
-                entity.VerifyEmailDate = DateTime.Now;
+                entity.VerifyEmailDate = DateTimeOffset.Now;
             }
         }
         public async Task SendVerifyCodeToEmail(Guid id, Guid businessId)

@@ -151,8 +151,8 @@ namespace Base.Modules.Users.DAL.Services
         //                                  .Options);
         //        var contactFromContext2 = context2.Users
         //                                          .FirstOrDefault(c => c.Name == "Test");
-        //        contactFromContext1.Note = DateTime.Now.ToString();
-        //        contactFromContext2.Note = DateTime.UtcNow.ToString();
+        //        contactFromContext1.Note = DateTimeOffset.Now.ToString();
+        //        contactFromContext2.Note = DateTimeOffset.UtcNow.ToString();
 
         //        context1.SaveChanges();
         //        context2.SaveChanges();

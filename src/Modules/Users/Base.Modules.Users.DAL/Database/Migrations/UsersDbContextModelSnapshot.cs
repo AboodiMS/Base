@@ -32,8 +32,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
@@ -41,8 +41,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("LastUpdateDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastUpdateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastUpdateUserId")
                         .HasColumnType("uuid");
@@ -83,8 +83,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
@@ -109,8 +109,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime?>("LastUpdateDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastUpdateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastUpdateUserId")
                         .HasColumnType("uuid");
@@ -136,15 +136,15 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<string[]>("Powers")
                         .HasColumnType("jsonb");
 
-                    b.Property<DateTime?>("SignOutExpirationDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("SignOutExpirationDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("VerifyEmailCode")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("VerifyEmailDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("VerifyEmailDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<uint>("xmin")
                         .IsConcurrencyToken()
@@ -172,10 +172,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             BusinessId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedDate = new DateTime(2022, 9, 23, 12, 6, 51, 272, DateTimeKind.Local).AddTicks(5126),
+                            CreatedDate = new DateTimeOffset(new DateTime(2023, 1, 21, 7, 24, 57, 784, DateTimeKind.Unspecified).AddTicks(9854), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "892a0d90-dcd5-4346-a273-b45d21727e17",
-                            HashPassword = "+3yQiyQ6GawZDccEF9TdWw==",
+                            HashCode = "1d763488-1865-425b-8229-e8d4dbf8f689",
+                            HashPassword = "wO9wXh8bhJd4PAf+H/x6DA==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,
@@ -200,8 +200,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<object>("ObjectData")
                         .HasColumnType("jsonb");

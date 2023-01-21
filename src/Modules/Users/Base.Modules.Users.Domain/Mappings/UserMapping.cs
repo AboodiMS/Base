@@ -33,7 +33,7 @@ namespace Base.Modules.Users.Domain.Mappings
             entity.Id = dto.Id;
             entity.BusinessId = dto.BusinessId;        
             entity.IsDeleted = false;
-            entity.CreatedDate = DateTime.Now;
+            entity.CreatedDate = DateTimeOffset.Now;
             entity.CreatedUserId = dto.UserId;
             entity.LastUpdateDate = null;
             entity.LastUpdateUserId = null;
@@ -57,7 +57,7 @@ namespace Base.Modules.Users.Domain.Mappings
 
 
             entity.LastUpdateUserId = dto.UserId;
-            entity.LastUpdateDate = DateTime.Now;
+            entity.LastUpdateDate = DateTimeOffset.Now;
 
             return entity;
         }
@@ -67,7 +67,7 @@ namespace Base.Modules.Users.Domain.Mappings
             entity.Powers=dto.Powers;
 
             entity.LastUpdateUserId = dto.UserId;
-            entity.LastUpdateDate = DateTime.Now;
+            entity.LastUpdateDate = DateTimeOffset.Now;
 
             return entity;
         }

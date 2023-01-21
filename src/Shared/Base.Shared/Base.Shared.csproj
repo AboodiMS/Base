@@ -30,8 +30,6 @@
     <Compile Include=".Queries\IQueryDispatcher.cs" />
     <Compile Include=".Queries\IQueryHandler.cs" />
     <Compile Include=".Queries\QueryDispatcher.cs" />
-    <Compile Include=".Time\IClock.cs" />
-    <Compile Include=".Time\UtcClock.cs" />
   </ItemGroup>
 
   <ItemGroup>

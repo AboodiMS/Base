@@ -12,7 +12,7 @@ namespace Base.Modules.ErrorsLogger.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public Guid BusinessId { get; set; }
         public string InputData { get; set; }
         public string Class { get; set; }

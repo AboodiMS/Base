@@ -13,7 +13,7 @@ namespace Base.Shared.Entities
         [Key]
         public Guid Id { get; set; }
         public Guid BusinessId { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
         public Guid UserId { get; set; }
         public string Table { get; set; }
         public string Action { get; set; }

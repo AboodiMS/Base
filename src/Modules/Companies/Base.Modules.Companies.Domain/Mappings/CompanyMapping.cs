@@ -48,7 +48,7 @@ namespace Base.Modules.Companies.Domain.Mappings
             entity.CompanyWork = dto.CompanyWork.Trim();
 
             entity.LastUpdateUserId = dto.UserId;
-            entity.LastUpdateDate = DateTime.Now;
+            entity.LastUpdateDate = DateTimeOffset.Now;
             return entity;
         }
 
@@ -60,7 +60,7 @@ namespace Base.Modules.Companies.Domain.Mappings
                 Name = dto.Name,
                 ActiveSections = dto.ActiveSections,
 
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTimeOffset.Now,
                 LastUpdateUserId = dto.UserId,
                 IsDeleted=false
             };

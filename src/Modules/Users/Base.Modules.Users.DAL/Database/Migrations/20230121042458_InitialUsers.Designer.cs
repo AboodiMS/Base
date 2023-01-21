@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Users.DAL.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20220917215707_users11")]
-    partial class users11
+    [Migration("20230121042458_InitialUsers")]
+    partial class InitialUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,8 +34,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
@@ -43,13 +43,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
-                    b.Property<DateTime?>("LastUpdateDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastUpdateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastUpdateUserId")
                         .HasColumnType("uuid");
@@ -66,6 +61,11 @@ namespace Base.Modules.Users.DAL.Database.Migrations
 
                     b.Property<string[]>("Powers")
                         .HasColumnType("jsonb");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid");
 
                     b.HasKey("Id");
 
@@ -85,8 +85,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
@@ -111,13 +111,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
-
-                    b.Property<DateTime?>("LastUpdateDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastUpdateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastUpdateUserId")
                         .HasColumnType("uuid");
@@ -143,15 +138,20 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<string[]>("Powers")
                         .HasColumnType("jsonb");
 
-                    b.Property<DateTime?>("SignOutExpirationDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("SignOutExpirationDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("VerifyEmailCode")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("VerifyEmailDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("VerifyEmailDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<uint>("xmin")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("xid");
 
                     b.HasKey("Id");
 
@@ -174,10 +174,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             BusinessId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedDate = new DateTime(2022, 9, 18, 0, 57, 6, 627, DateTimeKind.Local).AddTicks(259),
+                            CreatedDate = new DateTimeOffset(new DateTime(2023, 1, 21, 7, 24, 57, 784, DateTimeKind.Unspecified).AddTicks(9854), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            HashCode = "6c979df8-74bc-4ff5-afb1-db860884fce6",
-                            HashPassword = "OfFgb+9DWqAEX0fkzW56Fw==",
+                            HashCode = "1d763488-1865-425b-8229-e8d4dbf8f689",
+                            HashPassword = "wO9wXh8bhJd4PAf+H/x6DA==",
                             IsActive = true,
                             IsAdmin = true,
                             IsDeleted = false,
@@ -185,7 +185,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                             Name = "admin",
                             Note = "",
                             PhonNum = "",
-                            VerifyEmailCode = ""
+                            VerifyEmailCode = "",
+                            xmin = 0u
                         });
                 });
 
@@ -201,10 +202,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<object>("Data")
+                    b.Property<object>("ObjectData")
                         .HasColumnType("jsonb");
 
                     b.Property<Guid>("ObjectId")
@@ -221,47 +222,10 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.ToTable("ActionLogger", "users");
                 });
 
-            modelBuilder.Entity("Base.Shared.Entities.ErrorLogger", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Action")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("BusinessId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<object>("Data")
-                        .HasColumnType("jsonb");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Table")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ErrorLogger", "users");
-                });
-
             modelBuilder.Entity("Base.Shared.Entities.ModuleSetting", b =>
                 {
                     b.Property<string>("Code")
                         .HasColumnType("text");
-
-                    b.Property<byte[]>("IsRowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bytea");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -274,6 +238,9 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("text");
 
+                    b.Property<long>("xmin")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Code");
 
                     b.ToTable("ModuleSettings", "users");
@@ -282,7 +249,8 @@ namespace Base.Modules.Users.DAL.Database.Migrations
                         new
                         {
                             Code = "users-modules",
-                            Name = "Users Managament"
+                            Name = "Users Managament",
+                            xmin = 0L
                         });
                 });
 

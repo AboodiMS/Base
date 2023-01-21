@@ -11,7 +11,7 @@ namespace Base.Modules.ErrorsLogger.Domain.Mappings
         => new ErrorLogger
         {
             Id = Guid.NewGuid(),
-            CreatedDate = DateTime.Now,
+            CreatedDate = DateTimeOffset.Now,
             Action = dto.Action,
             BusinessId = dto.BusinessId,
             Exception = JsonConvert.SerializeObject(new

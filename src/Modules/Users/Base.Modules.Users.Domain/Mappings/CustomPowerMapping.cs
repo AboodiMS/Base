@@ -46,7 +46,7 @@ namespace Base.Modules.Users.Domain.Mappings
                         Note = dto.Note,
                         Powers = dto.Powers,
 
-                        CreatedDate=DateTime.UtcNow,
+                        CreatedDate=DateTimeOffset.UtcNow,
                         CreatedUserId=dto.UserId,
                         IsDeleted=false,
                         LastUpdateDate=null,
@@ -59,7 +59,7 @@ namespace Base.Modules.Users.Domain.Mappings
             entity.Note = dto.Note;
             entity.Powers = dto.Powers;
 
-            entity.LastUpdateDate = DateTime.UtcNow;
+            entity.LastUpdateDate = DateTimeOffset.UtcNow;
             entity.LastUpdateUserId = dto.UserId;
             return entity;
         }

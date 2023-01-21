@@ -37,28 +37,28 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("ExpiryDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("FirstActiveDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("FirstActiveDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
 
-                    b.Property<DateTime?>("LastActiveDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastActiveDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("LastUpdateDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("LastUpdateDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("LastUpdateUserId")
                         .HasColumnType("uuid");
@@ -87,7 +87,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
-                            CreatedDate = new DateTime(2023, 1, 20, 21, 31, 38, 916, DateTimeKind.Local).AddTicks(8692),
+                            CreatedDate = new DateTimeOffset(new DateTime(2023, 1, 21, 7, 21, 50, 501, DateTimeKind.Unspecified).AddTicks(4642), new TimeSpan(0, 3, 0, 0, 0)),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
                             Name = "اسم الشركة",
@@ -125,8 +125,8 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<Guid>("BusinessId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<object>("ObjectData")
                         .HasColumnType("jsonb");
