@@ -26,22 +26,25 @@ namespace Base.Modules.Companies.Api.Controllers
         public async Task<ActionResult<List<GetCompanyResponseDto>>> GetAll()
             => await _companiesService.GetAll();
 
-        [HttpGet]
-        [Route("GetById")]
-        [AllowAnonymous]
-        public async Task<ActionResult<GetCompanyDetailsResponseDto>> GetById([FromForm][Required] Guid id)
-            => await _companiesService.GetById(id);
 
-        [HttpPost]
-        [Route("Create")]
-        [AuthorizationAction]
-        public async Task<ActionResult> Create([FromForm] CreateCompanyRequestDto dto)
-        {
-            dto.Id = Guid.NewGuid();
-            dto.UserId = _userId;
-            await _companiesService.Create(dto);
-            return Ok(dto.Id);
-        }
+        //يجب التحقق من الصلاحيات
+        //[HttpGet]
+        //[Route("GetById")]
+        //[AllowAnonymous]
+        //public async Task<ActionResult<GetCompanyDetailsResponseDto>> GetById([FromForm][Required] Guid id)
+        //    => await _companiesService.GetById(id);
+
+
+        //تفعيل هذه الخدمة في المستقبل
+        //[HttpPost]
+        //[Route("Create")]
+        //public async Task<ActionResult> Create([FromForm] CreateCompanyRequestDto dto)
+        //{
+        //    dto.Id = Guid.NewGuid();
+        //    dto.UserId = _userId;
+        //    await _companiesService.Create(dto);
+        //    return Ok(dto.Id);
+        //}
 
         [HttpPut]
         [Route("Update")]
@@ -63,14 +66,15 @@ namespace Base.Modules.Companies.Api.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        [Route("Delete")]
-        [AuthorizationAction]
-        public async Task<ActionResult> Delete([FromForm][Required] Guid id)
-        {
-            await _companiesService.Delete(id,_userId);
-            return Ok();
-        }
+        //تفعيل هذه الخدمة في المستقبل
+        //[HttpDelete]
+        //[Route("Delete")]
+        //[AuthorizationAction]
+        //public async Task<ActionResult> Delete([FromForm][Required] Guid id)
+        //{
+        //    await _companiesService.Delete(id,_userId);
+        //    return Ok();
+        //}
 
     }
 }

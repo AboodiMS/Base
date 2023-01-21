@@ -3,6 +3,7 @@ using System;
 using Base.Modules.Companies.DAL.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Base.Modules.Companies.DAL.Database.Migrations
 {
     [DbContext(typeof(CompaniesDbContext))]
-    partial class CompaniesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230120175654_companies13")]
+    partial class companies13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,19 +45,10 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<Guid>("CreatedUserId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("ExpiryDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime?>("FirstActiveDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(false);
-
-                    b.Property<DateTime?>("LastActiveDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("LastUpdateDate")
                         .HasColumnType("timestamp without time zone");
@@ -87,7 +80,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
-                            CreatedDate = new DateTime(2023, 1, 20, 21, 31, 38, 916, DateTimeKind.Local).AddTicks(8692),
+                            CreatedDate = new DateTime(2023, 1, 20, 20, 56, 54, 165, DateTimeKind.Local).AddTicks(2188),
                             CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
                             Name = "اسم الشركة",

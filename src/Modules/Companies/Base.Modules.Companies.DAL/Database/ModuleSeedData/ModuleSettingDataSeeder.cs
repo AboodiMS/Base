@@ -13,8 +13,17 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
         public static void ModuleSettingDataSeed(this ModelBuilder modelBuilder)
         {
 
-            //modelBuilder.Entity<ModuleSetting>()
-            //   .HasData();
+
+            modelBuilder.Entity<ModuleSetting>()
+               .HasData(
+                new ModuleSetting
+                {
+                    Code = "companies-modules",
+                    Name = "Companies Managament",
+
+                }
+
+                );
 
         }
 

@@ -33,8 +33,13 @@ namespace Base.Shared.Security
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             RuleName = context.ActionDescriptor.AttributeRouteInfo.Template;
-            UserId = Guid.Parse(context.HttpContext.User.Claims.FirstOrDefault(a => a.Type == "UserId").Value);
-            BusinessId = Guid.Parse(context.HttpContext.User.Claims.FirstOrDefault(a => a.Type == "BusinessId").Value);
+
+            var userid = context.HttpContext.User.Claims.FirstOrDefault(a => a.Type == "UserId")?.Value;
+            UserId = userid is null?Guid.Empty: Guid.Parse(userid);
+
+            var businessid = context.HttpContext.User.Claims.FirstOrDefault(a => a.Type == "BusinessId")?.Value;
+            BusinessId = businessid is null ? Guid.Empty: Guid.Parse(businessid);
+
             Claims = context.HttpContext.User.Claims.ToList();
             CheckAuthorization(context);
         }
@@ -54,13 +59,7 @@ namespace Base.Shared.Security
                 ValidateSuperRule();
 
             if (!IsAuthorized)
-                context.Result = new ObjectResult(new
-                {
-                    title = "Unauthorized"
-                })
-                {
-                    StatusCode = 401
-                };
+               throw new UnauthorizedAccessException();
         }
     }
 }

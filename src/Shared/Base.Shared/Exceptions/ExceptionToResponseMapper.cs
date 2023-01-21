@@ -15,7 +15,8 @@ namespace Base.Shared.Exceptions
             {
                 DbUpdateConcurrencyException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), "data may have been modified or deleted since entities were loaded.")), HttpStatusCode.BadRequest),
                                BaseException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), ex.Message)), HttpStatusCode.BadRequest),
-                                              _ => new ExceptionResponse(new ErrorsResponse(new Error("error", "There was an error.")), HttpStatusCode.InternalServerError),
+                 UnauthorizedAccessException ex => new ExceptionResponse(new ErrorsResponse(new Error(GetErrorCode(ex), ex.Message)), HttpStatusCode.Unauthorized),
+                _ => new ExceptionResponse(new ErrorsResponse(new Error("error", "There was an error.")), HttpStatusCode.InternalServerError),
             };
 
         private record Error(string Code, string Message);
