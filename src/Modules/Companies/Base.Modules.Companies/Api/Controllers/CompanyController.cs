@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Transactions;
-using Dtmcli;
 
 namespace Base.Modules.Companies.Api.Controllers
 {

@@ -1,6 +1,6 @@
 using Base.Modules.Companies.Api;
-using Base.Modules.Users.Api;
 using Base.Shared;
+using Base.Modules.Users.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 

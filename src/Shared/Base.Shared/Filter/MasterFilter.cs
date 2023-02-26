@@ -1,27 +1,16 @@
-﻿//using Infrastructure.Validation.Attribute;
+﻿
 
-namespace Domain.Common.Filter;
+using System;
+
+namespace Base.Shared.Filter;
 
 public class MasterFilter : PagingFilter
 {
-    //[DateValidate(Null: true)]
-    public DateTime? FromCreateDate { get; set; } = null;
-
-    //[DateValidate(Null: true)]
-    public DateTime? ToCreateDate { get; set; } = null;
-
-    //[DateValidate(Null: true)]
-    public DateTime? FromUpdateDate { get; set; } = null;
-
-    //[DateValidate(Null: true)]
-    public DateTime? ToUpdateDate { get; set; } = null;
-
-    //[DateValidate(Null: true)]
-    public DateTime? FromRemoveDate { get; set; } = null;
-
-    //[DateValidate(Null: true)]
-    public DateTime? ToRemoveDate { get; set; } = null;
-
-    //[RequiredValidate]
+    public DateTimeOffset? FromCreateDate { get; set; } = null;
+    public DateTimeOffset? ToCreateDate { get; set; } = null;
+    public DateTimeOffset? FromUpdateDate { get; set; } = null;
+    public DateTimeOffset? ToUpdateDate { get; set; } = null;
+    public DateTimeOffset? FromDeleteDate { get; set; } = null;
+    public DateTimeOffset? ToDeleteDate { get; set; } = null;
     public bool IsRemoved { get; set; } = false;
 }
