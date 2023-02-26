@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Net;
-using Humanizer;
 using Microsoft.EntityFrameworkCore;
 
 namespace Base.Shared.Exceptions
@@ -26,7 +25,7 @@ namespace Base.Shared.Exceptions
         private static string GetErrorCode(object exception)
         {
             var type = exception.GetType();
-            return Codes.GetOrAdd(type, type.Name.Underscore().Replace("_exception", string.Empty));
+            return Codes.GetOrAdd(type, type.Name.Replace("_exception", string.Empty));
         }
     }
 }

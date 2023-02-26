@@ -5,6 +5,8 @@ using Base.Shared.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Transactions;
+using Dtmcli;
 
 namespace Base.Modules.Companies.Api.Controllers
 {
@@ -46,11 +48,32 @@ namespace Base.Modules.Companies.Api.Controllers
         //    return Ok(dto.Id);
         //}
 
+
+        //[HttpPost]
+        //[Route("TestTransaction")]
+        //public async Task<ActionResult> TestTransaction([FromForm] object dto)
+        //{
+        //    //TransactionManager.DistributedTransactionStarted += (sender, eventArgs) =>
+        //    //{
+        //    //    Console.WriteLine("Promoted to distributed transaction!");
+        //    //};
+
+        //    var saga = new Saga(dtmClient, gid)
+        //.Add(outApi + "/TransOut", outApi + "/TransOutCompensate", userOutReq)
+        //.Add(inApi + "/TransIn", inApi + "/TransInCompensate", userInReq)
+        //.EnableWaitResult()
+        //;
+        //    return Ok();
+        //}
+
         [HttpPut]
         [Route("Update")]
         [AuthorizationAction]
         public async Task<ActionResult> Update([FromForm] UpdateCompanyRequestDto dto)
         {
+
+
+
             dto.UserId = _userId;
             await _companiesService.Update(dto);
             return Ok();
