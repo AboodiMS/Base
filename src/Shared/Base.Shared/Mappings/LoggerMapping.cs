@@ -1,4 +1,5 @@
-﻿using Base.Shared.DTO.Logger;
+﻿
+using Base.Shared.Dtos.Logger;
 using Base.Shared.Entities;
 using Newtonsoft.Json;
 using System;

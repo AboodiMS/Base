@@ -48,12 +48,12 @@ namespace Base.Modules.Companies.DAL.Services
             _dbContext.Companies.Add(dto.AsEntity());
             await _dbContext.SaveChangesAsync();
         }
-        public async Task Delete(Guid id, Guid userid)
+        public async Task Delete(Guid id, Guid Companyid)
         {
             var entity = await getById(id);
             entity.IsDeleted = true;
             entity.LastUpdateDate=DateTimeOffset.Now;
-            entity.LastUpdateUserId=userid;
+            entity.LastUpdateCompanyId=Companyid;
             await _dbContext.SaveChangesAsync();
         }
         public async Task<List<GetCompanyResponseDto>> GetAll()
@@ -78,17 +78,17 @@ namespace Base.Modules.Companies.DAL.Services
             dto.AsEntity(entity);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task Restore(Guid id, Guid userid)
+        public async Task Restore(Guid id, Guid Companyid)
         {
             var entity = await getById(id);
             entity.IsDeleted = false;
             entity.LastUpdateDate = DateTimeOffset.Now;
-            entity.LastUpdateUserId = userid;
+            entity.LastUpdateCompanyId = Companyid;
             await _dbContext.SaveChangesAsync();
 
         }
 
-        public Task ActiveOneMonth(Guid id, Guid userid)
+        public Task ActiveOneMonth(Guid id, Guid Companyid)
         {
             throw new NotImplementedException();
         }

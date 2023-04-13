@@ -20,9 +20,9 @@ namespace Base.Modules.Companies.DAL.Database.ModuleSeedData
                         {                            
                             Id = BaseModulesData.SupperBusinessId,
                             CreatedDate = DateTimeOffset.Now,
-                            CreatedUserId = BaseModulesData.SupperAdminId,
+                            CreatedCompanyId = BaseModulesData.SupperAdminId,
                             LastUpdateDate = null,
-                            LastUpdateUserId = null,
+                            LastUpdateCompanyId = null,
                             IsDeleted = false,
                             Name = "اسم الشركة",
                             CompanyWork = string.Empty,

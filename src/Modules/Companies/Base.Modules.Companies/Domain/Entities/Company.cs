@@ -13,9 +13,9 @@ namespace Base.Modules.Companies.Domain.Entities
         public DateTimeOffset? FirstActiveDate { get; set; } = null;
         public DateTimeOffset? LastActiveDate { get; set; } = null;
         public DateTimeOffset CreatedDate { get; set; }
-        public Guid CreatedUserId { get; set; }
+        public Guid CreatedCompanyId { get; set; }
         public DateTimeOffset? LastUpdateDate { get; set; } = null;
-        public Guid? LastUpdateUserId { get; set; } = null;
+        public Guid? LastUpdateCompanyId { get; set; } = null;
         public bool IsDeleted { get; set; }
         public uint xmin { get; set; }
     }

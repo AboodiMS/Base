@@ -15,9 +15,9 @@ namespace Base.Modules.Companies.DAL.Database.Configurations
             builder.Property(x => x.ActiveSections);
 
             builder.Property(x => x.CreatedDate);
-            builder.Property(x => x.CreatedUserId);
+            builder.Property(x => x.CreatedCompanyId);
             builder.Property(x => x.LastUpdateDate);
-            builder.Property(x => x.LastUpdateUserId);
+            builder.Property(x => x.LastUpdateCompanyId);
             builder.Property(x => x.IsDeleted).HasDefaultValue(false);
             builder.UseXminAsConcurrencyToken();
         }

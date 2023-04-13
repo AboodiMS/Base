@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.Entities
 {
-    public class CustomPower: ModelEntity
+    public class CustomPower: ModelEntity1
     {
         public string Name { get; set; } = string.Empty;
         public string Note { get; set; } = string.Empty;

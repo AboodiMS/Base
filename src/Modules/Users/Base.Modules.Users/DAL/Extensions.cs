@@ -1,7 +1,9 @@
-﻿using Base.Modules.Users.DAL.Database;
+﻿using AutoMapper;
+using Base.Modules.Users.DAL.Database;
 using Base.Modules.Users.DAL.Services;
 using Base.Modules.Users.Domain.DTO.User;
 using Base.Modules.Users.Domain.IServices;
+using Base.Modules.Users.Domain.Mapping;
 using Base.Shared.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +20,17 @@ namespace Base.Modules.Users.DAL
     {
         public static IServiceCollection AddCoreLayer(this IServiceCollection services)
         {
+
+            services.AddSingleton(new MapperConfiguration(config => config.AddProfile(new CustomPowerProfile())).CreateMapper());
+            services.AddSingleton(new MapperConfiguration(config => config.AddProfile(new TreePowerProfile())).CreateMapper());
+            services.AddSingleton(new MapperConfiguration(config => config.AddProfile(new UserProfile())).CreateMapper());
+
             services.AddPostgres<UsersDbContext>();
             services.AddTransient<ITreePowesService, TreePowesService>();
             services.AddTransient<ICustomPowersService, CustomPowerService>();
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<IUserSettingsService, UserSettingsService>();
+
             return services;
         }
 

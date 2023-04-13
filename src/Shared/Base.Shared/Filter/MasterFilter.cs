@@ -12,5 +12,5 @@ public class MasterFilter : PagingFilter
     public DateTimeOffset? ToUpdateDate { get; set; } = null;
     public DateTimeOffset? FromDeleteDate { get; set; } = null;
     public DateTimeOffset? ToDeleteDate { get; set; } = null;
-    public bool IsRemoved { get; set; } = false;
+    public bool IsDeleted { get; set; } = false;
 }

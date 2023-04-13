@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Base.Modules.Users.Domain.Entities
 {
-    public class User: ModelEntity
+    public class User: ModelEntity1
     {
         public string LoginName { get; set; }=string.Empty;
         public string Name { get; set; } = string.Empty;
@@ -23,6 +23,5 @@ namespace Base.Modules.Users.Domain.Entities
         [Column(TypeName = "jsonb")]
         public string[]? Powers { get; set; } = null;
         public bool IsActive { get; set; }=true;
-        public DateTimeOffset? SignOutExpirationDate { get; set; } = null;
     }
 }

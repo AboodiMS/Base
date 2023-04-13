@@ -40,7 +40,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("CreatedUserId")
+                    b.Property<Guid>("CreatedCompanyId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("ExpiryDate")
@@ -60,7 +60,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<DateTimeOffset?>("LastUpdateDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid?>("LastUpdateUserId")
+                    b.Property<Guid?>("LastUpdateCompanyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -88,7 +88,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                             ActiveSections = new[] { "Accounting" },
                             CompanyWork = "",
                             CreatedDate = new DateTimeOffset(new DateTime(2023, 1, 21, 7, 21, 50, 501, DateTimeKind.Unspecified).AddTicks(4642), new TimeSpan(0, 3, 0, 0, 0)),
-                            CreatedUserId = new Guid("11111111-1111-1111-1111-111111111111"),
+                            CreatedCompanyId = new Guid("11111111-1111-1111-1111-111111111111"),
                             IsDeleted = false,
                             Name = "اسم الشركة",
                             xmin = 0u
@@ -137,7 +137,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     b.Property<string>("Table")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("CompanyId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");

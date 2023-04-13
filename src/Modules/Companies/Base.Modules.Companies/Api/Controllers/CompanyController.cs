@@ -42,7 +42,7 @@ namespace Base.Modules.Companies.Api.Controllers
         //public async Task<ActionResult> Create([FromForm] CreateCompanyRequestDto dto)
         //{
         //    dto.Id = Guid.NewGuid();
-        //    dto.UserId = _userId;
+        //    dto.CompanyId = _CompanyId;
         //    await _companiesService.Create(dto);
         //    return Ok(dto.Id);
         //}
@@ -58,8 +58,8 @@ namespace Base.Modules.Companies.Api.Controllers
         //    //};
 
         //    var saga = new Saga(dtmClient, gid)
-        //.Add(outApi + "/TransOut", outApi + "/TransOutCompensate", userOutReq)
-        //.Add(inApi + "/TransIn", inApi + "/TransInCompensate", userInReq)
+        //.Add(outApi + "/TransOut", outApi + "/TransOutCompensate", CompanyOutReq)
+        //.Add(inApi + "/TransIn", inApi + "/TransInCompensate", CompanyInReq)
         //.EnableWaitResult()
         //;
         //    return Ok();
@@ -73,7 +73,7 @@ namespace Base.Modules.Companies.Api.Controllers
 
 
 
-            dto.UserId = _userId;
+            dto.CompanyId = _businessId;
             await _companiesService.Update(dto);
             return Ok();
         }
@@ -83,7 +83,7 @@ namespace Base.Modules.Companies.Api.Controllers
         [AuthorizationAction]
         public async Task<ActionResult> UpdateActiveSections([FromForm] UpdateActiveSectionsCompanyRequestDto dto)
         {
-            dto.UserId = _userId;
+            dto.CompanyId = _businessId;
             await _companiesService.UpdateActiveSections(dto);
             return Ok();
         }
@@ -94,7 +94,7 @@ namespace Base.Modules.Companies.Api.Controllers
         //[AuthorizationAction]
         //public async Task<ActionResult> Delete([FromForm][Required] Guid id)
         //{
-        //    await _companiesService.Delete(id,_userId);
+        //    await _companiesService.Delete(id,_CompanyId);
         //    return Ok();
         //}
 

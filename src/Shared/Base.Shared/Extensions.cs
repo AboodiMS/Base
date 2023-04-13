@@ -17,18 +17,10 @@ namespace Base.Shared
     {
         private const string ApiTitle = "Base API";
         private const string ApiVersion = "v1";
-        
         public static IServiceCollection AddSharedFramework(this IServiceCollection services, IConfiguration configuration)
         {
-
             services.AddMemoryCache();
             services.AddCors();
-
-            //services.AddControllers()
-            //    .AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-            //});
             services.AddErrorHandling();
             services.AddPostgres(configuration);
             services.AddControllers();

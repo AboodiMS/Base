@@ -10,7 +10,7 @@ namespace Base.Modules.Companies.Domain.DTO.Company
     {
         public Guid Id { get; set; }
         [JsonIgnore]
-        public Guid UserId { get; set; }
+        public Guid CompanyId { get; set; }
         [Required]
         [MaxLength(100)]
         [MinLength(3)]

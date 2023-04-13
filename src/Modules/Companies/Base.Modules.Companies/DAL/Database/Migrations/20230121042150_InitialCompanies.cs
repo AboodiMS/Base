@@ -20,7 +20,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BusinessId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uuid", nullable: false),
                     Table = table.Column<string>(type: "text", nullable: true),
                     Action = table.Column<string>(type: "text", nullable: true),
                     ObjectId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -44,9 +44,9 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
                     FirstActiveDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     LastActiveDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
-                    CreatedUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedCompanyId = table.Column<Guid>(type: "uuid", nullable: false),
                     LastUpdateDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LastUpdateUserId = table.Column<Guid>(type: "uuid", nullable: true),
+                    LastUpdateCompanyId = table.Column<Guid>(type: "uuid", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false)
                 },
@@ -110,7 +110,7 @@ namespace Base.Modules.Companies.DAL.Database.Migrations
             migrationBuilder.InsertData(
                 schema: "companies",
                 table: "Companies",
-                columns: new[] { "Id", "ActiveSections", "CompanyWork", "CreatedDate", "CreatedUserId", "ExpiryDate", "FirstActiveDate", "LastActiveDate", "LastUpdateDate", "LastUpdateUserId", "Name" },
+                columns: new[] { "Id", "ActiveSections", "CompanyWork", "CreatedDate", "CreatedCompanyId", "ExpiryDate", "FirstActiveDate", "LastActiveDate", "LastUpdateDate", "LastUpdateCompanyId", "Name" },
                 values: new object[] { new Guid("22222222-2222-2222-2222-222222222222"), new[] { "Accounting" }, "", new DateTimeOffset(new DateTime(2023, 1, 21, 7, 21, 50, 501, DateTimeKind.Unspecified).AddTicks(4642), new TimeSpan(0, 3, 0, 0, 0)), new Guid("11111111-1111-1111-1111-111111111111"), null, null, null, null, null, "اسم الشركة" });
 
             migrationBuilder.InsertData(

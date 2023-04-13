@@ -40,7 +40,6 @@ namespace Base.Modules.Users.DAL.Database.ModuleSeedData
                        Note = string.Empty,
                        Powers=null,
                        IsActive =true,
-                       SignOutExpirationDate=null
                    }
                 );
             

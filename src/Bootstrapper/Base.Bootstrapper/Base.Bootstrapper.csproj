@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>9e278a5f-b009-4c0f-9896-9d7d165f702d</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Modules\Companies\Base.Modules.Companies\Base.Modules.Companies.csproj" />
+    <ProjectReference Include="..\..\Modules\InstitutionManagement\InstitutionManagement.csproj" />
     <ProjectReference Include="..\..\Modules\Users\Base.Modules.Users\Base.Modules.Users.csproj" />
   </ItemGroup>
 

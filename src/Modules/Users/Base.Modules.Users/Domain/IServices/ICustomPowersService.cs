@@ -4,7 +4,7 @@ using Base.Shared.IServices;
 namespace Base.Modules.Users.Domain.IServices
 {
     public interface ICustomPowersService :
-        ICRUDService<GetCustomPowerResponseDto, GetCustomPowerDetailsResponseDto,CreateCustomPowerRequestDto,UpdateCustomPowerRequestDto>
+        ICRUDService1<GetCustomPowerResponseDto, GetCustomPowerDetailsResponseDto,CreateCustomPowerRequestDto,UpdateCustomPowerRequestDto>
     {
     }
 }

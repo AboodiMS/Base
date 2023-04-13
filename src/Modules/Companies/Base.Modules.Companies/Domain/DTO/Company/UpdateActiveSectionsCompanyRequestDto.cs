@@ -10,7 +10,7 @@ namespace Base.Modules.Companies.Domain.DTO.Company
         [Required]
         public Guid Id { get; set; }
         [JsonIgnore]
-        public Guid UserId { get; set; }
+        public Guid CompanyId { get; set; }
         [Required]
         public string[] ActiveSections { get; set; }=new string[0];
 

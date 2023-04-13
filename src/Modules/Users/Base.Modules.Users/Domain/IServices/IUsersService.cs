@@ -4,7 +4,7 @@ using Base.Shared.IServices;
 namespace Base.Modules.Users.Domain.IServices
 {
     public interface IUsersService: 
-        ICRUDService<GetUserResponseDto,GetUserDetailsResponseDto,CreateUserRequestDto,UpdateUserRequestDto>
+        ICRUDService1<GetUserResponseDto,GetUserDetailsResponseDto,CreateUserRequestDto,UpdateUserRequestDto>
 
     {
         Task ChangePowers(ChangePowersRequestDto dto);
